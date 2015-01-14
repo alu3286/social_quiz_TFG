@@ -1,7 +1,8 @@
-# SocialQuiz
+SocialQuiz
+=========
 ## Trabajo Fin de Grado - ESIT 2015
-###Eduardo Javier Acuña Ledesma
-###Tutor: Casiano Rodríguez León
+**Eduardo Javier Acuña Ledesma**
+**Tutor: Casiano Rodríguez León**
 
 ---
 
@@ -11,3 +12,7 @@
 3. Crear el repositorio.
 4. Establecer la tecnología a utilizar: Sinatra o Rails.
 5. Realizar un estudio de los distintos cuestionarios online en Internet.
+
+# Referencias
+
+*Trabajo Fin de Grado - Eduardo Javier Acuña Ledesma*
