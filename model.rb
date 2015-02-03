@@ -1,7 +1,6 @@
-require ''
-require ''
+require 'restclient'
 
-class Usuarios
+class Usuario
 	include DataMapper::Resource
 	property :id, 			Serial
 	property :nombre,		String
@@ -11,7 +10,7 @@ class Usuarios
 	property :created_at,	DateTime
 end
 
-class Preguntas
+class Pregunta
 	include DataMapper::Resource
 	property :id,			Serial
 	property :titulo,		Text
