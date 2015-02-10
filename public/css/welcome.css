@@ -1,0 +1,75 @@
+html,
+body {
+  height: auto;
+  /*background-color: #66A523;*/
+}
+body {
+  font-family: 'Rajdhani', sans-serif;
+  text-align: center;
+  /*text-shadow: 0 1px 3px rgba(0,0,0,.5);*/
+  background: url(../img/wallpaper2.jpg);
+  background-attachment: fixed;
+}
+
+h1 {
+  font-weight: 400;
+  font-size: 60px;
+}
+
+h3, h4, a {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+#contenido {
+  display: table;
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+  /*-webkit-box-shadow: inset 0 0 100px rgba(255,255,255,.5);
+          box-shadow: inset 0 0 100px rgba(255,255,255,.5);*/
+}
+
+#texto {
+  max-width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  color: #000;
+}
+
+#logo {
+  height: auto;
+  width: 100%;
+}
+
+#contenedor-logo {
+  border: 4px solid #fff;
+  border-radius:100%;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.botones:hover {
+  background: white;
+  /*color:white;*/
+  -webkit-transition:all 1s linear;
+          transition:all 1s linear;
+}
+
+.botones {
+  border-color:#00992A;
+  /*background:transparent;*/
+  color:#fff;
+  /*background: #d0f4a9;*/
+  background: rgba(208, 244, 169, 0.3);
+  /*background: yellow;*/
+}
+
+
+
+/* TABLET */
+
+
+/* MOVIL */
