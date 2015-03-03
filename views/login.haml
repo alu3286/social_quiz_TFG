@@ -1,0 +1,43 @@
+!!!
+%html
+  %head
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", :rel => "stylesheet"}
+      %link{:href => "./css/login.css", :rel => "stylesheet", :type => "text/css"}
+        %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+        %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"}
+        %title WalkERS - Login
+  %body
+    / <h1>Logueo</h1>
+    .container
+      #loginbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
+        .panel.panel-info
+          .panel-heading
+            .panel-title
+              %a{:href => "./"} WalkERS
+            #pass-msg
+              %a{:href => "#"} ¿Olvidaste la contraseña?
+          .panel-body
+            - if (flash[:mensaje])
+              #login-alert.alert.alert-danger.col-sm-12
+                %p= flash[:mensaje]
+            %form.form-signin{:action => "/login", :method => "POST", :name => "form-login", :role => "form"}
+              %h2.form-signin-heading Logueo
+              #registro-fuente-externa
+                %a{:href => "/auth/google_oauth2"}
+                  %img{:src => "http://i.imgur.com/cYZGfB0.png", :alt => "Google", :class => "img-circle", :id => "icono-autenticacion"}
+                %a{:href => "/auth/facebook"}
+                  %img{:src => "http://i.imgur.com/X0dq98g.png", :alt => "Facebook", :class => "img-circle", :id => "icono-autenticacion"}
+              %label.sr-only{:for => "inputEmail"} Usuario
+              %input#usuario.form-control{:autofocus => "", :name => "usuario", :placeholder => "Usuario", :required => "", :type => "text"}
+                %label.sr-only{:for => "inputPassword"} Contraseña
+                %input#password.form-control{:name => "password", :placeholder => "Contraseña", :required => "", :type => "password"}
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox", :value => "remember-me"}
+                        Recordar mis datos
+                  %button.btn.btn-lg.btn-success.btn-block{:type => "submit"} Login
+                  #signup-msg
+                    ¿No tiene una cuenta?
+                    / <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">Regístrate aquí</a>
+                    %a{:href => "./signup"} Regístrate aquí
+    / /container

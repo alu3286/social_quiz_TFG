@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'data_mapper'
+#gem 'data_mapper'
+gem 'sequel'
 gem 'haml'
 
 gem 'thin'

@@ -1,0 +1,79 @@
+!!!
+%html
+  %head
+    %title SocialQuiz
+    %meta{:charset => "utf-8"}
+    %link{:href => "/css/bootstrap.min.css", :rel => "stylesheet"}
+    %link{:href => "/css/index.css", :rel => "stylesheet"}
+    %link{:href => "/css/ruta.css", :rel => "stylesheet"}
+    %link{:rel => "icon", :type => "image/ico", :href => "img/logo.ico"}
+    %script{:src => "/js/jquery.min.js"}
+    %script{:src => "/js/menu.js"}
+    %script{:src => "/js/walkers.js"}
+    %script{:src => "/js/bootstrap.min.js"}
+    %script{:src => "http://www.google.com/jsapi"}
+    %script{:src => "../js/chartkick.js"}
+  %body
+    .container{:style => "padding-top: 1em;"}
+      %nav.navbar.navbar-default{:role => "navigation"}
+        /
+          El logotipo y el icono que despliega el menú se agrupan
+          para mostrarlos mejor en los dispositivos móviles
+        .navbar-header
+          %button.navbar-toggle{"data-target" => ".navbar-ex1-collapse", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Desplegar navegación
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{:href => "/"} SocialQuiz
+        /
+          Agrupar los enlaces de navegación, los formularios y cualquier
+          otro elemento que se pueda ocultar al minimizar la barra
+        .collapse.navbar-collapse.navbar-ex1-collapse
+          %ul.nav.navbar-nav
+            - if (@actual == "inicio")
+              %li.active.elementos
+                %a{:href => "/"} INICIO
+            - else
+              %li
+                %a{:href => "/"} INICIO
+            - if (@actual == 'misrutas')
+              %li.active.elementos
+                %a{:href => "/misrutas"} PREGUNTAS
+            - else
+              %li
+                %a{:href => "/misrutas"} PREGUNTAS
+            - if (@actual == 'amigos')
+              %li.active.elementos
+                %a{:href => '/amigos'} EXÁMENES
+            - else
+              %li
+                %a{:href => "/amigos"} EXÁMENES
+            - if (@actual == "rutas")
+              %li.active.elementos
+                %a{:href => "/rutas"} CALIFICACIONES
+            - else
+              %li
+                %a{:href => "/rutas"} CALIFICACIONES
+            %li
+              %img{:id => "imagen-menu", :class => "img-circle", :src => session[:imagen] }
+            %p.navbar-text.pull-left
+              %a.navbar-link{:href => "#"}
+                %b= session[:user]
+              \-
+              %a{:href => "/configuracion"} Configuración
+              \-
+              %a{:href => "/logout"} Salir
+              
+          %form.navbar-form.navbar-right{:role => "search"}
+            .form-group
+              %input.form-control{:placeholder => "Buscar", :type => "text"}/
+            %button.btn.btn-default{:type => "submit"} Buscar
+      - if (flash[:mensaje])
+        .alert.alert-success{:role => "alert"}= flash[:mensaje]
+      - elsif (flash[:mensajeRojo])
+        .alert.alert-danger{:role => "alert"}= flash[:mensajeRojo]
+
+      = yield
+      
+    %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"}
