@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 #gem 'data_mapper'
 gem 'sequel'
 gem 'haml'
+gem "bcrypt-ruby", :require => "bcrypt"
 
 gem 'thin'
 gem 'sinatra'
