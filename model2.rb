@@ -1,6 +1,6 @@
 
 #DB = Sequel.sqlite # memory database
-DB = Sequel.sqlite('my_quiz.db') # no memory database
+DB = Sequel.sqlite('myquiz.db') # no memory database
 
 if !DB[:usuarios]
 DB.create_table :usuarios do
@@ -8,7 +8,7 @@ DB.create_table :usuarios do
   String :nombre
   String :apellidos
 end
-end
+#end
 
 if !DB[:examenes]
 DB.create_table :examenes do
