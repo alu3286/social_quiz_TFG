@@ -5,7 +5,7 @@
       %link{:href => "./css/login.css", :rel => "stylesheet", :type => "text/css"}
         %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
         %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"}
-        %title WalkERS - Login
+        %title SocialQuiz - Login
   %body
     / <h1>Logueo</h1>
     .container
@@ -13,7 +13,7 @@
         .panel.panel-info
           .panel-heading
             .panel-title
-              %a{:href => "./"} WalkERS
+              %a{:href => "./"} SocialQuiz
             #pass-msg
               %a{:href => "#"} ¿Olvidaste la contraseña?
           .panel-body
@@ -35,7 +35,7 @@
                     %label
                       %input{:type => "checkbox", :value => "remember-me"}
                         Recordar mis datos
-                  %button.btn.btn-lg.btn-success.btn-block{:type => "submit"} Login
+                  %button.btn.btn-info.btn-lg.btn-block{:type => "submit"} Login
                   #signup-msg
                     ¿No tiene una cuenta?
                     / <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">Regístrate aquí</a>

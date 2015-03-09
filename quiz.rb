@@ -49,7 +49,7 @@ get '/' do
   #@mipass2 = BCrypt::Password.new('edu')
   @actual =  "inicio"
   #Comprobamos si el usuario no se ha registrado.
-  if (!session[:user])
+  if (!session[:username])
     haml :welcome, :layout => false 
   else
     # Obtenemos los usurios de la tabla usuarios
@@ -60,9 +60,34 @@ get '/' do
 end
 
 get '/login' do
-  if (!session[:user])
+  if (!session[:username])
     haml :login, :layout => false
   else
     redirect '/'
   end 
+end
+
+post '/login' do
+  begin
+
+    @user = DB[:usuarios].first(:username => params[:usuario])
+    @user_hash = BCrypt::Password.new(@user[:password])
+
+    if (@user_hash == params[:password])
+      puts "Entra en el if"
+      session[:id] = @user[:idUsuario]
+      session[:username] = @user[:username]
+      session[:nombre] = @user[:nombre]
+      session[:apellidos] = @user[:apellidos]
+      session[:email] = @user[:email]
+      session[:imagen] = @user[:imagen]
+    else
+      flash[:mensaje] = "El nombre de usuario y/o contraseña no son correctos."
+      #puts e.message
+    end
+  rescue Exception => e
+    flash[:mensaje] = "El nombre de usuario y/o contraseña no son correctos."
+    puts e.message
+  end
+  redirect './login'
 end
