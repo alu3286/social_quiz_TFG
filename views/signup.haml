@@ -1,0 +1,62 @@
+!!!
+%html
+  %head
+    %title SocialQuiz - Registro
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", :rel => "stylesheet"}
+    %link{:href => "./css/login.css", :rel => "stylesheet", :type => "text/css"}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+    %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"}
+    %script{:src => "../js/functions.js", :type => "text/javascript"}
+  %body
+    / <h1>Registro</h1>
+    .container
+      #loginbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
+        .panel.panel-info
+          .panel-heading
+            .panel-title
+              %a{:href => "./"} SocialQuiz
+          .panel-body
+            #mensaje-pass.alert.alert-danger.col-sm-12
+            %form#form-signup.form-horizontal{:action => "/signup", :method => "POST", :name => "form-signup", :role => "form"}
+              %h2.form-signin-heading Registro
+              #registro-fuente-externa
+                %a{:href => "/auth/google_oauth2"}
+                  %img{:src => "http://i.imgur.com/cYZGfB0.png", :alt => "Google", :class => "img-circle", :id => "icono-autenticacion"}
+                %a{:href => "/auth/facebook"}
+                  %img{:src => "http://i.imgur.com/X0dq98g.png", :alt => "Facebook", :class => "img-circle", :id => "icono-autenticacion"}
+              .form-group
+                %label.col-sm-2.control-label{:for => "nombre"} Nombre*
+                .col-sm-10
+                  %input#nombre.form-control{:autofocus => "", :name => "nombre", :placeholder => "Nombre", :required => "", :type => "text"}
+              .form-group
+                %label.col-sm-2.control-label{:for => "apellidos"} Apellidos*
+                .col-sm-10
+                  %input#apellidos.form-control{:name => "apellidos", :placeholder => "Apellidos", :required => "", :type => "text"}
+              .form-group
+                %label.col-sm-2.control-label{:for => "apellidos"} Usuario*
+                .col-sm-10
+                  %input#usuario.form-control{:name => "usuario", :placeholder => "Nombre de usuario", :required => "", :type => "text"}
+              .form-group
+                %label.col-sm-2.control-label{:for => "email"} Email*
+                .col-sm-10
+                  %input#email.form-control{:name => "email", :placeholder => "Email", :required => "", :type => "email"}
+              .form-group
+                %label.col-sm-2.control-label{:for => "pass1"} Contraseña*
+                .col-sm-10
+                  %input#pass1.form-control{:name => "pass1", :placeholder => "Contraseña", :required => "", :type => "password"}
+              .form-group
+                / COMPROBAR QUE LA SEGUNDA CONTRASEÑA ES LA MISMA CON JS
+                %label.col-sm-2.control-label{:for => "pass2"} Repetir contraseña*
+                .col-sm-10
+                  %input#pass2.form-control{:name => "pass2", :placeholder => "Repetir contraseña", :required => "", :type => "password"}
+              .form-group
+                %label.col-sm-2.control-label{:for => "imagen"} Imagen
+                .col-sm-10
+                  %input#imagen.form-control{:name => "imagen", :placeholder => "Debe pegar el enlace de la imagen aquí", :type => "text"}
+              .form-group
+                .col-sm-offset-2.col-sm-10
+                  %button#btn-submit.btn.btn-lg.btn-success.btn-block{:onclick => "enviar()", :type => "submit"} Registro
+              #signup-msg
+                ¿Ya tiene una cuenta?
+                / <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">Regístrate aquí</a>
+                %a{:href => "./login"} Loguéate aquí

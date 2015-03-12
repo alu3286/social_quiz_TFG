@@ -1,0 +1,57 @@
+html,
+body {
+  height: auto;
+  /*background-color: #66A523;*/
+  height:100%;
+  width:100%;
+
+  background: url(../img/wallpaper2.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+body {
+  font-family: 'Rajdhani', sans-serif;
+  color: black;
+  text-align: center;
+  /*text-shadow: 0 1px 3px rgba(0,0,0,.5);*/
+}
+
+.panel.panel-success {
+	background-color: rgba(255,255,255, 0.8);
+	margin-bottom: 6px;
+}
+
+.imagen {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+p {
+	margin: 0;
+}
+
+#descripcion {
+  resize:none;
+}
+
+#imagen-menu {
+  width: 45px;
+  height: auto;
+  margin-top:2px;
+  /*border: 1px solid #000;*/
+  /*border-radius: 50%;*/
+  overflow: hidden;
+}
+
+#pass-msg {
+  float:right;
+  /*font-size: 80%;*/
+  position: relative;
+  top:-15px;
+}
+
+#pass-msg:hover {
+  font-size: 105%;
+}

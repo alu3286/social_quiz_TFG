@@ -75,7 +75,7 @@ post '/login' do
 
     if (@user_hash == params[:password])
       puts "Entra en el if"
-      session[:id] = @user[:idUsuario]
+      #session[:id] = @user[:idUsuario]
       session[:username] = @user[:username]
       session[:nombre] = @user[:nombre]
       session[:apellidos] = @user[:apellidos]
@@ -90,4 +90,47 @@ post '/login' do
     puts e.message
   end
   redirect './login'
+end
+
+get '/signup' do
+  if (!session[:username])
+    haml :signup, :layout => false
+  else
+    redirect '/, :order => [:puntuacion.desc]'
+  end
+end
+
+post '/signup' do
+  puts "inside post '/': #{params}"
+  begin
+    @usuario = DB[:usuarios].first(:username => params[:usuario])
+    if (!@usuario)
+      if (params[:imagen] == '')
+        imagen = "http://i.imgur.com/lEZ3n1E.jpg"
+      else
+        imagen = params[:imagen]
+      end
+      @objeto = DB[:usuarios].insert(:username => params[:usuario], :nombre => params[:nombre], 
+                                     :apellidos => params[:apellidos], :email => params[:email], 
+                                     :password => BCrypt::Password.create(params[:pass1]), 
+                                     :imagen => imagen, :created_at => Time.now)
+      session[:username] = params[:usuario]
+      session[:nombre] = params[:nombre]
+      session[:apellidos] = params[:apellidos]
+      session[:email] = params[:email]
+      session[:imagen] = imagen
+      flash[:mensaje] = "¡Enhorabuena! Se ha registrado correctamente."
+    else
+      flash[:mensaje] = "El nombre de usuario ya existe. Por favor, elija otro."
+      redirect '/signup'
+    end
+  rescue Exception => e
+    puts e.message
+  end
+  redirect '/'
+end
+
+get '/logout' do
+  session.clear
+  redirect '/'
 end

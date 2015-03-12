@@ -41,8 +41,8 @@ end
 user = DB[:usuarios] # Create a dataset
 
 # Populate the table
-user.insert(:nombre => 'edu', :apellidos => 'acuña', :username => 'edualedesma', :email => 'eaculed@gmail.com', 
-			:imagen => 'edu.jpg', :password => BCrypt::Password.create('edu'), :created_at => Time.now)
+#user.insert(:nombre => 'edu', :apellidos => 'acuña', :username => 'edualedesma', :email => 'eaculed@gmail.com', 
+#			:imagen => 'edu.jpg', :password => BCrypt::Password.create('edu'), :created_at => Time.now)
 
 #items.insert(:name => 'def', :price => rand * 100)
 #items.insert(:name => 'ghi', :price => rand * 100)
