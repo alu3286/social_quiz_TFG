@@ -74,7 +74,6 @@ post '/login' do
     @user_hash = BCrypt::Password.new(@user[:password])
 
     if (@user_hash == params[:password])
-      puts "Entra en el if"
       #session[:id] = @user[:idUsuario]
       session[:username] = @user[:username]
       session[:nombre] = @user[:nombre]

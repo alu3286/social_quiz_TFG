@@ -37,24 +37,24 @@
             - else
               %li
                 %a{:href => "/"} INICIO
-            - if (@actual == 'misrutas')
+            - if (@actual == 'preguntas')
               %li.active.elementos
-                %a{:href => "/misrutas"} PREGUNTAS
+                %a{:href => "/preguntas"} PREGUNTAS
             - else
               %li
-                %a{:href => "/misrutas"} PREGUNTAS
-            - if (@actual == 'amigos')
+                %a{:href => "/preguntas"} PREGUNTAS
+            - if (@actual == 'examenes')
               %li.active.elementos
-                %a{:href => '/amigos'} EXÁMENES
+                %a{:href => '/examenes'} EXÁMENES
             - else
               %li
-                %a{:href => "/amigos"} EXÁMENES
-            - if (@actual == "rutas")
+                %a{:href => "/examenes"} EXÁMENES
+            - if (@actual == "calificaciones")
               %li.active.elementos
-                %a{:href => "/rutas"} CALIFICACIONES
+                %a{:href => "/calificaciones"} CALIFICACIONES
             - else
               %li
-                %a{:href => "/rutas"} CALIFICACIONES
+                %a{:href => "/calificaciones"} CALIFICACIONES
             %li
               %img{:id => "imagen-menu", :class => "img-circle", :src => session[:imagen] }
             %p.navbar-text.pull-left
