@@ -129,6 +129,39 @@ post '/signup' do
   redirect '/'
 end
 
+get '/preguntas' do
+  @actual =  "preguntas"
+  if (session[:username])
+    haml :quizzes
+  else
+    redirect '/'
+  end
+end
+
+get '/examenes' do
+  if (session[:username])
+
+  else
+    redirect '/'
+  end
+end
+
+get '/calificaciones' do
+  if (session[:username])
+
+  else
+    redirect '/'
+  end
+end
+
+get '/configuracion' do
+  if (session[:username])
+
+  else
+    redirect '/'
+  end
+end
+
 get '/logout' do
   session.clear
   redirect '/'
