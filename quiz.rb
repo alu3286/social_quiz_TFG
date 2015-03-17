@@ -74,7 +74,7 @@ post '/login' do
     @user_hash = BCrypt::Password.new(@user[:password])
 
     if (@user_hash == params[:password])
-      #session[:id] = @user[:idUsuario]
+      session[:id] = @user[:idUsuario]
       session[:username] = @user[:username]
       session[:nombre] = @user[:nombre]
       session[:apellidos] = @user[:apellidos]
@@ -132,6 +132,8 @@ end
 get '/preguntas' do
   @actual =  "preguntas"
   if (session[:username])
+    @preguntas = DB[:preguntas].where(:idUsuario => session[:id])
+
     haml :quizzes
   else
     redirect '/'

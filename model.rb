@@ -24,9 +24,10 @@ end
 
 if !DB.table_exists?(:preguntas)
 DB.create_table :preguntas do
-  primary_key :idPregunta
-  String :name
-  Float :price
+  primary_key   :idPregunta
+  String        :titulo
+  DateTime      :fecha_creacion
+  foreign_key   :idUsuario
 end
 end
 

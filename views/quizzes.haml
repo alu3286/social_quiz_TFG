@@ -3,3 +3,130 @@
     %h3.panel-title PREGUNTAS
   .panel-body
     .row
+    - @preguntas.each do |pregunta|
+      .col-xs-3
+        %a.thumbnail{:href => ""}
+          %img.img-responsive{:src => "#{}"}
+          %p= pregunta
+          %p Añadida el
+%p
+  %br/
+.container
+  / Nav tabs
+  %ul.nav.nav-tabs{:role => "tablist"}
+    %li.active
+      %a{"data-toggle" => "tab", :href => "#daftar", :role => "tab"} Mis preguntas
+    %li
+      %a{"data-toggle" => "tab", :href => "#tambah", :role => "tab"} Otros
+  / Tab panes
+  .tab-content
+    #daftar.tab-pane.active
+      %br/
+      %p
+        %button.btn.btn-primary{:type => "button"}
+          %span.glyphicon.glyphicon-plus
+          Añadir pregunta
+      %br/
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th ID
+              %th Título
+              %th Fecha de creación
+              %th Usuario
+              %th Opciones
+          %tbody
+            %tr
+              %td 0998877
+              %td T Ghazali
+              %td Laki-laki
+              %td 1992-11-12
+              %td
+                %a{:href => ""}
+                  %span.glyphicon.glyphicon-edit
+                  Editar
+                %a{:href => ""}
+                  %span.glyphicon.glyphicon-trash
+                  Eliminar
+            %tr
+              %td 0998877
+              %td T Ghazali
+              %td Laki-laki
+              %td 1992-11-12
+              %td
+                %a{:href => ""}
+                  %span.glyphicon.glyphicon-edit
+                  Editar
+                %a{:href => ""}
+                  %span.glyphicon.glyphicon-trash
+                  Eliminar
+            %tr
+              %td 0998877
+              %td T Ghazali
+              %td Laki-laki
+              %td 1992-11-12
+              %td
+                %a{:href => ""}
+                  %span.glyphicon.glyphicon-edit
+                  Editar
+                %a{:href => ""}
+                  %span.glyphicon.glyphicon-trash
+                  Eliminar
+      %ul.pagination
+        %li.disabled
+          %a{:href => "#"} &laquo;
+        %li.active
+          %a{:href => "#"} 1
+        %li
+          %a{:href => "#"} 2
+        %li
+          %a{:href => "#"} 3
+        %li
+          %a{:href => "#"} 4
+        %li
+          %a{:href => "#"} 5
+        %li
+          %a{:href => "#"} &raquo;
+    #tambah.tab-pane
+      %br/
+      .alert.alert-success{:role => "alert"}
+        Berhasil
+        %button.close{"data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+      .alert.alert-warning{:role => "alert"}
+        Ada sedikit masalah
+        %button.close{"data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+      .alert.alert-danger{:role => "alert"}
+        Error, coba lagi
+        %button.close{"data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+      %br/
+      %form{:role => "form"}
+        .form-group
+          %label{:for => "exampleInputEmail1"} Email address
+          %input#exampleInputEmail1.form-control{:placeholder => "Enter email", :type => "email"}
+        .form-group
+          %label{:for => "exampleInputPassword1"} Password
+          %input#exampleInputPassword1.form-control{:placeholder => "Password", :type => "password"}
+        .form-group
+          %label{:for => "exampleInputtxt1"} Text
+          %input#exampleInputtxt1.form-control{:placeholder => "Text", :type => "text"}
+        .form-group
+          %label{:for => "exampleInputurl1"} Site
+          %input#exampleInputurl1.form-control{:placeholder => "http://", :type => "url"}
+        .form-group
+          %label{:for => "exampleInputFile"} File input
+          %input#exampleInputFile{:type => "file"}
+            %p.help-block Example block-level help text here.
+        .checkbox
+          %label
+            %input{:type => "checkbox"}
+              Check me out
+        %button.btn.btn-primary{:type => "submit"} Submit
+        %button.btn.btn-success{:type => "button"} Back
+      %br/
