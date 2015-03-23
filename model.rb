@@ -45,11 +45,8 @@ user = DB[:usuarios] # Create a dataset
 #user.insert(:nombre => 'edu', :apellidos => 'acuña', :username => 'edualedesma', :email => 'eaculed@gmail.com', 
 #			:imagen => 'edu.jpg', :password => BCrypt::Password.create('edu'), :created_at => Time.now)
 
-#items.insert(:name => 'def', :price => rand * 100)
-#items.insert(:name => 'ghi', :price => rand * 100)
-
 # Print out the number of records
-puts "Usuarios: #{user.count}"
+#puts "Usuarios: #{user.count}"
 
 # Print out the average price
 #puts "The average price is: #{items.avg(:price)}"

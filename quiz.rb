@@ -10,6 +10,7 @@ require 'sinatra/flash'
 #require 'chartkick'
 #require 'webrick'
 require 'bcrypt'
+require 'haml'
 
 =begin
 # Configuracion en local
@@ -46,7 +47,6 @@ enable :sessions
 set :session_secret, '*&(^#234a)'
 
 get '/' do
-  #@mipass2 = BCrypt::Password.new('edu')
   @actual =  "inicio"
   #Comprobamos si el usuario no se ha registrado.
   if (!session[:username])
@@ -143,6 +143,19 @@ get '/preguntas' do
   end
 end
 
+post '/preguntas' do
+  begin
+    # Eliminar la pregunta de la base de datos.
+    @objeto = DB[:preguntas].where(:idPregunta => params[:pregunta]).delete
+    flash[:mensaje] = "Pregunta eliminada correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido eliminar la pregunta. Inténtelo de nuevo más tarde."
+  end
+  redirect '/preguntas'
+end
+
 get '/preguntas/new' do
   @actual = "preguntas"
   if (session[:username])
@@ -165,6 +178,15 @@ post '/preguntas/new' do
   end
   redirect '/preguntas'
 end
+
+#post 'preguntas/delete' do
+#  begin
+#    puts "Entramos en el borrado de preguntas yeah!!!"
+#
+#  rescue Exception => e
+#    puts e.message
+#  end
+#end
 
 get '/examenes' do
   if (session[:username])

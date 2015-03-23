@@ -27,42 +27,24 @@
               %th Usuario
               %th Opciones
           %tbody
-            %tr
-              %td 0998877
-              %td T Ghazali
-              %td Laki-laki
-              %td 1992-11-12
-              %td
-                %a{:href => ""}
-                  %span.glyphicon.glyphicon-edit
-                  Editar
-                %a{:href => ""}
-                  %span.glyphicon.glyphicon-trash
-                  Eliminar
-            %tr
-              %td 0998877
-              %td T Ghazali
-              %td Laki-laki
-              %td 1992-11-12
-              %td
-                %a{:href => ""}
-                  %span.glyphicon.glyphicon-edit
-                  Editar
-                %a{:href => ""}
-                  %span.glyphicon.glyphicon-trash
-                  Eliminar
-            %tr
-              %td 0998877
-              %td T Ghazali
-              %td Laki-laki
-              %td 1992-11-12
-              %td
-                %a{:href => ""}
-                  %span.glyphicon.glyphicon-edit
-                  Editar
-                %a{:href => ""}
-                  %span.glyphicon.glyphicon-trash
-                  Eliminar
+            - @preguntas.each do |pregunta|
+              %tr
+                /.filaPregunta{:id => "p#{pregunta[:idPregunta]}"}
+                %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
+                  %td= pregunta[:idPregunta]
+                  %td= pregunta[:titulo]
+                  %td= pregunta[:fecha_creacion]
+                  %td= pregunta[:idUsuario]
+                  %td{:id => 'prueba'}
+                    %a{:href => "", :id => "editar"}
+                      %span.glyphicon.glyphicon-edit
+                      Editar
+                    %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
+                    %a{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta]}
+                      %button.btn.btn-primary{:type => "submit"}
+                        %span.glyphicon.glyphicon-trash
+                        Eliminar
+
       %ul.pagination
         %li.disabled
           %a{:href => "#"} &laquo;
