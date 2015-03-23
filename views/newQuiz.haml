@@ -1,0 +1,12 @@
+%form{:action => "/preguntas/new", :method => "POST", :name => "form-new-quiz", :role => "form"}
+  .form-group
+    %label{:for => "titulo"} Título
+    %input#exampleInputEmail1.form-control{:autofocus => "", :name => "titulo", :placeholder => "Título", :type => "text", :required => ""}
+  /.form-group
+  /  %label{:for => "exampleInputPassword1"} Password
+  /  %input#exampleInputPassword1.form-control{:placeholder => "Password", :type => "password"}
+  /.checkbox
+  /  %label
+  /    %input{:type => "checkbox"}
+  /      Check me out
+  %button.btn.btn-primary{:type => "submit"} Guardar

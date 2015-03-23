@@ -112,12 +112,15 @@ post '/signup' do
       @objeto = DB[:usuarios].insert(:username => params[:usuario], :nombre => params[:nombre], 
                                      :apellidos => params[:apellidos], :email => params[:email], 
                                      :password => BCrypt::Password.create(params[:pass1]), 
-                                     :imagen => imagen, :created_at => Time.now)
+                                     :imagen => imagen, :fecha_creacion => Time.now)
       session[:username] = params[:usuario]
       session[:nombre] = params[:nombre]
       session[:apellidos] = params[:apellidos]
       session[:email] = params[:email]
       session[:imagen] = imagen
+      # Obtenemos el id del usuario para la sesion
+      session[:id] = DB[:usuarios].first(:username => params[:usuario])[:idUsuario]
+
       flash[:mensaje] = "¡Enhorabuena! Se ha registrado correctamente."
     else
       flash[:mensaje] = "El nombre de usuario ya existe. Por favor, elija otro."
@@ -138,6 +141,29 @@ get '/preguntas' do
   else
     redirect '/'
   end
+end
+
+get '/preguntas/new' do
+  @actual = "preguntas"
+  if (session[:username])
+    haml :newQuiz
+  else
+    redirect '/'
+  end
+end
+
+post '/preguntas/new' do
+  begin
+    # Añadir la pregunta a la base de datos.
+    @objeto = DB[:preguntas].insert(:titulo => params[:titulo], :fecha_creacion => Time.now, 
+                                    :idUsuario => session[:id])
+    flash[:mensaje] = "Pregunta creada correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido crear la pregunta. Inténtelo de nuevo más tarde."
+  end
+  redirect '/preguntas'
 end
 
 get '/examenes' do

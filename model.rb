@@ -10,16 +10,8 @@ if !DB.table_exists?(:usuarios)
     String 		    :email
     Text 			    :imagen
     BCryptHash 	  :password
-    DateTime		  :created_at
+    DateTime		  :fecha_creacion
   end
-end
-
-if !DB.table_exists?(:examenes)
-DB.create_table :examenes do
-  primary_key :idExamen
-  String :name
-  Float :price
-end
 end
 
 if !DB.table_exists?(:preguntas)
@@ -27,13 +19,21 @@ DB.create_table :preguntas do
   primary_key   :idPregunta
   String        :titulo
   DateTime      :fecha_creacion
-  foreign_key   :idUsuario
+  foreign_key   :idUsuario, :usuarios
 end
 end
 
 if !DB.table_exists?(:respuestas)
 DB.create_table :respuestas do
   primary_key :idRespuesta
+  String :name
+  Float :price
+end
+end
+
+if !DB.table_exists?(:examenes)
+DB.create_table :examenes do
+  primary_key :idExamen
   String :name
   Float :price
 end
