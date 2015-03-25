@@ -39,7 +39,7 @@ DB.create_table :examenes do
 end
 end
 
-user = DB[:usuarios] # Create a dataset
+#user = DB[:usuarios] # Create a dataset
 
 # Populate the table
 #user.insert(:nombre => 'edu', :apellidos => 'acuña', :username => 'edualedesma', :email => 'eaculed@gmail.com', 
