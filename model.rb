@@ -25,9 +25,11 @@ end
 
 if !DB.table_exists?(:respuestas)
 DB.create_table :respuestas do
-  primary_key :idRespuesta
-  String :name
-  Float :price
+  primary_key   :idRespuesta
+  String        :texto
+  Boolean       :correcto
+  String        :tipo
+  foreign_key   :idPregunta, :preguntas
 end
 end
 

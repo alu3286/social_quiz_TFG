@@ -5,6 +5,7 @@
     %meta{:charset => "utf-8"}
     %link{:href => "/css/bootstrap.min.css", :rel => "stylesheet"}
     %link{:href => "/css/layout.css", :rel => "stylesheet"}
+    %link{:href => "/css/newQuiz.css", :rel => "stylesheet"}
     %link{:rel => "icon", :type => "image/ico", :href => "img/logo.ico"}
     %script{:src => "/js/jquery.min.js"}
     /%script{:src => "/js/menu.js"}
@@ -69,6 +70,8 @@
               %input.form-control{:placeholder => "Buscar", :type => "text"}/
             %button.btn.btn-default{:type => "submit"} Buscar
       - if (flash[:mensaje])
+        %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
         .alert.alert-success{:role => "alert"}= flash[:mensaje]
       - elsif (flash[:mensajeRojo])
         .alert.alert-danger{:role => "alert"}= flash[:mensajeRojo]

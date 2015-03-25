@@ -23,17 +23,6 @@ $(document).ready(function()
   		return true;
   });
 
-
-  //$("#posts").scrollTop(50000000000);
-  $("#btn-post").click(function() {
-    $("#posts").scrollTop(5000000000000);
-    //tam = $("#posts").css("height");
-    //alert(tam);
-    //$("#posts").scrollTop(tam * 1000);
-  });
-
-
-
   /*$("#eliminar").click(function(){
     alert("quieres eliminar el elemento.");
     alert(document.getElementById("p" + $(this).attr('data')));
@@ -59,6 +48,22 @@ $(document).ready(function()
           }
       });
   });*/
+
+  $("#resp-corta").click(function() {
+    $("#respuesta-corta").show();
+    $("#respuesta-multiple").hide();
+    $("#respuesta-vf").hide();
+  });
+  $("#resp-multiple").click(function() {
+    $("#respuesta-corta").hide();
+    $("#respuesta-multiple").show();
+    $("#respuesta-vf").hide();
+  });
+  $("#resp-vf").click(function() {
+    $("#respuesta-corta").hide();
+    $("#respuesta-multiple").hide();
+    $("#respuesta-vf").show();
+  });
 
 
 

@@ -1,12 +1,44 @@
-%form{:action => "/preguntas/new", :method => "POST", :name => "form-new-quiz", :role => "form"}
+%form.form-horizontal{:action => "/preguntas/new", :method => "POST", :name => "form-new-quiz", :role => "form"}
   .form-group
     %label{:for => "titulo"} Título
-    %input#exampleInputEmail1.form-control{:autofocus => "", :name => "titulo", :placeholder => "Título", :type => "text", :required => ""}
-  /.form-group
-  /  %label{:for => "exampleInputPassword1"} Password
-  /  %input#exampleInputPassword1.form-control{:placeholder => "Password", :type => "password"}
-  /.checkbox
-  /  %label
-  /    %input{:type => "checkbox"}
-  /      Check me out
+    %input.form-control{:autofocus => "", :name => "titulo", :placeholder => "Título", :type => "text", :required => ""}
+  .form-group  
+    .btn-group{"data-toggle" => "buttons"}
+      %label.btn.btn-primary.active{:id => "resp-vf"}
+        %input#option1{:checked => "", :name => "tipo", :type => "radio", :value => "vf"}
+          Verdadero - Falso
+      %label.btn.btn-primary{:id => "resp-corta"}
+        %input#option2{:name => "tipo", :type => "radio", :value => "corta"}
+          Respuesta corta
+      %label.btn.btn-primary{:id => "resp-multiple"}
+        %input#option3{:name => "tipo", :type => "radio", :value => "multiple"}
+          Respuesta múltiple
+    #respuesta-vf
+      %p Esto muestra el formlario de Verdadero y Falso.
+      .form-group
+        .panel.panel-default
+          .panel-body
+            %label{:for => "correcta"} Respuesta correcta
+            .radio.radio-inline
+              %label
+                %input#optionsRadios1{:checked => "", :name => "opciones", :type => "radio", :value => "true"}
+                  Verdadero
+            .radio.radio-inline
+              %label
+                %input#optionsRadios2{:name => "opciones", :type => "radio", :value => "false"}
+                  Falso
+    .respuesta#respuesta-corta
+      Esto muestra el formlario de respuesta corta.
+    .respuesta#respuesta-multiple
+      Esto muestra el formlario de respuesta múltiple.
+
+    /%a.btn.btn-primary{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseExample"}
+    /  Link with href
+    /%button.btn.btn-primary{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-target" => "#collapseExample", "data-toggle" => "collapse", :type => "button"}
+    /  Button with data-target
+    /#collapseExample.collapse
+    /  .well
+    /    asdgdfgsdgh sfdgghgd
+
+
   %button.btn.btn-primary{:type => "submit"} Guardar

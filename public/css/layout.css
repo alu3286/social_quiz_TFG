@@ -55,3 +55,7 @@ p {
 #pass-msg:hover {
   font-size: 105%;
 }
+
+nav.navbar.navbar-default {
+  /*background-color:#5bc0de;*/
+}

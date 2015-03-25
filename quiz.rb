@@ -167,9 +167,24 @@ end
 
 post '/preguntas/new' do
   begin
-    # Añadir la pregunta a la base de datos.
+    #puts params
+    
+    # Añadir la pregunta a la base de datos
     @objeto = DB[:preguntas].insert(:titulo => params[:titulo], :fecha_creacion => Time.now, 
                                     :idUsuario => session[:id])
+    
+    # Añadimos la respuesta a la base de datos
+    case params[:tipo]
+    when "vf"
+      # consulta de verdadero falso a la bbdd
+      @objeto1 = DB[:respuestas].insert(:texto => "", :correcto => params[:opciones], 
+                                        :tipo => "vf", :idPregunta => @objeto)
+    when "corta"
+      # consulta de respuesta corta a la bbdd
+    when "multiple"
+      #consulta de respuesta multiple a la bbdd
+    end
+  
     flash[:mensaje] = "Pregunta creada correctamente."
 
   rescue Exception => e
