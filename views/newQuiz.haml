@@ -6,7 +6,7 @@
   .form-group
     %label.col-lg-2.control-label{:for => "tags"} Tags
     .col-lg-8
-      %input.form-control{"data-role" => "tagsinput", :placeholder => "Añade tags", :type => "text", :value => ""}
+      %input.form-control{"data-role" => "tagsinput", :placeholder => "Añade tags a tu pregunta", :type => "text", :value => ""}
   .form-group  
     .btn-group{"data-toggle" => "buttons"}
       %label.btn.btn-primary.active{:id => "resp-vf"}
@@ -21,17 +21,16 @@
     #respuesta-vf
       %p Esto muestra el formlario de Verdadero y Falso.
       .form-group
-        .panel.panel-default
-          .panel-body
-            %label{:for => "correcta"} Respuesta correcta
-            .radio.radio-inline
-              %label
-                %input#optionsRadios1{:checked => "", :name => "opciones", :type => "radio", :value => "true"}
-                  Verdadero
-            .radio.radio-inline
-              %label
-                %input#optionsRadios2{:name => "opciones", :type => "radio", :value => "false"}
-                  Falso
+        %label.col-lg-2.control-label{:for => "correcta"} Respuesta correcta
+        .col-lg-8
+          .radio.radio-inline
+            %label
+              %input#optionsRadios1{:checked => "", :name => "opciones", :type => "radio", :value => "true"}
+                Verdadero
+          .radio.radio-inline
+            %label
+              %input#optionsRadios2{:name => "opciones", :type => "radio", :value => "false"}
+                Falso
     .respuesta#respuesta-corta
       Esto muestra el formlario de respuesta corta.
     .respuesta#respuesta-multiple
