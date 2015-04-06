@@ -72,8 +72,8 @@
               %input.form-control{:placeholder => "Buscar", :type => "text"}/
             %button.btn.btn-default{:type => "submit"} Buscar
       - if (flash[:mensaje])
-        %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-          %span{"aria-hidden" => "true"} &times;
+        //%button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        //  %span{"aria-hidden" => "true"} &times;
         .alert.alert-success{:role => "alert"}= flash[:mensaje]
       - elsif (flash[:mensajeRojo])
         .alert.alert-danger{:role => "alert"}= flash[:mensajeRojo]

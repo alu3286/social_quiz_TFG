@@ -167,7 +167,7 @@ end
 
 post '/preguntas/new' do
   begin
-    #puts params
+    puts params
     
     # Añadir la pregunta a la base de datos
     @objeto = DB[:preguntas].insert(:titulo => params[:titulo], :fecha_creacion => Time.now, 
@@ -177,10 +177,14 @@ post '/preguntas/new' do
     case params[:tipo]
     when "vf"
       # consulta de verdadero falso a la bbdd
-      @objeto1 = DB[:respuestas].insert(:texto => "", :correcto => params[:opciones], 
+      correct = (params[:opciones] == "true") ? 1 : 0
+      puts correct
+      @objeto1 = DB[:respuestas].insert(:texto => "", :correcto => correct, 
                                         :tipo => "vf", :idPregunta => @objeto)
     when "corta"
       # consulta de respuesta corta a la bbdd
+      @objeto1 = DB[:respuestas].insert(:texto => params[:corta], :correcto => true, 
+                                        :tipo => "corta", :idPregunta => @objeto)
     when "multiple"
       #consulta de respuesta multiple a la bbdd
     end

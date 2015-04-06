@@ -33,6 +33,10 @@
                 Falso
     .respuesta#respuesta-corta
       Esto muestra el formlario de respuesta corta.
+      .form-group
+        %label.col-lg-2.control-label{:for => "correcta"} Respuesta corta
+        .col-lg-8
+          %input.form-control{:placeholder => "Respuesta corta", :type => "text", :name => "corta", :type => "corta"}
     .respuesta#respuesta-multiple
       Esto muestra el formlario de respuesta múltiple.
 
