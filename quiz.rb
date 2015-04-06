@@ -135,7 +135,8 @@ end
 get '/preguntas' do
   @actual =  "preguntas"
   if (session[:username])
-    @preguntas = DB[:preguntas].where(:idUsuario => session[:id])
+    @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
+    #@preguntas = DB[:preguntas].join_table(:inner, DB[:usuarios], :idUsuario => session[:id])
 
     haml :quizzes
   else

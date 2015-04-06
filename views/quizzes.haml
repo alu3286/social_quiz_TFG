@@ -17,7 +17,7 @@
             %span.glyphicon.glyphicon-plus
             Añadir pregunta
       %br/
-      .table-responsive
+      .table-responsive.tabla-preguntas
         %table.table.table-hover
           %thead
             %tr
@@ -33,8 +33,9 @@
                 %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
                   %td= pregunta[:idPregunta]
                   %td= pregunta[:titulo]
-                  %td= pregunta[:fecha_creacion]
-                  %td= pregunta[:idUsuario]
+                  %td= pregunta[:fecha_creacion].strftime("%c")
+                  /%td= pregunta[:username]
+                  %td= session[:username]
                   %td{:id => 'prueba'}
                     %a{:href => "", :id => "editar"}
                       %span.glyphicon.glyphicon-edit

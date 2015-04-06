@@ -1,3 +1,7 @@
 .respuesta {
 	display: none;
 }
+
+.tabla-preguntas td {
+	text-align: left;
+}
