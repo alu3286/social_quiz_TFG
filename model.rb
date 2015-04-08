@@ -19,6 +19,7 @@ DB.create_table :preguntas do
   primary_key   :idPregunta
   String        :titulo
   DateTime      :fecha_creacion
+  String        :tags
   foreign_key   :idUsuario, :usuarios
 end
 end

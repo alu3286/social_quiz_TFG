@@ -172,7 +172,7 @@ post '/preguntas/new' do
     
     # Añadir la pregunta a la base de datos
     @objeto = DB[:preguntas].insert(:titulo => params[:titulo], :fecha_creacion => Time.now, 
-                                    :idUsuario => session[:id])
+                                    :tags =>params[:tags], :idUsuario => session[:id])
     
     # Añadimos la respuesta a la base de datos
     case params[:tipo]
