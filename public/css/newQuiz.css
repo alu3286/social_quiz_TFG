@@ -5,3 +5,25 @@
 .tabla-preguntas td {
 	text-align: left;
 }
+
+textarea {
+    resize: none;
+}
+
+#MathPreview {
+	text-align: left;
+	padding-left: 10px;
+	border:1px solid; 
+	margin-top:5px;
+	overflow: scroll;
+	height: 100px !important;
+}
+
+#MathBuffer {
+	text-align: left;
+	padding-left: 10px;
+	border:1px solid; 
+	margin-top:5px;
+	overflow: scroll;
+	height: 100px !important;
+}
