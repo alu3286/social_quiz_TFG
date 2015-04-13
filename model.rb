@@ -13,7 +13,7 @@ if !DB.table_exists?(:usuarios)
     String        :username
     String 		    :email
     Text 			    :imagen
-    BCryptHash 	  :password
+    BCrypt     	  :password
     DateTime		  :fecha_creacion
   end
 end
