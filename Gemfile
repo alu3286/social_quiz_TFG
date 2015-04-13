@@ -5,6 +5,8 @@ gem 'sequel'
 gem 'haml'
 gem "bcrypt"
 
+gem 'puma'
+
 gem 'thin'
 gem 'sinatra'
 gem 'omniauth'
