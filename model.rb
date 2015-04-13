@@ -1,8 +1,9 @@
 require 'sequel'
-Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
+#Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
 #DB = Sequel.sqlite # memory database
-DB = Sequel.sqlite('myquiz.db') # no memory database
+#DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
+DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
 
 if !DB.table_exists?(:usuarios)
   DB.create_table :usuarios do

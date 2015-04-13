@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "2.0.0"
 #gem 'data_mapper'
 gem 'sequel'
 gem 'haml'
@@ -9,6 +10,7 @@ gem 'puma'
 
 gem 'thin'
 gem 'sinatra'
+gem 'sinatra-sequel'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
