@@ -1,4 +1,5 @@
 require 'sequel'
+require 'bcrypt'
 #Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
 #DB = Sequel.sqlite # memory database
@@ -13,7 +14,7 @@ if !DB.table_exists?(:usuarios)
     String        :username
     String 		    :email
     Text 			    :imagen
-    BCrypt     	  :password
+    BCryptHash 	  :password
     DateTime		  :fecha_creacion
   end
 end
