@@ -1,0 +1,80 @@
+%p
+  %br/
+.container
+  / Nav tabs
+  %ul.nav.nav-tabs{:role => "tablist"}
+    %li.active
+      %a{"data-toggle" => "tab", :href => "#daftar", :role => "tab"} Mis exámenes
+    %li
+      %a{"data-toggle" => "tab", :href => "#tambah", :role => "tab"} Otros exámenes
+  / Tab panes
+  .tab-content
+    #daftar.tab-pane.active
+      %br/
+      %p
+        %a{:href => "./examenes/new"}
+          %button.btn.btn-primary{:type => "button"}
+            %span.glyphicon.glyphicon-plus
+            Crear examen
+      %br/
+      .table-responsive.tabla-preguntas
+        %table.table.table-hover
+          %thead
+            %tr
+              %th ID
+              %th Título
+              %th Fecha de creación
+              %th Usuario
+              %th Opciones
+          %tbody
+            / - @preguntas.each do |pregunta|
+            /   %tr
+            /     /.filaPregunta{:id => "p#{pregunta[:idPregunta]}"}
+            /     %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
+            /       %td= pregunta[:idPregunta]
+            /       %td= pregunta[:titulo]
+            /       %td= pregunta[:fecha_creacion].strftime("%c")
+            /       /%td= pregunta[:username]
+            /       %td= session[:username]
+            /       %td{:id => 'prueba'}
+            /         %a{:href => "", :id => "editar"}
+            /           %span.glyphicon.glyphicon-edit
+            /           Editar
+            /         %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
+            /         %a{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta]}
+            /           %button.btn.btn-primary{:type => "submit"}
+            /             %span.glyphicon.glyphicon-trash
+            /             Eliminar
+
+      %ul.pagination
+        %li.disabled
+          %a{:href => "#"} &laquo;
+        %li.active
+          %a{:href => "#"} 1
+        %li
+          %a{:href => "#"} 2
+        %li
+          %a{:href => "#"} 3
+        %li
+          %a{:href => "#"} 4
+        %li
+          %a{:href => "#"} 5
+        %li
+          %a{:href => "#"} &raquo;
+    #tambah.tab-pane
+      %br/
+      .alert.alert-success{:role => "alert"}
+        Berhasil
+        %button.close{"data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+      .alert.alert-warning{:role => "alert"}
+        Ada sedikit masalah
+        %button.close{"data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+      .alert.alert-danger{:role => "alert"}
+        Error, coba lagi
+        %button.close{"data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close

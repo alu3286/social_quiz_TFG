@@ -209,11 +209,45 @@ end
 #end
 
 get '/examenes' do
+  @actual =  "examenes"
   if (session[:username])
+    #@examenes = DB[:examenes].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
 
+    haml :exams
   else
     redirect '/'
   end
+end
+
+get '/examenes/new' do
+  @actual = "examenes"
+  if (session[:username])
+    # Obtenemos el listado de preguntas de ese usuario
+    @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
+
+    haml :newExam
+  else
+    redirect '/'
+  end
+end
+
+post '/examenes/new' do
+  begin
+    puts params
+    
+    # Añadir la pregunta a la base de datos
+    #@objeto = DB[:preguntas].insert(:titulo => params[:titulo], :fecha_creacion => Time.now, 
+    #                                :tags =>params[:tags], :idUsuario => session[:id])
+    
+    
+  
+    flash[:mensaje] = "Examen creado correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido crear el examen. Inténtelo de nuevo más tarde."
+  end
+  redirect '/examenes'
 end
 
 get '/calificaciones' do

@@ -1,0 +1,31 @@
+.container
+  .row
+    .col-md-12.text-center
+      %h3 Seleccione una pregunta y añádela al exámen
+
+    /%form.form-horizontal{:action => "/examenes/new", :method => "POST", :name => "form-new-exam", :role => "form"}
+   
+
+    .col-sm-4.col-sm-offset-1
+      #list1.list-group
+        %a.list-group-item.active{:href => "#"}
+          Preguntas
+          %input.all.pull-right{:title => "toggle all", :type => "checkbox"}/
+        - @preguntas.each do |pregunta|
+          %a.list-group-item{:href => "#"}
+            = pregunta[:titulo]
+            %input.pull-right{:type => "checkbox"}/
+
+    .col-md-2.v-center
+      %button.btn.btn-default.center-block.add{:title => "Send to list 2"}
+        %i.glyphicon.glyphicon-chevron-right
+      %button.btn.btn-default.center-block.remove{:title => "Send to list 1"}
+        %i.glyphicon.glyphicon-chevron-left
+    .col-sm-4
+      #list2.list-group
+        %a.list-group-item.active{:href => "#"}
+          Examen
+          %input.all.pull-right{:title => "toggle all", :type => "checkbox"}/
+    
+    .form-group   
+      %button.btn.btn-primary{:type => "submit"} Guardar
