@@ -41,9 +41,60 @@ end
 
 if !DB.table_exists?(:examenes)
 DB.create_table :examenes do
-  primary_key :idExamen
-  String :name
-  Float :price
+  primary_key   :idExamen
+  String        :titulo
+  DateTime      :fecha_creacion
+  DateTime      :fecha_apertura
+  DateTime      :fecha_cierre
+  foreign_key   :idUsuario, :usuarios
+end
+end
+
+if !DB.table_exists?(:usuario_examen)
+DB.create_table :usuario_examen do
+  primary_key   :idUsuario
+  primary_key   :idExamen
+  primary_key   :intento
+  DateTime      :tiempo
+  Float         :nota
+  Integer       :numero_fallo
+  Float         :puntuacion
+  String        :titulo
+  DateTime      :fecha
+  foreign_key   :idUsuario, :usuarios
+  foreign_key   :idExamen, :examenes
+end
+end
+
+if !DB.table_exists?(:examen_pregunta)
+DB.create_table :examen_pregunta do
+  primary_key   :idExamen
+  primary_key   :idPregunta
+  Float         :peso
+  Integer       :obligatoria
+  foreign_key   :idExamen, :examenes
+  foreign_key   :idPregunta, :preguntas
+end
+end
+
+if !DB.table_exists?(:usuario_examen_respuesta)
+DB.create_table :usuario_examen_respuesta do
+  primary_key   :idUsuario
+  primary_key   :idExamen
+  primary_key   :idRespuesta
+  primary_key   :idPregunta
+  primary_key   :intento
+  String        :texto
+
+  foreign_key   :idUsuario, :usuario_examen
+  foreign_key   :idExamen, :usuario_examen
+  foreign_key   :intento, :usuario_examen
+
+  foreign_key   :idExamen, :examen_pregunta
+  foreign_key   :idPregunta, :examen_pregunta
+
+  foreign_key   :idRespuesta, :respuestas
+  foreign_key   :idPregunta, :respuestas
 end
 end
 
