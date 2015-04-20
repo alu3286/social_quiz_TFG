@@ -1,31 +1,54 @@
 .container
   .row
+
     .col-md-12.text-center
       %h3 Seleccione una pregunta y añádela al exámen
+
+    %form#demoform{:action => "#", :method => "post"}
+      %select{:multiple => "multiple", :name => "duallistbox_demo1[]", :size => "10"}
+        %option{:value => "option1"} Option 1
+        %option{:value => "option2"} Option 2
+        %option{:selected => "selected", :value => "option3"} Option 3
+        %option{:value => "option4"} Option 4
+        %option{:value => "option5"} Option 5
+        %option{:selected => "selected", :value => "option6"} Option 6
+        %option{:value => "option7"} Option 7
+        %option{:value => "option8"} Option 8
+        %option{:value => "option9"} Option 9
+        %option{:value => "option0"} Option 10
+      %br
+        %button.btn.btn-default.btn-block{:type => "submit"} Submit data
+    :javascript
+      var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
+      $("#demoform").submit(function() {
+        alert($('[name="duallistbox_demo1[]"]').val());
+        return false;
+      });
+
 
     /%form.form-horizontal{:action => "/examenes/new", :method => "POST", :name => "form-new-exam", :role => "form"}
    
 
-    .col-sm-4.col-sm-offset-1
-      #list1.list-group
-        %a.list-group-item.active{:href => "#"}
-          Preguntas
-          %input.all.pull-right{:title => "toggle all", :type => "checkbox"}/
-        - @preguntas.each do |pregunta|
-          %a.list-group-item{:href => "#"}
-            = pregunta[:titulo]
-            %input.pull-right{:type => "checkbox"}/
+    / .col-sm-4.col-sm-offset-1
+    /   #list1.list-group
+    /     %a.list-group-item.active{:href => "#"}
+    /       Preguntas
+    /       %input.all.pull-right{:title => "toggle all", :type => "checkbox"}/
+    /     - @preguntas.each do |pregunta|
+    /       %a.list-group-item{:href => "#"}
+    /         = pregunta[:titulo]
+    /         %input.pull-right{:type => "checkbox"}/
 
-    .col-md-2.v-center
-      %button.btn.btn-default.center-block.add{:title => "Send to list 2"}
-        %i.glyphicon.glyphicon-chevron-right
-      %button.btn.btn-default.center-block.remove{:title => "Send to list 1"}
-        %i.glyphicon.glyphicon-chevron-left
-    .col-sm-4
-      #list2.list-group
-        %a.list-group-item.active{:href => "#"}
-          Examen
-          %input.all.pull-right{:title => "toggle all", :type => "checkbox"}/
+    / .col-md-2.v-center
+    /   %button.btn.btn-default.center-block.add{:title => "Send to list 2"}
+    /     %i.glyphicon.glyphicon-chevron-right
+    /   %button.btn.btn-default.center-block.remove{:title => "Send to list 1"}
+    /     %i.glyphicon.glyphicon-chevron-left
+    / .col-sm-4
+    /   #list2.list-group
+    /     %a.list-group-item.active{:href => "#"}
+    /       Examen
+    /       %input.all.pull-right{:title => "toggle all", :type => "checkbox"}/
     
-    .form-group   
-      %button.btn.btn-primary{:type => "submit"} Guardar
+    / .form-group   
+    /   %button.btn.btn-primary{:type => "submit"} Guardar
