@@ -14,7 +14,8 @@ if !DB.table_exists?(:usuarios)
     String        :username
     String 		    :email
     Text 			    :imagen
-    BCryptHash 	  :password
+    #BCryptHash 	:password
+    String        :password
     DateTime		  :fecha_creacion
   end
 end
@@ -55,7 +56,7 @@ DB.create_table :usuario_examen do
   primary_key   :idUsuario
   primary_key   :idExamen
   primary_key   :intento
-  DateTime      :tiempo
+  Time          :tiempo
   Float         :nota
   Integer       :numero_fallo
   Float         :puntuacion
@@ -90,8 +91,8 @@ DB.create_table :usuario_examen_respuesta do
   foreign_key   :idExamen, :usuario_examen
   foreign_key   :intento, :usuario_examen
 
-  foreign_key   :idExamen, :examen_pregunta
-  foreign_key   :idPregunta, :examen_pregunta
+  #foreign_key   :idExamen, :examen_pregunta
+  #foreign_key   :idPregunta, :examen_pregunta
 
   foreign_key   :idRespuesta, :respuestas
   foreign_key   :idPregunta, :respuestas
