@@ -233,8 +233,12 @@ end
 
 post '/examenes/new' do
   begin
-    puts params
-    
+    #puts params
+    #puts params[:ids].class
+    #if params[:ids]
+      mi_ids = params[:ids].split(',')
+      puts mi_ids
+    #end
     # Añadir la pregunta a la base de datos
     #@objeto = DB[:preguntas].insert(:titulo => params[:titulo], :fecha_creacion => Time.now, 
     #                                :tags =>params[:tags], :idUsuario => session[:id])
@@ -248,6 +252,13 @@ post '/examenes/new' do
     flash[:mensajeRojo] = "No se ha podido crear el examen. Inténtelo de nuevo más tarde."
   end
   redirect '/examenes'
+end
+
+post '/examenes/redireccion' do
+  begin
+    flash[:mensaje] =  "Examen creado correctamente."
+    redirect '/examenes' 
+  end
 end
 
 get '/calificaciones' do

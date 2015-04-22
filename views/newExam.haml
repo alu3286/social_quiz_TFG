@@ -27,19 +27,43 @@
     :javascript
       $(document).ready(function(){
         
-        $("#formulario").click(function(event) {
+        var enviar = false;
+
+        $("#formulario").submit(function(event) {
           event.preventDefault();
         });
 
-
         $("#guardar").click(function() {
-          $("ul.lista-derecha > li").each(function( index ) {
-            alert($( this ).val());
+          var datos;
+          var i = 0;
+
+          $("ul.lista-derecha > li").each(function(index) {
+            if (i == 0) {
+              datos = $(this).val();
+            }
+            else {
+              datos = datos + "," + $(this).val();
+            }
+            i++;
           });
-          $("#formulario").submit();
+
+          //var datos = { id: '1','2','3' };
+
+          $.ajax({
+            url: "/examenes/new",
+            method: "post",
+            data: { ids: datos }
+          }).done(function() {
+            //redirigir a donde quiera
+            $("#formulario2").submit();
+            //window.location.href = "/examenes";
+          })
+
         });
 
       });
+
+    %form#formulario2{:action => "/examenes/redireccion", :method => "post"}
 
     %form#formulario{:action => "/examenes/new", :method => "post", :name => "form-new-exam", :role => "form"}
       / Lista de la izquierda
@@ -58,11 +82,11 @@
           %ul.list-group
             - @preguntas.each do |pregunta|
               %li.list-group-item{:value => pregunta[:idPregunta]}
-                =pregunta[:titulo]
+                %span.titulo
+                  =pregunta[:titulo]
                 %br
-                =pregunta[:fecha_creacion].strftime("%c")
-                = " | "
-                =pregunta[:idPregunta]
+                %span.fecha
+                  =pregunta[:fecha_creacion].strftime("%c")
 
       / Botones de desplazamiento
       .list-arrows.col-md-1.text-center
