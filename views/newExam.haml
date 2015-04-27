@@ -4,7 +4,7 @@
 
 
     .col-md-12.text-center
-      %h3 Seleccione una pregunta y añádela al exámen
+      %h3 Seleccione las preguntas y añádelas al exámen
 
     
     / %form#demoform{:action => "/examenes/new", :method => "post", :name => "form-new-exam", :role => "form"}
@@ -66,6 +66,32 @@
     %form#formulario2{:action => "/examenes/redireccion", :method => "post"}
 
     %form#formulario{:action => "/examenes/new", :method => "post", :name => "form-new-exam", :role => "form"}
+      .form-horizontal
+        .form-group
+          %label.col-lg-2.control-label{:for => "titulo"} Texto del examen
+          .col-lg-8
+            %input.form-control{:placeholder => "Introduzca un texto", :type => "text"}
+        .form-group
+          %label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
+          .col-sm-3
+            #datetimepicker1.input-group.date
+              %input.form-control{:type => "text", :name => "fecha_apertura", :placeholder => "mm/dd/aaaa h:m AM"}
+              %span.input-group-addon
+                %span.glyphicon.glyphicon-calendar
+          %label.col-lg-2.control-label{:for => "cierre"} Fecha de cierre
+          .col-sm-3
+            #datetimepicker2.input-group.date
+              %input.form-control{:type => "text", :name => "fecha_cierre", :placeholder => "mm/dd/aaaa h:m AM"}
+              %span.input-group-addon
+                %span.glyphicon.glyphicon-calendar
+        :javascript
+          $(function () {
+              $('#datetimepicker1').datetimepicker();
+              $('#datetimepicker2').datetimepicker();
+          });
+
+
+
       / Lista de la izquierda
       .dual-list.list-left.col-md-5
         .well.text-right
@@ -108,5 +134,7 @@
                 %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}/
                 %span.input-group-addon.glyphicon.glyphicon-search
           %ul.list-group{:class => "lista-derecha"}
-
-      %button.btn.btn-primary{:type => "submit", :id => "guardar"} Guardar
+      
+      .form-group
+        .col-lg-11
+          %button.btn.btn-primary{:type => "submit", :id => "guardar"} Guardar

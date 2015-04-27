@@ -234,14 +234,13 @@ end
 post '/examenes/new' do
   begin
     #puts params
-    #puts params[:ids].class
-    #if params[:ids]
-      mi_ids = params[:ids].split(',')
-      puts mi_ids
-    #end
+    mi_ids = params[:ids].split(',')
+    puts mi_ids
+
     # Añadir la pregunta a la base de datos
-    #@objeto = DB[:preguntas].insert(:titulo => params[:titulo], :fecha_creacion => Time.now, 
-    #                                :tags =>params[:tags], :idUsuario => session[:id])
+    #@objeto = DB[:examenes].insert(:titulo => params[:titulo], :fecha_creacion => Time.now,
+    #                               :fecha_apertura => "Fecha apertura", :fecha_cierre => "Fecha cierre",
+    #                               :idUsuario => session[:id])
     
     
   

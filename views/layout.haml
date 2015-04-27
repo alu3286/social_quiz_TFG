@@ -11,6 +11,9 @@
     / ----- Links DualListBox
     %link{:href => "/css/bootstrap-duallistbox.css", :rel => "stylesheet", :type => "text/css"}
     / ----- Fin Links DualListBox
+    /------ Links DatePicker (campo fecha de formulario)
+    %link{:href => "/css/bootstrap-datetimepicker.min.css", :rel => "stylesheet"}
+    /------ Fin DatePicker
     /%link{:href => "/css/codemirror.css", :rel => "stylesheet"}
     %link{:rel => "icon", :type => "image/ico", :href => "img/logo.ico"}
     %script{:src => "/js/jquery.min.js"}
@@ -24,11 +27,13 @@
     / ----- Links DualListBox
     %script{:src => "/js/jquery.bootstrap-duallistbox.js"}
     / ----- Fin Links DualListBox
-    /%script{:src => "../js/chartkick.js"}
+    /------ Links DatePicker (campo fecha de formulario)
+    %script{:src => "/js/moment/moment.js"}
+    %script{:src => "/js/bootstrap-datetimepicker.min.js"}
+    %script{:src => "/js/moment/es.js"}
+    /------ Fin DatePicker
 
-    
-    %script{:src => "/js/MathJax.js?config=TeX-AMS-MML_HTMLorMML", :type => "text/javascript"}
-    
+    %script{:src => "/js/MathJax.js?config=TeX-AMS-MML_HTMLorMML", :type => "text/javascript"}    
 
     %script{:type => "text/x-mathjax-config"}
       MathJax.Hub.Config({
