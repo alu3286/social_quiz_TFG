@@ -51,6 +51,17 @@ DB.create_table :examenes do
 end
 end
 
+if !DB.table_exists?(:examen_pregunta)
+DB.create_table :examen_pregunta do
+  primary_key   :idExamen
+  primary_key   :idPregunta
+  Float         :peso
+  Integer       :obligatoria
+  foreign_key   :idExamen, :examenes
+  foreign_key   :idPregunta, :preguntas
+end
+end
+
 if !DB.table_exists?(:usuario_examen)
 DB.create_table :usuario_examen do
   primary_key   :idUsuario
@@ -64,17 +75,6 @@ DB.create_table :usuario_examen do
   DateTime      :fecha
   foreign_key   :idUsuario, :usuarios
   foreign_key   :idExamen, :examenes
-end
-end
-
-if !DB.table_exists?(:examen_pregunta)
-DB.create_table :examen_pregunta do
-  primary_key   :idExamen
-  primary_key   :idPregunta
-  Float         :peso
-  Integer       :obligatoria
-  foreign_key   :idExamen, :examenes
-  foreign_key   :idPregunta, :preguntas
 end
 end
 

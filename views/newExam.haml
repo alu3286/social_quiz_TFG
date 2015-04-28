@@ -37,6 +37,10 @@
           var datos;
           var i = 0;
 
+          var titulo = $("#titulo").val();
+          var fecha_apertura = $("#fecha_apertura").val();
+          var fecha_cierre = $("#fecha_cierre").val();
+
           $("ul.lista-derecha > li").each(function(index) {
             if (i == 0) {
               datos = $(this).val();
@@ -52,7 +56,7 @@
           $.ajax({
             url: "/examenes/new",
             method: "post",
-            data: { ids: datos }
+            data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
           }).done(function() {
             //redirigir a donde quiera
             $("#formulario2").submit();
@@ -70,18 +74,18 @@
         .form-group
           %label.col-lg-2.control-label{:for => "titulo"} Texto del examen
           .col-lg-8
-            %input.form-control{:placeholder => "Introduzca un texto", :type => "text"}
+            %input.form-control{:placeholder => "Introduzca un texto", :type => "text", :id => "titulo"}
         .form-group
           %label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
           .col-sm-3
             #datetimepicker1.input-group.date
-              %input.form-control{:type => "text", :name => "fecha_apertura", :placeholder => "mm/dd/aaaa h:m AM"}
+              %input.form-control{:type => "text", :id => "fecha_apertura", :placeholder => "mm/dd/aaaa h:m AM"}
               %span.input-group-addon
                 %span.glyphicon.glyphicon-calendar
           %label.col-lg-2.control-label{:for => "cierre"} Fecha de cierre
           .col-sm-3
             #datetimepicker2.input-group.date
-              %input.form-control{:type => "text", :name => "fecha_cierre", :placeholder => "mm/dd/aaaa h:m AM"}
+              %input.form-control{:type => "text", :id => "fecha_cierre", :placeholder => "mm/dd/aaaa h:m AM"}
               %span.input-group-addon
                 %span.glyphicon.glyphicon-calendar
         :javascript

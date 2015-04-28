@@ -235,14 +235,19 @@ post '/examenes/new' do
   begin
     #puts params
     mi_ids = params[:ids].split(',')
-    puts mi_ids
+    #puts mi_ids
 
     # Añadir la pregunta a la base de datos
-    #@objeto = DB[:examenes].insert(:titulo => params[:titulo], :fecha_creacion => Time.now,
-    #                               :fecha_apertura => "Fecha apertura", :fecha_cierre => "Fecha cierre",
-    #                               :idUsuario => session[:id])
-    
-    
+    @objeto = DB[:examenes].insert(:titulo => params[:titulo], :fecha_creacion => Time.now,
+                                   :fecha_apertura => params[:fecha_apertura], 
+                                   :fecha_cierre => params[:fecha_cierre],
+                                   :idUsuario => session[:id])
+
+    # Introduzco tantos registros como preguntas tenga
+    mi_ids.each do |id|
+      @objeto2 = DB[:examen_pregunta].insert(:idExamen => @objeto, :idPregunta => id,
+                                             :peso => 1.0, :obligatoria => 1)
+    end
   
     flash[:mensaje] = "Examen creado correctamente."
 
