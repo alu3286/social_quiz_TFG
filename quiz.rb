@@ -211,7 +211,7 @@ end
 get '/examenes' do
   @actual =  "examenes"
   if (session[:username])
-    #@examenes = DB[:examenes].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
+    @examenes = DB[:examenes].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
 
     haml :exams
   else
@@ -222,6 +222,7 @@ end
 get '/examenes/new' do
   @actual = "examenes"
   if (session[:username])
+
     # Obtenemos el listado de preguntas de ese usuario
     @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
 
@@ -237,10 +238,14 @@ post '/examenes/new' do
     mi_ids = params[:ids].split(',')
     #puts mi_ids
 
+
+    puts params[:fecha_apertura].class
+    puts params[:fecha_cierre]
+
     # Añadir la pregunta a la base de datos
     @objeto = DB[:examenes].insert(:titulo => params[:titulo], :fecha_creacion => Time.now,
-                                   :fecha_apertura => params[:fecha_apertura], 
-                                   :fecha_cierre => params[:fecha_cierre],
+                                   :fecha_apertura => DateTime.parse(params[:fecha_apertura]), 
+                                   :fecha_cierre => DateTime.parse(params[:fecha_cierre]),
                                    :idUsuario => session[:id])
 
     # Introduzco tantos registros como preguntas tenga

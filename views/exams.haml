@@ -22,29 +22,31 @@
           %thead
             %tr
               %th ID
-              %th Título
-              %th Fecha de creación
+              %th Examen
+              %th Creación
+              %th Apertura
+              %th Cierre
               %th Usuario
               %th Opciones
           %tbody
-            / - @preguntas.each do |pregunta|
-            /   %tr
-            /     /.filaPregunta{:id => "p#{pregunta[:idPregunta]}"}
-            /     %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
-            /       %td= pregunta[:idPregunta]
-            /       %td= pregunta[:titulo]
-            /       %td= pregunta[:fecha_creacion].strftime("%c")
-            /       /%td= pregunta[:username]
-            /       %td= session[:username]
-            /       %td{:id => 'prueba'}
-            /         %a{:href => "", :id => "editar"}
-            /           %span.glyphicon.glyphicon-edit
-            /           Editar
-            /         %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
-            /         %a{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta]}
-            /           %button.btn.btn-primary{:type => "submit"}
-            /             %span.glyphicon.glyphicon-trash
-            /             Eliminar
+            - @examenes.each do |examen|
+              %tr
+                %form.form-horizontal{:action => "/examenes", :method => "POST", :name => "form-delete-exam", :role => "form"}
+                  %td= examen[:idExamen]
+                  %td= examen[:titulo]
+                  %td= examen[:fecha_creacion].strftime("%c")
+                  %td= examen[:fecha_apertura].strftime("%c")
+                  %td= examen[:fecha_cierre].strftime("%c")
+                  %td= session[:username]
+                  %td{:id => 'prueba'}
+                    %a{:href => "", :id => "editar"}
+                      %span.glyphicon.glyphicon-edit
+                      Editar
+                    %input.form-control{:name => "examen", :type => "text", :style => "display:none;", :value => examen[:idExamen]}
+                    %a{:href => "", :id => "eliminar#{examen[:idExamen]}", :data => examen[:idExamen]}
+                      %button.btn.btn-primary{:type => "submit"}
+                        %span.glyphicon.glyphicon-trash
+                        Eliminar
 
       %ul.pagination
         %li.disabled

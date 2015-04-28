@@ -74,24 +74,28 @@
         .form-group
           %label.col-lg-2.control-label{:for => "titulo"} Texto del examen
           .col-lg-8
-            %input.form-control{:placeholder => "Introduzca un texto", :type => "text", :id => "titulo"}
+            %input.form-control{:placeholder => "Introduzca un texto", :type => "text", :id => "titulo", :autofocus => ""}
         .form-group
-          %label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
-          .col-sm-3
+          /%label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
+          .col-lg-5
             #datetimepicker1.input-group.date
-              %input.form-control{:type => "text", :id => "fecha_apertura", :placeholder => "mm/dd/aaaa h:m AM"}
+              %input.form-control{:type => "text", :id => "fecha_apertura", :placeholder => "Fecha de apertura"}
               %span.input-group-addon
                 %span.glyphicon.glyphicon-calendar
-          %label.col-lg-2.control-label{:for => "cierre"} Fecha de cierre
-          .col-sm-3
+          /%label.col-lg-2.control-label{:for => "cierre"} Fecha de cierre
+          .col-lg-5
             #datetimepicker2.input-group.date
-              %input.form-control{:type => "text", :id => "fecha_cierre", :placeholder => "mm/dd/aaaa h:m AM"}
+              %input.form-control{:type => "text", :id => "fecha_cierre", :placeholder => "Fecha de cierre"}
               %span.input-group-addon
                 %span.glyphicon.glyphicon-calendar
         :javascript
           $(function () {
-              $('#datetimepicker1').datetimepicker();
-              $('#datetimepicker2').datetimepicker();
+              $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+              });
+              $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+              });
           });
 
 
