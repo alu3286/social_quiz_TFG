@@ -66,5 +66,11 @@ $(document).ready(function()
   });
 
 
+  // Para el CRUD de las tablas (Eliminar) ---------------
+  $("#mytable").click(function () {
+    $("[data-toggle=tooltip]").tooltip();
+  });
+  // -----------------------------------------------------
+
 
 });
