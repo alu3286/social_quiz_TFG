@@ -66,10 +66,28 @@ $(document).ready(function()
   });
 
 
-  // Para el CRUD de las tablas (Eliminar) ---------------
-  $("#mytable").click(function () {
-    $("[data-toggle=tooltip]").tooltip();
-  });
+  // Para el CRUD de las tablas ---------------
+  //$("#Eliminar").click(function(){
+  //  alert("quieres eliminar el elemento.");
+    //var oID = $(this).attr("id");
+  //});
+
+  // $('td').click(function() { 
+  //   var myCol = $(this).index(); 
+  //   var $tr = $(this).closest('tr'); 
+  //   var myRow = $tr.index();
+  //   alert(myRow);
+  // });
+
+
+
+  //$("#mytable").click(function () {
+  //$("#ver-pregunta").click(function() {
+  //  alert("Ha hecho click en ver");
+  //});
+   // alert("Ha hecho click.");
+   // $("[data-toggle=tooltip]").tooltip();
+  //});
   // -----------------------------------------------------
 
 

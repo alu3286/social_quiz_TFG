@@ -179,7 +179,7 @@ post '/preguntas/new' do
     when "vf"
       # consulta de verdadero falso a la bbdd
       correct = (params[:opciones] == "true") ? 1 : 0
-      puts correct
+      #puts correct
       @objeto1 = DB[:respuestas].insert(:texto => "", :correcto => correct, 
                                         :tipo => "vf", :idPregunta => @objeto)
     when "corta"
@@ -207,6 +207,60 @@ end
 #    puts e.message
 #  end
 #end
+
+get '/pregunta/:num' do
+  @actual =  "preguntas"
+  if (session[:username])
+
+    @pregunta = DB[:preguntas].where(:idUsuario => session[:id], :idPregunta => params[:num])
+    @respuesta = DB[:respuestas].where(:idPregunta => params[:num])
+
+    #puts "este es el tipo"
+    #puts @respuesta[:idRespuesta][:tipo]
+
+    #puts "Este es el titulo"
+    #puts @pregunta[:idPregunta][:titulo]
+
+    haml :quizView
+  else
+    redirect '/'
+  end
+end
+
+post '/pregunta/:num' do
+  begin
+    puts params
+    
+    # Actualizamos la pregunta
+    update_pregunta = DB["UPDATE preguntas set titulo = ?, fecha_creacion = ?, tags = ? 
+                         WHERE idPregunta = ?", params[:titulo], Time.now, params[:tags], params[:num]]
+    update_pregunta.update
+    
+    # Actualizamos la respuesta
+    case params[:tipo]
+    when "vf"
+      # consulta de verdadero falso a la bbdd
+      correct = (params[:opciones] == "true") ? 1 : 0
+      update_respuesta = DB["UPDATE respuestas set correcto = ?, tipo = ? WHERE idPregunta = ?", 
+                            correct, 'vf', params[:num]]
+      update_respuesta.update
+    when "corta"
+      # consulta de respuesta corta a la bbdd
+      update_respuesta = DB["UPDATE respuestas set texto = ?, correcto = ?, tipo = ? WHERE idPregunta = ?", 
+                            params[:corta], true, 'corta', params[:num]]
+      update_respuesta.update
+    when "multiple"
+      #consulta de respuesta multiple a la bbdd
+    end
+  
+    flash[:mensaje] = "Pregunta actualizada correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido modificar la pregunta. Inténtelo de nuevo más tarde."
+  end
+  redirect '/preguntas'
+end
 
 get '/examenes' do
   @actual =  "examenes"
