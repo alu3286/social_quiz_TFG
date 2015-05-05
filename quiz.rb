@@ -324,6 +324,28 @@ post '/examenes/redireccion' do
   end
 end
 
+get '/examen/:num' do
+  @actual =  "examenes"
+  if (session[:username])
+
+    @examen = DB[:examenes].where(:idExamen => params[:num])
+    @preguntas = DB["SELECT * FROM preguntas INNER JOIN examen_pregunta ON preguntas.idPregunta = examen_pregunta.idPregunta AND examen_pregunta.idExamen = ?", params[:num]]
+    #@preguntas = DB[:preguntas].join_table(:inner, :examen_pregunta, :idPregunta => :idPregunta)
+    #@respuestas = @preguntas.join_table(:inner, :respuestas, :idPregunta => :idPregunta).as(:respuestas, :re)
+
+    #Sequel.as(:table, :alias, [:c1, :c2]) # "table" AS "alias"("c1", "c2")
+
+    #@preguntas = DB[:examen_pregunta].where(:idPregunta => params[:num])
+    #@respuesta = DB[:respuestas].where(:idPregunta => params[:num])
+
+    
+
+    haml :examView
+  else
+    redirect '/'
+  end
+end
+
 get '/calificaciones' do
   if (session[:username])
 

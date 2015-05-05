@@ -17,7 +17,7 @@
             %span.glyphicon.glyphicon-plus
             Crear examen
       %br/
-      .table-responsive.tabla-preguntas
+      .table-responsive.tabla-preguntas#mytable
         %table.table.table-hover
           %thead
             %tr
@@ -27,7 +27,9 @@
               %th Apertura
               %th Cierre
               %th Usuario
-              %th Opciones
+              %th Previsualizar
+              %th Editar
+              %th Eliminar
           %tbody
             - @examenes.each do |examen|
               %tr
@@ -38,15 +40,20 @@
                   %td= examen[:fecha_apertura].strftime("%c")
                   %td= examen[:fecha_cierre].strftime("%c")
                   %td= session[:username]
-                  %td{:id => 'prueba'}
-                    %a{:href => "", :id => "editar"}
-                      %span.glyphicon.glyphicon-edit
-                      Editar
-                    %input.form-control{:name => "examen", :type => "text", :style => "display:none;", :value => examen[:idExamen]}
+                  %td.opciones
+                    %a{:href => "/examen/#{examen[:idExamen]}", :id => "ver"}
+                      %span.glyphicon.glyphicon-search
+                  %td.opciones
+                    %a{:href => ""}
+                      %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Ver"}
+                        %span.glyphicon.glyphicon-pencil
+                  %td.opciones
                     %a{:href => "", :id => "eliminar#{examen[:idExamen]}", :data => examen[:idExamen]}
-                      %button.btn.btn-primary{:type => "submit"}
+                      %button.btn.btn-danger.btn-xs{:type => "submit"}
                         %span.glyphicon.glyphicon-trash
-                        Eliminar
+
+                    %input.form-control{:name => "examen", :type => "text", :style => "display:none;", :value => examen[:idExamen]}
+                  
 
       %ul.pagination
         %li.disabled

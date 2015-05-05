@@ -1,0 +1,19 @@
+
+%h3= @examen[:idExamen][:titulo]
+
+- @contador = 1
+
+- @preguntas.each do |pregunta|
+  .cuadro-pregunta
+    %p= "#{@contador}. #{pregunta[:titulo]}"
+    - @contador = @contador + 1
+    
+    .cuadro-respuesta
+      - @rep = DB["SELECT * FROM respuestas WHERE respuestas.idPregunta = ?", pregunta[:idPregunta]]
+      - if (@rep[:idPregunta][:tipo] == 'vf' && @rep[:idPregunta][:correcto])
+        Verdadero
+      - elsif (@rep[:idPregunta][:tipo] == 'vf' && !@rep[:idPregunta][:correcto])
+        Falso
+      - elsif (@rep[:idPregunta][:tipo] == 'corta')
+        = @rep[:idPregunta][:texto]
+    %hr
