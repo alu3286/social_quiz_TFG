@@ -20,6 +20,24 @@ if !DB.table_exists?(:usuarios)
   end
 end
 
+if !DB.table_exists?(:grupos)
+  DB.create_table :grupos do
+    primary_key   :idGrupo
+    String        :nombre
+    String        :username
+    DateTime      :fecha_creacion
+  end
+end
+
+if !DB.table_exists?(:usuario_grupo)
+  DB.create_table :usuario_grupo do
+    primary_key   :idGrupo
+    primary_key   :idUsuario
+    foreign_key   :idGrupo, :grupos
+    foreign_key   :idUsuario, :usuarios
+  end
+end
+
 if !DB.table_exists?(:preguntas)
 DB.create_table :preguntas do
   primary_key   :idPregunta
