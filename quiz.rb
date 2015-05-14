@@ -280,6 +280,9 @@ get '/examenes/new' do
     # Obtenemos el listado de preguntas de ese usuario
     @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
 
+    #Obtenemos los usuarios para la lista de usuarios y grupos
+    @usuarios = DB["SELECT * FROM usuarios WHERE idUsuario != #{session[:id]}"]
+
     haml :newExam
   else
     redirect '/'

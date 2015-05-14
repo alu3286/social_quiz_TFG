@@ -74,7 +74,7 @@
         .form-group
           %label.col-lg-2.control-label{:for => "titulo"} Texto del examen
           .col-lg-8
-            %input.form-control{:placeholder => "Introduzca un texto", :type => "text", :id => "titulo", :autofocus => ""}
+            %input.form-control{:placeholder => "Introduzca un texto", :type => "text", :id => "titulo", :autofocus => "", :required => ""}
         .form-group
           /%label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
           .col-lg-5
@@ -142,6 +142,30 @@
                 %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}/
                 %span.input-group-addon.glyphicon.glyphicon-search
           %ul.list-group{:class => "lista-derecha"}
+      
+        .col-lg-6
+          .panel.panel-default
+            Usuarios y grupos
+            - @usuarios.each do |usr|
+              .checkbox
+                %label
+                  %input{:type => "checkbox", :value => usr[:idUsuario]}
+                    = usr[:username]
+
+      / .container{:style => "margin-top:20px;"}
+      /   .row
+      /     //.col-xs-6
+      /     .col-lg-11
+      /       .panel.panel-default
+      /         .panel-body
+      /           Este es mi panel de usuarios y grupos
+      /           .well{:style => "max-height: 300px;overflow: auto;"}
+      /             %ul.list-group.checked-list-box
+      /               %li.list-group-item{"data-checked" => "true"} Cras justo odio
+      /               %li.list-group-item Dapibus ac facilisis in
+      /               %li.list-group-item Morbi leo risus
+      /               %li.list-group-item Porta ac consectetur ac
+
       
       .form-group
         .col-lg-11
