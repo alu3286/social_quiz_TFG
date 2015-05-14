@@ -1,0 +1,15 @@
+#lista-usuarios {
+	border-style: solid;
+	border-width: 1px;
+	height: 100px;
+	border-radius: 5px;
+	margin-bottom: 0.5em;
+}
+
+#lista-grupos {
+	border-style: solid;
+	border-width: 1px;
+	height: 100px;
+	border-radius: 5px;
+	margin-bottom: 0.5em;
+}

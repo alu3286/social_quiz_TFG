@@ -349,6 +349,44 @@ get '/examen/:num' do
   end
 end
 
+get '/grupos' do
+  @actual = "grupos"
+  if (session[:username])
+
+    haml :groups
+  else
+    redirect '/'
+  end
+end
+
+get '/grupos/new' do
+  @actual = "grupos"
+  if (session[:username])
+
+    haml :newGroup
+  else
+    redirect '/'
+  end
+end
+
+post '/grupos/new' do
+  begin
+    puts "Parametros nuevo grupo"
+    puts params
+
+    # Añadir la pregunta a la base de datos
+    @objeto = DB[:grupos].insert(:nombre => params[:nombre], :descripcion => params[:desc],
+                                 :fecha_creacion => Time.now, :idUsuario => session[:id])
+  
+    flash[:mensaje] = "Grupo creado correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido crear el grupo. Inténtelo de nuevo más tarde."
+  end
+  redirect '/grupos'
+end
+
 get '/calificaciones' do
   if (session[:username])
 

@@ -24,8 +24,9 @@ if !DB.table_exists?(:grupos)
   DB.create_table :grupos do
     primary_key   :idGrupo
     String        :nombre
-    String        :username
+    String        :descripcion
     DateTime      :fecha_creacion
+    foreign_key   :idUsuario, :usuarios
   end
 end
 
@@ -117,11 +118,18 @@ DB.create_table :usuario_examen_respuesta do
 end
 end
 
-#user = DB[:usuarios] # Create a dataset
+user = DB[:usuarios] # Create a dataset
 
-# Populate the table
-#user.insert(:nombre => 'edu', :apellidos => 'acuña', :username => 'edualedesma', :email => 'eaculed@gmail.com', 
-#			:imagen => 'edu.jpg', :password => BCrypt::Password.create('edu'), :created_at => Time.now)
+if DB[:usuarios].count == 0
+  user.insert(:username => 'edu', :nombre => 'Eduardo', :apellidos => 'Acuña', :email => 'eaculed@gmail.com', 
+            :password => BCrypt::Password.create('edu'), :imagen => '', :fecha_creacion => Time.now)
+  user.insert(:username => 'juan', :nombre => 'Juan', :apellidos => 'Acuña', :email => 'juan@gmail.com', 
+            :password => BCrypt::Password.create('juan'), :imagen => '', :fecha_creacion => Time.now)
+  user.insert(:username => 'pepe', :nombre => 'Pepe', :apellidos => 'Acuña', :email => 'pepe@gmail.com', 
+            :password => BCrypt::Password.create('pepe'), :imagen => '', :fecha_creacion => Time.now)
+  user.insert(:username => 'antonio', :nombre => 'Antonio', :apellidos => 'Acuña', :email => 'antonio@gmail.com', 
+            :password => BCrypt::Password.create('antonio'), :imagen => '', :fecha_creacion => Time.now)
+end
 
 # Print out the number of records
 #puts "Usuarios: #{user.count}"

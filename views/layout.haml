@@ -9,6 +9,7 @@
     %link{:href => "/css/bootstrap-tagsinput.css", :rel => "stylesheet"}
     %link{:href => "/css/newExam.css", :rel => "stylesheet"}
     %link{:href => "/css/exam.css", :rel => "stylesheet"}
+    %link{:href => "/css/grupos.css", :rel => "stylesheet"}
     / ----- Links DualListBox
     %link{:href => "/css/bootstrap-duallistbox.css", :rel => "stylesheet", :type => "text/css"}
     / ----- Fin Links DualListBox
@@ -172,6 +173,12 @@
             - else
               %li
                 %a{:href => "/calificaciones"} CALIFICACIONES
+            - if (@actual == "grupos")
+              %li.active.elementos
+                %a{:href => "/grupos"} GRUPOS
+            - else
+              %li
+                %a{:href => "/grupos"} GRUPOS
             %li
               %img{:id => "imagen-menu", :class => "img-circle", :src => session[:imagen] }
             %p.navbar-text.pull-left
