@@ -2,10 +2,15 @@
   .col-md-6
     Grupos:
     #lista-grupos
+      %ul#lista-gr
+        - @grupos.each do |grupo|
+          %li{:id => "#{grupo[:idGrupo]}"}
+            =grupo[:nombre]
+          
     .form-group
       .col-lg-11
         %a{:href => "/grupos/new"}
-          %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Ver"}
+          %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Crear grupo"}
             %span.glyphicon.glyphicon-plus
             Crear grupo
         /%button.btn.btn-primary{:type => "submit", :id => "crear-grupo"} Crear grupo
@@ -14,8 +19,8 @@
     #lista-usuarios
     .form-group
       .col-lg-11
-        %a{:href => ""}
-          %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Ver"}
+        %a{:href => "", :id => "add-user-link"}
+          %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Añadir usuario"}
             %span.glyphicon.glyphicon-user
             Añadir usuarios
         /%button.btn.btn-primary{:type => "submit", :id => "add-usuario"} Añadir

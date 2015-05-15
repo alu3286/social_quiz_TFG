@@ -353,6 +353,8 @@ get '/grupos' do
   @actual = "grupos"
   if (session[:username])
 
+    @grupos = DB["SELECT * FROM grupos WHERE idUsuario = #{session[:id]}"]
+
     haml :groups
   else
     redirect '/'
