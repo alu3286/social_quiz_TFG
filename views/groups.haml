@@ -4,8 +4,9 @@
     #lista-grupos
       %ul#lista-gr
         - @grupos.each do |grupo|
-          %li{:id => "#{grupo[:idGrupo]}"}
-            =grupo[:nombre]
+          %span.enlace-fake
+            %li#gr{:id => "#{grupo[:idGrupo]}"}
+              =grupo[:nombre]
           
     .form-group
       .col-lg-11
@@ -17,6 +18,11 @@
   .col-md-6
     Usuarios:
     #lista-usuarios
+      / %ul#lista-usr
+      /       %span
+      /         %li#gr{:id => "#{usr[:idUsuario]}"}
+      /           =usr[:username]
+
     .form-group
       .col-lg-11
         %a{:href => "", :id => "add-user-link"}

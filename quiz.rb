@@ -12,6 +12,8 @@ require 'sinatra/flash'
 require 'bcrypt'
 require 'haml'
 
+require 'json'
+
 =begin
 # Configuracion en local
 configure :development, :test do
@@ -354,6 +356,9 @@ get '/grupos' do
   if (session[:username])
 
     @grupos = DB["SELECT * FROM grupos WHERE idUsuario = #{session[:id]}"]
+    @usuarios_grupos = DB["SELECT * FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
+                          inner join usuarios u on ug.idUsuario = u.idUsuario 
+                          where g.idUsuario = #{session[:id]}"]
 
     haml :groups
   else
@@ -387,6 +392,39 @@ post '/grupos/new' do
     flash[:mensajeRojo] = "No se ha podido crear el grupo. Inténtelo de nuevo más tarde."
   end
   redirect '/grupos'
+end
+
+post '/dameusuarios' do
+  #puts params
+  #puts params[:id]
+
+    @usuarios_finales = DB["SELECT ug.idUsuario, u.username FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
+                           inner join usuarios u on ug.idUsuario = u.idUsuario 
+                           where g.idUsuario = #{session[:id]} AND
+                           g.idGrupo = #{params[:id]}"]
+    
+    #my_hash = {:hello => "goodbye"}
+    #puts JSON.generate(my_hash) => "{\"hello\":\"goodbye\"}"
+    #grades["Dorothy Doe"] = 9
+    @us_fin = Hash.new
+    @usuarios_finales.each do |us|
+      @us_fin["#{us[:idUsuario]}"] = "#{us[:username]}"
+    end
+    @us_fin = JSON.generate(@us_fin)
+    @us_fin
+
+
+    #my_hash = JSON.parse('{"hello": "goodbye", "bye": "hello"}')
+    # @us_fin = '{'
+    # @usuarios_finales.each do |us|
+    #   @us_fin = @us_fin + '"' + "#{us[:idUsuario]}" + '"' + ":" + '"' + "#{us[:username]}" + '"' + ","
+    # end
+    # @us_fin = @us_fin[0, @us_fin.length - 1]
+    # @us_fin = @us_fin + "}"
+    # @us_fin = JSON.parse(@us_fin)
+    # @us_fin
+    #puts @us_fin
+  
 end
 
 get '/calificaciones' do

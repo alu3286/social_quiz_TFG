@@ -17,3 +17,15 @@
 #lista-gr {
 	list-style: none;
 }
+
+#lista-usr {
+	list-style: none;
+}
+
+li.active {
+	font-weight: bold;
+}
+
+.enlace-fake {
+	cursor: pointer;
+}
