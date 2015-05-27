@@ -1,0 +1,111 @@
+:javascript
+  $(document).ready(function(){
+    
+    var enviar = false;
+
+    $("#formulario-grupos").submit(function(event) {
+      event.preventDefault();
+    });
+
+    $("#guardar-usuario-grupo").click(function() {
+      var datos;
+      var i = 0;
+      //var titulo = $("#titulo").val();
+      //var fecha_apertura = $("#fecha_apertura").val();
+      //var fecha_cierre = $("#fecha_cierre").val();
+
+      $("ul.lista-derecha > li").each(function(index) {
+        if (i == 0) {
+          datos = $(this).val();
+        }
+        else {
+          datos = datos + "," + $(this).val();
+        }
+        i++;
+      });
+
+      //var datos = { id: '1','2','3' };
+
+      $.ajax({
+        url: "/grupos/miembros/" + $("#oculto").val(),
+        method: "post",
+        data: { ids: datos}
+        //data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
+      }).done(function() {
+        //redirigir a donde quiera
+        $("#formulario2-grupos").submit();
+        //window.location.href = "/examenes";
+      })
+
+    });
+
+  });
+
+
+
+
+
+
+
+
+.container
+  .row
+    %h3.col-md-11.text-center
+      Grupo: 
+      =@grupo[:idGrupo][:nombre]
+
+    .col-md-12.text-center
+      %form#formulario2-grupos{:action => "/grupos/redireccion", :method => "post"}
+
+      %form#formulario-grupos{:action => "/grupos/miembros/:num", :method => "post", :name => "form-new-user-group", :role => "form"}
+        / Lista de la izquierda
+        .dual-list.list-left.col-md-5
+          .well.text-right
+            .row
+              .col-md-10
+                .input-group
+                  %span.input-group-addon.glyphicon.glyphicon-search
+                  %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}
+              .col-md-2
+                .btn-group
+                  %a.btn.btn-default.selector{:title => "Seleccionar todo"}
+                    %i.glyphicon.glyphicon-unchecked
+
+            %ul.list-group
+              - @usuarios.each do |user|
+                %li.list-group-item{:value => user[:idUsuario]}
+                  %span.titulo
+                    =user[:username]
+                  / %br
+                  / %span.fecha
+                  /   =pregunta[:fecha_creacion].strftime("%c")
+
+        / Botones de desplazamiento
+        .list-arrows.col-md-1.text-center
+          %button.btn.btn-default.btn-sm.move-left{:id => "boton1"} 
+            %span.glyphicon.glyphicon-chevron-left
+          %button.btn.btn-default.btn-sm.move-right{:id => "boton2"}
+            %span.glyphicon.glyphicon-chevron-right
+
+        / Lista de la derecha
+        .dual-list.list-right.col-md-5
+          .well
+            .row
+              .col-md-2
+                .btn-group
+                  %a.btn.btn-default.selector{:title => "Seleccionar todo"}
+                    %i.glyphicon.glyphicon-unchecked
+              .col-md-10
+                .input-group
+                  %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}/
+                  %span.input-group-addon.glyphicon.glyphicon-search
+            %ul.list-group{:class => "lista-derecha"}
+              - @usuarios_grupo.each do |user|
+                %li.list-group-item{:value => user[:idUsuario]}
+                  %span.titulo
+                    =user[:username]
+        %input{:id => 'oculto', :name => "opcion", :type => "hidden", :value => "#{@grupo[:idGrupo][:idGrupo]}"}
+
+        .form-group
+          .col-lg-11
+            %button.btn.btn-primary{:type => "submit", :id => "guardar-usuario-grupo"} Guardar

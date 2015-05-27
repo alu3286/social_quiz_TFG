@@ -293,7 +293,7 @@ end
 
 post '/examenes/new' do
   begin
-    #puts params
+    puts params
     mi_ids = params[:ids].split(',')
     #puts mi_ids
 
@@ -326,6 +326,13 @@ post '/examenes/redireccion' do
   begin
     flash[:mensaje] =  "Examen creado correctamente."
     redirect '/examenes' 
+  end
+end
+
+post '/grupos/redireccion' do
+  begin
+    flash[:mensaje] =  "Usuarios modificados correctamente."
+    redirect '/grupos' 
   end
 end
 
@@ -366,6 +373,28 @@ get '/grupos' do
   end
 end
 
+# post '/grupos' do
+#   begin
+#     puts "Estas de vuelta en grupos"
+#     puts params
+
+# #     # Añadir la pregunta a la base de datos
+# #     @usu_gr = DB["SELECT ug.idUsuario FROM usuario_grupo ug INNER JOIN grupos g on ug.idGrupo = g.idGrupo 
+# #                   WHERE g.idUsuario = #{session[:id]} AND
+# #                   g.idGrupo = #{params[:id]}"]
+
+# #     @usu_gr
+  
+# #     #flash[:mensaje] = ""
+
+# #   rescue Exception => e
+# #     puts e.message
+# #     flash[:mensajeRojo] = "No se ha podido crear el grupo. Inténtelo de nuevo más tarde."
+#   end
+# #   redirect '/grupos/miembros'
+# end
+
+
 get '/grupos/new' do
   @actual = "grupos"
   if (session[:username])
@@ -402,6 +431,10 @@ post '/dameusuarios' do
                            inner join usuarios u on ug.idUsuario = u.idUsuario 
                            where g.idUsuario = #{session[:id]} AND
                            g.idGrupo = #{params[:id]}"]
+
+    #session[:grupo] = params[:id]
+    #puts "esta es mi session"
+    #puts session[:grupo]
     
     #my_hash = {:hello => "goodbye"}
     #puts JSON.generate(my_hash) => "{\"hello\":\"goodbye\"}"
@@ -412,19 +445,69 @@ post '/dameusuarios' do
     end
     @us_fin = JSON.generate(@us_fin)
     @us_fin
+end
+
+get '/grupos/miembros/:num' do
+  @actual = "grupos"
+  if (session[:username])
+    
+    puts "Estoy en grupos miembros"
+    puts params
+    
+    @usuarios_grupo = DB["SELECT u.idUsuario, u.username FROM grupos g 
+                         inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
+                         inner join usuarios u on ug.idUsuario = u.idUsuario 
+                         where g.idUsuario = #{session[:id]} AND
+                         g.idGrupo = #{params[:num]}"]
+    @usuarios = DB["Select * from usuarios usu1 where not exists (SELECT u.idUsuario, u.username FROM grupos g 
+                   inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
+                   inner join usuarios u on ug.idUsuario = u.idUsuario 
+                   where g.idUsuario = #{session[:id]} AND
+                   g.idGrupo = #{params[:num]} AND
+                   usu1.idUsuario = u.idUsuario)"]
+    @grupo = DB["SELECT * FROM grupos WHERE idGrupo = #{params[:num]}"]
 
 
-    #my_hash = JSON.parse('{"hello": "goodbye", "bye": "hello"}')
-    # @us_fin = '{'
-    # @usuarios_finales.each do |us|
-    #   @us_fin = @us_fin + '"' + "#{us[:idUsuario]}" + '"' + ":" + '"' + "#{us[:username]}" + '"' + ","
-    # end
-    # @us_fin = @us_fin[0, @us_fin.length - 1]
-    # @us_fin = @us_fin + "}"
-    # @us_fin = JSON.parse(@us_fin)
-    # @us_fin
-    #puts @us_fin
-  
+    haml :members
+  else
+    redirect '/'
+  end
+end
+
+post '/grupos/miembros/:num' do
+  begin
+    puts params
+
+    if !params[:ids].nil?
+      mi_ids = params[:ids].split(',')
+    end
+
+
+    # 1. Elimino todos los usuarios del grupo
+    @usu_grupo_detele = DB[:usuario_grupo].filter(:idGrupo => params[:num]).delete
+
+    # 2. Inserto los usuarios en ese grupo
+    mi_ids.each do |usu|
+      #Comprobamos que el usuario ya está en la base de datos.
+      #@usuario_grupo = DB["SELECT ug.idUsuario FROM usuario_grupo ug 
+      #                     where ug.idGrupo = #{params[:num]} AND
+      #                     ug.idUsuario = #{usu}"]
+      #puts "Este es el contenido de la variable"
+      #puts @usuario_grupo.count
+      
+      #if (@usuario_grupo.count == 0)
+      @objeto = DB[:usuario_grupo].insert(:idGrupo => params[:num], :idUsuario => usu)
+      #end
+    end
+    
+      flash[:mensaje] = "Usuarios modificados correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido realizar la operación. Inténtelo de nuevo más tarde."
+  end
+  redirect '/grupos'
+
 end
 
 get '/calificaciones' do

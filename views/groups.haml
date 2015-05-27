@@ -18,15 +18,15 @@
   .col-md-6
     Usuarios:
     #lista-usuarios
-      / %ul#lista-usr
-      /       %span
-      /         %li#gr{:id => "#{usr[:idUsuario]}"}
-      /           =usr[:username]
+
 
     .form-group
       .col-lg-11
-        %a{:href => "", :id => "add-user-link"}
+        %a{:href => "/grupos/miembros/#{session[:grupo]}", :id => "add-user-link"}
           %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Añadir usuario"}
             %span.glyphicon.glyphicon-user
-            Añadir usuarios
-        /%button.btn.btn-primary{:type => "submit", :id => "add-usuario"} Añadir
+            Añadir/eliminar usuarios
+        / %form#formulario{:action => "/grupos/miembros", :method => "post", :name => "form-new-member", :role => "form"}
+        /   %button.btn.btn-primary{:type => "submit", :id => "add-usuario"} Añadir/Eliminar usuario
+        %input{:id => 'oculto', :name => "opcion", :type => "hidden", :value => "si"}
+          
