@@ -285,6 +285,9 @@ get '/examenes/new' do
     #Obtenemos los usuarios para la lista de usuarios y grupos
     @usuarios = DB["SELECT * FROM usuarios WHERE idUsuario != #{session[:id]}"]
 
+    #Obtenemos la lista de grupos
+    @grupos = DB["SELECT * FROM grupos WHERE idUsuario = #{session[:id]}"]
+
     haml :newExam
   else
     redirect '/'
@@ -356,6 +359,37 @@ get '/examen/:num' do
   else
     redirect '/'
   end
+end
+
+post '/eliminaExamen' do
+  begin
+    puts "Estamos en la eliminacion de examenes"
+    puts params
+    #mi_ids = params[:ids].split(',')
+    #puts mi_ids
+
+    @exapre_detele = DB[:examen_pregunta].filter(:idExamen => params[:ids]).delete
+    @examen_detele = DB[:examenes].filter(:idExamen => params[:ids]).delete
+
+    # Añadir la pregunta a la base de datos
+    #@objeto = DB[:examenes].insert(:titulo => params[:titulo], :fecha_creacion => Time.now,
+    #                               :fecha_apertura => DateTime.parse(params[:fecha_apertura]), 
+    #                               :fecha_cierre => DateTime.parse(params[:fecha_cierre]),
+    #                               :idUsuario => session[:id])
+
+    # Introduzco tantos registros como preguntas tenga
+    #mi_ids.each do |id|
+    #  @objeto2 = DB[:examen_pregunta].insert(:idExamen => @objeto, :idPregunta => id,
+    #                                         :peso => 1.0, :obligatoria => 1)
+    #end
+  
+    flash[:mensaje] = "Examen eliminado correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido eliminar el examen. Inténtelo de nuevo más tarde."
+  end
+  redirect '/examenes'
 end
 
 get '/grupos' do

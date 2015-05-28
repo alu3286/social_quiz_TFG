@@ -79,13 +79,13 @@
           /%label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
           .col-lg-5
             #datetimepicker1.input-group.date
-              %input.form-control{:type => "text", :id => "fecha_apertura", :placeholder => "Fecha de apertura"}
+              %input.form-control{:type => "text", :id => "fecha_apertura", :placeholder => "Fecha de apertura", :required => ""}
               %span.input-group-addon
                 %span.glyphicon.glyphicon-calendar
           /%label.col-lg-2.control-label{:for => "cierre"} Fecha de cierre
           .col-lg-5
             #datetimepicker2.input-group.date
-              %input.form-control{:type => "text", :id => "fecha_cierre", :placeholder => "Fecha de cierre"}
+              %input.form-control{:type => "text", :id => "fecha_cierre", :placeholder => "Fecha de cierre", :required => ""}
               %span.input-group-addon
                 %span.glyphicon.glyphicon-calendar
         :javascript
@@ -143,14 +143,26 @@
                 %span.input-group-addon.glyphicon.glyphicon-search
           %ul.list-group{:class => "lista-derecha"}
       
-        .col-lg-6
+      .form-group
+        %label.col-lg-8.control-label{:for => "titulo"} Usuarios o grupos que podrán realizar el examen
+      .col-lg-8
+        .col-md-6
           .panel.panel-default
-            Usuarios y grupos
+            Usuarios
             - @usuarios.each do |usr|
               .checkbox
                 %label
                   %input{:type => "checkbox", :value => usr[:idUsuario]}
                     = usr[:username]
+        .col-md-6
+          .panel.panel-default
+            Grupos
+            - @grupos.each do |grp|
+              .checkbox
+                %label
+                  %input{:type => "checkbox", :value => grp[:idGrupo]}
+                    = grp[:nombre]
+                  %span.badge 14
 
       / .container{:style => "margin-top:20px;"}
       /   .row

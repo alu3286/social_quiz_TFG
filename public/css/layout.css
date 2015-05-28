@@ -63,3 +63,19 @@ nav.navbar.navbar-default {
 .opciones {
   border-collapse: collapse;
 }
+
+.page-header.list-page {
+  margin-top: 0;
+  text-align: left;
+}
+
+.page-header.list-page h2 {
+  color: #428BCA;
+  margin-bottom: 0;
+}
+
+.modal-backdrop
+{
+  z-index: 0;
+}
+
