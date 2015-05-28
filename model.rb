@@ -99,34 +99,34 @@ DB.create_table! :usuarios do
   DateTime		  :fecha_creacion
 end
 
-user = DB[:usuarios] # Create a dataset
-if DB[:usuarios].count == 0
-  user.insert(:username => 'edu', :nombre => 'Eduardo', :apellidos => 'Acuña', :email => 'eaculed@gmail.com', 
-            :password => BCrypt::Password.create('edu'), :imagen => '', :fecha_creacion => Time.now)
-  user.insert(:username => 'juan', :nombre => 'Juan', :apellidos => 'Acuña', :email => 'juan@gmail.com', 
-            :password => BCrypt::Password.create('juan'), :imagen => '', :fecha_creacion => Time.now)
-  user.insert(:username => 'pepe', :nombre => 'Pepe', :apellidos => 'Acuña', :email => 'pepe@gmail.com', 
-            :password => BCrypt::Password.create('pepe'), :imagen => '', :fecha_creacion => Time.now)
-  user.insert(:username => 'antonio', :nombre => 'Antonio', :apellidos => 'Acuña', :email => 'antonio@gmail.com', 
-            :password => BCrypt::Password.create('antonio'), :imagen => '', :fecha_creacion => Time.now)
-end
+# user = DB[:usuarios] # Create a dataset
+# if DB[:usuarios].count == 0
+#   user.insert(:username => 'edu', :nombre => 'Eduardo', :apellidos => 'Acuña', :email => 'eaculed@gmail.com', 
+#             :password => BCrypt::Password.create('edu'), :imagen => '', :fecha_creacion => Time.now)
+#   user.insert(:username => 'juan', :nombre => 'Juan', :apellidos => 'Acuña', :email => 'juan@gmail.com', 
+#             :password => BCrypt::Password.create('juan'), :imagen => '', :fecha_creacion => Time.now)
+#   user.insert(:username => 'pepe', :nombre => 'Pepe', :apellidos => 'Acuña', :email => 'pepe@gmail.com', 
+#             :password => BCrypt::Password.create('pepe'), :imagen => '', :fecha_creacion => Time.now)
+#   user.insert(:username => 'antonio', :nombre => 'Antonio', :apellidos => 'Acuña', :email => 'antonio@gmail.com', 
+#             :password => BCrypt::Password.create('antonio'), :imagen => '', :fecha_creacion => Time.now)
+# end
 
-grupo = DB[:grupos]
-if DB[:grupos].count == 0
-  grupo.insert(:nombre => 'Calculo', :descripcion => 'Asignatura de Cálculo', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
-  grupo.insert(:nombre => 'Programacion', :descripcion => 'Asignatura de Programación', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
-  grupo.insert(:nombre => 'Computabilidad', :descripcion => 'Asignatura de Computabilidad', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
-  grupo.insert(:nombre => 'Tecnologías', :descripcion => 'Asignatura de Tecnologías', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
-end
+# grupo = DB[:grupos]
+# if DB[:grupos].count == 0
+#   grupo.insert(:nombre => 'Calculo', :descripcion => 'Asignatura de Cálculo', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+#   grupo.insert(:nombre => 'Programacion', :descripcion => 'Asignatura de Programación', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+#   grupo.insert(:nombre => 'Computabilidad', :descripcion => 'Asignatura de Computabilidad', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+#   grupo.insert(:nombre => 'Tecnologías', :descripcion => 'Asignatura de Tecnologías', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+# end
 
-usuario_grupo = DB[:usuario_grupo]
-if DB[:usuario_grupo].count == 0
-  usuario_grupo.insert(:idGrupo => 1, :idUsuario => 2)
-  usuario_grupo.insert(:idGrupo => 1, :idUsuario => 3)
-  usuario_grupo.insert(:idGrupo => 2, :idUsuario => 4)
-  usuario_grupo.insert(:idGrupo => 3, :idUsuario => 2)
-  usuario_grupo.insert(:idGrupo => 4, :idUsuario => 4)
-end
+# usuario_grupo = DB[:usuario_grupo]
+# if DB[:usuario_grupo].count == 0
+#   usuario_grupo.insert(:idGrupo => 1, :idUsuario => 2)
+#   usuario_grupo.insert(:idGrupo => 1, :idUsuario => 3)
+#   usuario_grupo.insert(:idGrupo => 2, :idUsuario => 4)
+#   usuario_grupo.insert(:idGrupo => 3, :idUsuario => 2)
+#   usuario_grupo.insert(:idGrupo => 4, :idUsuario => 4)
+# end
 
 # pregunta = DB[:preguntas]
 
