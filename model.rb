@@ -2,65 +2,53 @@ require 'sequel'
 require 'bcrypt'
 #Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
-#DB = Sequel.sqlite # memory database
+DB = Sequel.sqlite # memory database
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
-DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
+#DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
 
-if !DB.table_exists?(:usuarios)
-  DB.create_table :usuarios do
-    primary_key 	:idUsuario
-    String 		    :nombre
-    String 		    :apellidos
-    String        :username
-    String 		    :email
-    Text 			    :imagen
-    #BCryptHash 	:password
-    String        :password
-    DateTime		  :fecha_creacion
-  end
+DB.create_table! :usuarios do
+  primary_key 	:idUsuario
+  String 		    :nombre
+  String 		    :apellidos
+  String        :username
+  String 		    :email
+  Text 			    :imagen
+  #BCryptHash 	:password
+  String        :password
+  DateTime		  :fecha_creacion
 end
 
-if !DB.table_exists?(:grupos)
-  DB.create_table :grupos do
-    primary_key   :idGrupo
-    String        :nombre
-    String        :descripcion
-    DateTime      :fecha_creacion
-    foreign_key   :idUsuario, :usuarios
-  end
+DB.create_table! :grupos do
+  primary_key   :idGrupo
+  String        :nombre
+  String        :descripcion
+  DateTime      :fecha_creacion
+  foreign_key   :idUsuario, :usuarios
 end
 
-if !DB.table_exists?(:usuario_grupo)
-  DB.create_table :usuario_grupo do
-    primary_key   :idGrupo
-    primary_key   :idUsuario
-    foreign_key   :idGrupo, :grupos
-    foreign_key   :idUsuario, :usuarios
-  end
+DB.create_table! :usuario_grupo do
+  primary_key   [:idGrupo, :idUsuario]
+  foreign_key   :idGrupo, :grupos
+  foreign_key   :idUsuario, :usuarios
 end
 
-if !DB.table_exists?(:preguntas)
-DB.create_table :preguntas do
+DB.create_table! :preguntas do
   primary_key   :idPregunta
   String        :titulo
   DateTime      :fecha_creacion
   String        :tags
   foreign_key   :idUsuario, :usuarios
 end
-end
 
-if !DB.table_exists?(:respuestas)
-DB.create_table :respuestas do
+DB.create_table! :respuestas do
   primary_key   :idRespuesta
   String        :texto
   Boolean       :correcto
   String        :tipo
   foreign_key   :idPregunta, :preguntas
 end
-end
 
-if !DB.table_exists?(:examenes)
-DB.create_table :examenes do
+DB.create_table! :examenes do
   primary_key   :idExamen
   String        :titulo
   DateTime      :fecha_creacion
@@ -68,10 +56,8 @@ DB.create_table :examenes do
   DateTime      :fecha_cierre
   foreign_key   :idUsuario, :usuarios
 end
-end
 
-if !DB.table_exists?(:examen_pregunta)
-DB.create_table :examen_pregunta do
+DB.create_table! :examen_pregunta do
   primary_key   :idExamen
   primary_key   :idPregunta
   Float         :peso
@@ -79,10 +65,8 @@ DB.create_table :examen_pregunta do
   foreign_key   :idExamen, :examenes
   foreign_key   :idPregunta, :preguntas
 end
-end
 
-if !DB.table_exists?(:usuario_examen)
-DB.create_table :usuario_examen do
+DB.create_table! :usuario_examen do
   primary_key   :idUsuario
   primary_key   :idExamen
   primary_key   :intento
@@ -95,10 +79,8 @@ DB.create_table :usuario_examen do
   foreign_key   :idUsuario, :usuarios
   foreign_key   :idExamen, :examenes
 end
-end
 
-if !DB.table_exists?(:usuario_examen_respuesta)
-DB.create_table :usuario_examen_respuesta do
+DB.create_table! :usuario_examen_respuesta do
   primary_key   :idUsuario
   primary_key   :idExamen
   primary_key   :idRespuesta
@@ -116,10 +98,8 @@ DB.create_table :usuario_examen_respuesta do
   foreign_key   :idRespuesta, :respuestas
   foreign_key   :idPregunta, :respuestas
 end
-end
 
 user = DB[:usuarios] # Create a dataset
-
 if DB[:usuarios].count == 0
   user.insert(:username => 'edu', :nombre => 'Eduardo', :apellidos => 'Acuña', :email => 'eaculed@gmail.com', 
             :password => BCrypt::Password.create('edu'), :imagen => '', :fecha_creacion => Time.now)
@@ -130,6 +110,31 @@ if DB[:usuarios].count == 0
   user.insert(:username => 'antonio', :nombre => 'Antonio', :apellidos => 'Acuña', :email => 'antonio@gmail.com', 
             :password => BCrypt::Password.create('antonio'), :imagen => '', :fecha_creacion => Time.now)
 end
+
+grupo = DB[:grupos]
+if DB[:grupos].count == 0
+  grupo.insert(:nombre => 'Calculo', :descripcion => 'Asignatura de Cálculo', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+  grupo.insert(:nombre => 'Programacion', :descripcion => 'Asignatura de Programación', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+  grupo.insert(:nombre => 'Computabilidad', :descripcion => 'Asignatura de Computabilidad', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+  grupo.insert(:nombre => 'Tecnologías', :descripcion => 'Asignatura de Tecnologías', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+end
+
+usuario_grupo = DB[:usuario_grupo]
+if DB[:usuario_grupo].count == 0
+  usuario_grupo.insert(:idGrupo => 1, :idUsuario => 2)
+  usuario_grupo.insert(:idGrupo => 1, :idUsuario => 3)
+  usuario_grupo.insert(:idGrupo => 2, :idUsuario => 4)
+  usuario_grupo.insert(:idGrupo => 3, :idUsuario => 2)
+  usuario_grupo.insert(:idGrupo => 4, :idUsuario => 4)
+end
+
+# pregunta = DB[:preguntas]
+
+# if DB[:preguntas].count == 0
+#   pregunta.insert()
+#   pregunta.insert()
+#   pregunta.insert()
+# end
 
 # Print out the number of records
 #puts "Usuarios: #{user.count}"
