@@ -20,13 +20,13 @@ DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
 #   foreign_key   :idUsuario, :usuarios
 # end
 
-# DB.create_table! :respuestas do
-#   primary_key   :idRespuesta
-#   String        :texto
-#   Boolean       :correcto
-#   String        :tipo
-#   foreign_key   :idPregunta, :preguntas
-# end
+DB.create_table! :respuestas do
+  primary_key   :idRespuesta
+  String        :texto
+  Boolean       :correcto
+  String        :tipo
+  foreign_key   :idPregunta, :preguntas
+end
 
 # DB.create_table! :examen_pregunta do
 #   primary_key   :idExamen
