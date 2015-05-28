@@ -6,19 +6,17 @@ require 'bcrypt'
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
 
-
+DB.create_table! :usuario_grupo do
+  primary_key   [:idGrupo, :idUsuario]
+  foreign_key   :idGrupo, :grupos
+  foreign_key   :idUsuario, :usuarios
+end
 
 DB.create_table! :grupos do
   primary_key   :idGrupo
   String        :nombre
   String        :descripcion
   DateTime      :fecha_creacion
-  foreign_key   :idUsuario, :usuarios
-end
-
-DB.create_table! :usuario_grupo do
-  primary_key   [:idGrupo, :idUsuario]
-  foreign_key   :idGrupo, :grupos
   foreign_key   :idUsuario, :usuarios
 end
 
