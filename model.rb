@@ -6,16 +6,10 @@ require 'bcrypt'
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
 
-DB.create_table! :usuarios do
-  primary_key 	:idUsuario
-  String 		    :nombre
-  String 		    :apellidos
-  String        :username
-  String 		    :email
-  Text 			    :imagen
-  #BCryptHash 	:password
-  String        :password
-  DateTime		  :fecha_creacion
+DB.create_table! :usuario_grupo do
+  primary_key   [:idGrupo, :idUsuario]
+  foreign_key   :idGrupo, :grupos
+  foreign_key   :idUsuario, :usuarios
 end
 
 DB.create_table! :grupos do
@@ -26,35 +20,12 @@ DB.create_table! :grupos do
   foreign_key   :idUsuario, :usuarios
 end
 
-DB.create_table! :usuario_grupo do
-  primary_key   [:idGrupo, :idUsuario]
-  foreign_key   :idGrupo, :grupos
-  foreign_key   :idUsuario, :usuarios
-end
-
-DB.create_table! :preguntas do
-  primary_key   :idPregunta
-  String        :titulo
-  DateTime      :fecha_creacion
-  String        :tags
-  foreign_key   :idUsuario, :usuarios
-end
-
 DB.create_table! :respuestas do
   primary_key   :idRespuesta
   String        :texto
   Boolean       :correcto
   String        :tipo
   foreign_key   :idPregunta, :preguntas
-end
-
-DB.create_table! :examenes do
-  primary_key   :idExamen
-  String        :titulo
-  DateTime      :fecha_creacion
-  DateTime      :fecha_apertura
-  DateTime      :fecha_cierre
-  foreign_key   :idUsuario, :usuarios
 end
 
 DB.create_table! :examen_pregunta do
@@ -97,6 +68,35 @@ DB.create_table! :usuario_examen_respuesta do
 
   foreign_key   :idRespuesta, :respuestas
   foreign_key   :idPregunta, :respuestas
+end
+
+DB.create_table! :preguntas do
+  primary_key   :idPregunta
+  String        :titulo
+  DateTime      :fecha_creacion
+  String        :tags
+  foreign_key   :idUsuario, :usuarios
+end
+
+DB.create_table! :examenes do
+  primary_key   :idExamen
+  String        :titulo
+  DateTime      :fecha_creacion
+  DateTime      :fecha_apertura
+  DateTime      :fecha_cierre
+  foreign_key   :idUsuario, :usuarios
+end
+
+DB.create_table! :usuarios do
+  primary_key 	:idUsuario
+  String 		    :nombre
+  String 		    :apellidos
+  String        :username
+  String 		    :email
+  Text 			    :imagen
+  #BCryptHash 	:password
+  String        :password
+  DateTime		  :fecha_creacion
 end
 
 user = DB[:usuarios] # Create a dataset
