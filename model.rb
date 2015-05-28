@@ -94,7 +94,6 @@ DB.create_table! :usuarios do
   String        :username
   String 		    :email
   Text 			    :imagen
-  #BCryptHash 	:password
   String        :password
   DateTime		  :fecha_creacion
 end
