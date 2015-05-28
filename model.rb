@@ -2,9 +2,9 @@ require 'sequel'
 require 'bcrypt'
 #Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
-DB = Sequel.sqlite # memory database
+#DB = Sequel.sqlite # memory database
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
-#DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
+DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
 
 DB.create_table! :usuarios do
   primary_key 	:idUsuario
