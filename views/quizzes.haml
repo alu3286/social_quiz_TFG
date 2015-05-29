@@ -4,7 +4,9 @@
   / Nav tabs
   %ul.nav.nav-tabs{:role => "tablist"}
     %li.active
-      %a{"data-toggle" => "tab", :href => "#daftar", :role => "tab"} Mis preguntas
+      %a{"data-toggle" => "tab", :href => "#daftar", :role => "tab"}
+        Mis preguntas
+        %span.badge=@preguntas.count
     %li
       %a{"data-toggle" => "tab", :href => "#tambah", :role => "tab"} Otras preguntas
   / Tab panes
@@ -25,8 +27,7 @@
               %th Pregunta
               %th Creado
               %th Usuario
-              %th Ver/Editar
-              %th Eliminar
+              %th Opciones
           %tbody
             - @preguntas.each do |pregunta|
               %tr
@@ -38,21 +39,20 @@
                   /%td= pregunta[:username]
                   %td= session[:username]
                   %td.opciones
-                    %a{:href => "/pregunta/#{pregunta[:idPregunta]}"}
-                      %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Ver"}
+                    .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
+                      
+                      %a.btn.btn-success{:href => "/pregunta/#{pregunta[:idPregunta]}", :id => "ver"}
                         %span.glyphicon.glyphicon-search
-                  %td.opciones
-                    %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Eliminar"}
-                      %button.btn.btn-danger.btn-xs{"data-target" => "#delete", "data-title" => "Delete", "data-toggle" => "modal"}
+            
+                      %a.btn.btn-info.btn{:href => ""}
+                        %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "editar"}
+                          %span.glyphicon.glyphicon-pencil
+           
+                      %a.btn.btn-danger{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta], "data-target" => "#myModal", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta]}
                         %span.glyphicon.glyphicon-trash
-                    /%a{:href => "", :id => "editar"}
-                    /  %span.glyphicon.glyphicon-edit
-                    /  Editar
+
+                  
                     %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
-                    /%a{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta]}
-                    /  %button.btn.btn-primary{:type => "submit"}
-                    /    %span.glyphicon.glyphicon-trash
-                    /    Eliminar
 
       %ul.pagination
         %li.disabled
