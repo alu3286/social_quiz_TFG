@@ -8,7 +8,18 @@ require 'bcrypt'
 configure do
   #DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
   #DB = Sequel.connect(:adapter => 'mysql', :database => 'sqlite://database.db')
-  DB = Sequel.sqlite('sqlite://database.db')
+  DB = Sequel.sqlite('database.db')
+
+  DB.create_table! :usuarios do
+    primary_key   :idUsuario
+    String        :nombre
+    String        :apellidos
+    String        :username
+    String        :email
+    Text          :imagen
+    String        :password
+    DateTime      :fecha_creacion
+  end
 end
 
 # DB.create_table! :usuario_grupo do
