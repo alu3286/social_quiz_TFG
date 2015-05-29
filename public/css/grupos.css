@@ -1,17 +1,19 @@
 #lista-usuarios {
 	border-style: solid;
 	border-width: 1px;
-	height: 100px;
+	height: 200px;
 	border-radius: 5px;
 	margin-bottom: 0.5em;
+	overflow-y : scroll;
 }
 
 #lista-grupos {
 	border-style: solid;
 	border-width: 1px;
-	height: 100px;
+	height: 200px;
 	border-radius: 5px;
 	margin-bottom: 0.5em;
+	overflow-y : scroll;
 }
 
 #lista-gr {
