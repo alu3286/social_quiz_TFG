@@ -6,7 +6,8 @@ require 'bcrypt'
 #DB = Sequel.sqlite # memory database
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
 configure do
-  DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
+  #DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
+  DB = Sequel.connect(:adapter => 'mysql', :database => 'sqlite://database.db')
 end
 
 # DB.create_table! :usuario_grupo do
