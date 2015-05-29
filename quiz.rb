@@ -1,7 +1,8 @@
 require 'sinatra' 
 require 'sinatra/reloader' if development?
 #require 'data_mapper'
-require 'sequel'
+#require 'sequel'
+require 'sinatra/sequel'
 require 'uri'
 require 'pp'
 require 'rubygems'

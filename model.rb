@@ -1,4 +1,4 @@
-require 'sequel'
+#require 'sequel'
 require 'sinatra/sequel'
 require 'bcrypt'
 
