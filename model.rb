@@ -1,7 +1,6 @@
 require 'sequel'
 require 'sinatra/sequel'
 require 'bcrypt'
-require 'sqlite3'
 
 #Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
@@ -12,7 +11,8 @@ configure do
   #DB = Sequel.connect(:adapter => 'mysql', :database => 'sqlite://database.db')
   #DB = Sequel.connect("sqlite://#{Dir.pwd}/database.db")
   #DB = Sequel.connect(ENV['LOCAL_DATABASE_URL'] || 'sqlite://database.db')
-  DB = Sequel.sqlite('database.sqlite')
+  #DB = Sequel.sqlite('database.sqlite')
+  DB = Sequel.connect('sqlite://quiz.db')
 
   DB.create_table! :usuarios do
     primary_key   :idUsuario
@@ -24,7 +24,7 @@ configure do
     String        :password
     DateTime      :fecha_creacion
   end
-end
+
 
 # DB.create_table! :usuario_grupo do
 #   primary_key   [:idGrupo, :idUsuario]
@@ -118,17 +118,17 @@ end
 #   DateTime		  :fecha_creacion
 # end
 
-# user = DB[:usuarios] # Create a dataset
-# if DB[:usuarios].count == 0
-#   user.insert(:username => 'edu', :nombre => 'Eduardo', :apellidos => 'Acuña', :email => 'eaculed@gmail.com', 
-#             :password => BCrypt::Password.create('edu'), :imagen => '', :fecha_creacion => Time.now)
-#   user.insert(:username => 'juan', :nombre => 'Juan', :apellidos => 'Acuña', :email => 'juan@gmail.com', 
-#             :password => BCrypt::Password.create('juan'), :imagen => '', :fecha_creacion => Time.now)
-#   user.insert(:username => 'pepe', :nombre => 'Pepe', :apellidos => 'Acuña', :email => 'pepe@gmail.com', 
-#             :password => BCrypt::Password.create('pepe'), :imagen => '', :fecha_creacion => Time.now)
-#   user.insert(:username => 'antonio', :nombre => 'Antonio', :apellidos => 'Acuña', :email => 'antonio@gmail.com', 
-#             :password => BCrypt::Password.create('antonio'), :imagen => '', :fecha_creacion => Time.now)
-# end
+user = DB[:usuarios] # Create a dataset
+if DB[:usuarios].count == 0
+  user.insert(:username => 'edu', :nombre => 'Eduardo', :apellidos => 'Acuña', :email => 'eaculed@gmail.com', 
+            :password => BCrypt::Password.create('edu'), :imagen => 'http://i.imgur.com/lEZ3n1E.jpg', :fecha_creacion => Time.now)
+  user.insert(:username => 'juan', :nombre => 'Juan', :apellidos => 'Acuña', :email => 'juan@gmail.com', 
+            :password => BCrypt::Password.create('juan'), :imagen => 'http://i.imgur.com/lEZ3n1E.jpg', :fecha_creacion => Time.now)
+  user.insert(:username => 'pepe', :nombre => 'Pepe', :apellidos => 'Acuña', :email => 'pepe@gmail.com', 
+            :password => BCrypt::Password.create('pepe'), :imagen => 'http://i.imgur.com/lEZ3n1E.jpg', :fecha_creacion => Time.now)
+  user.insert(:username => 'antonio', :nombre => 'Antonio', :apellidos => 'Acuña', :email => 'antonio@gmail.com', 
+            :password => BCrypt::Password.create('antonio'), :imagen => 'http://i.imgur.com/lEZ3n1E.jpg', :fecha_creacion => Time.now)
+end
 
 # grupo = DB[:grupos]
 # if DB[:grupos].count == 0
@@ -160,4 +160,6 @@ end
 
 # Print out the average price
 #puts "The average price is: #{items.avg(:price)}"
+
+end
 
