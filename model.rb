@@ -1,10 +1,13 @@
 require 'sequel'
+require 'sinatra/sequel'
 require 'bcrypt'
 #Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
 #DB = Sequel.sqlite # memory database
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
-DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
+configure do
+  DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
+end
 
 # DB.create_table! :usuario_grupo do
 #   primary_key   [:idGrupo, :idUsuario]
@@ -87,16 +90,16 @@ DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
 #   foreign_key   :idUsuario, :usuarios
 # end
 
-DB.create_table! :usuarios do
-  primary_key 	:idUsuario
-  String 		    :nombre
-  String 		    :apellidos
-  String        :username
-  String 		    :email
-  Text 			    :imagen
-  String        :password
-  DateTime		  :fecha_creacion
-end
+# DB.create_table! :usuarios do
+#   primary_key 	:idUsuario
+#   String 		    :nombre
+#   String 		    :apellidos
+#   String        :username
+#   String 		    :email
+#   Text 			    :imagen
+#   String        :password
+#   DateTime		  :fecha_creacion
+# end
 
 # user = DB[:usuarios] # Create a dataset
 # if DB[:usuarios].count == 0

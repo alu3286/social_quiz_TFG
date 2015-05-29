@@ -38,11 +38,6 @@ DataMapper.auto_upgrade!
 =end
 
 require_relative 'model'
-#DB = Sequel.connect('sqlite://DB.db')
-#DB = Sequel.sqlite('my_quiz.db')
-#puts "Numero de usuarios: "
-#puts DB[:usuarios].count
-#DB = Sequel.sqlite('DB.db')
 
 
 enable :sessions
