@@ -388,6 +388,28 @@ post '/eliminaExamen' do
   redirect '/examenes'
 end
 
+post '/eliminaPregunta' do
+  begin
+    puts "Estamos en la eliminacion de preguntas"
+    puts params
+    #mi_ids = params[:ids].split(',')
+    #puts mi_ids
+
+    @exapre_detele = DB[:examen_pregunta].filter(:idPregunta => params[:ids]).delete
+    @resp_delete = DB[:respuestas].filter(:idPregunta => params[:ids]).delete
+    @pregunta_detele = DB[:preguntas].filter(:idPregunta => params[:ids]).delete
+
+    
+  
+    flash[:mensaje] = "Pregunta eliminada correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido eliminar la pregunta. Inténtelo de nuevo más tarde."
+  end
+  redirect '/preguntas'
+end
+
 get '/grupos' do
   @actual = "grupos"
   if (session[:username])

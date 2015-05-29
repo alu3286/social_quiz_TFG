@@ -1,3 +1,43 @@
+:javascript
+  $(document).ready(function(){
+    
+    $('#myModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      //modal.find('.modal-title').text('New message to ' + recipient)
+      modal.find('.modal-body p').text('¿Quiere realmente eliminar la pregunta ' + recipient + '?')
+
+      modal.find(botonEliminar).data('id', recipient);
+      //alert(modal.find(botonEliminar).data( 'id' ) );
+
+    })
+
+    $('#botonEliminar').on('click', function(event) {
+      //alert($(this).data('id'));
+      datos = $(this).data('id');
+
+      // Llamar a AJAX para que lance un POST y borre el registro
+      $.ajax({
+        url: "/eliminaPregunta",
+        method: "post",
+        data: { ids: datos}
+        //data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
+      }).done(function() {
+        $('#myModal').modal('hide');
+        //redirigir a donde quiera
+        //$("#formulario2-grupos").submit();
+        window.location.href = "/preguntas";
+      })
+
+    });
+
+
+  });
+
+
 .container
   .page-header.list-page
     %h2 Preguntas
@@ -41,15 +81,32 @@
                   %td.opciones
                     .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
                       
-                      %a.btn.btn-success{:href => "/pregunta/#{pregunta[:idPregunta]}", :id => "ver"}
+                      %a.btn.btn-success{:href => "", :id => "ver"}
                         %span.glyphicon.glyphicon-search
             
-                      %a.btn.btn-info.btn{:href => ""}
+                      %a.btn.btn-info.btn{:href => "/pregunta/#{pregunta[:idPregunta]}"}
                         %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "editar"}
                           %span.glyphicon.glyphicon-pencil
            
                       %a.btn.btn-danger{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta], "data-target" => "#myModal", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta]}
                         %span.glyphicon.glyphicon-trash
+
+                      / Modal
+                      #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                        .modal-dialog
+                          .modal-content
+                            .modal-header
+                              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                %span{"aria-hidden" => "true"} &times;
+                              %h4#myModalLabel.modal-title Eliminar pregunta
+                            .modal-body
+                              %p
+                                / ¿Quiere realmente eliminar el examen
+                                / %strong=examen[:titulo]
+                                / ?
+                            .modal-footer
+                              %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+                              %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
 
                   
                     %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
