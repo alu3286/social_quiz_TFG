@@ -1,6 +1,8 @@
 require 'sequel'
 require 'sinatra/sequel'
 require 'bcrypt'
+require 'sqlite3'
+
 #Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
 #DB = Sequel.sqlite # memory database
