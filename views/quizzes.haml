@@ -1,6 +1,7 @@
 :javascript
   $(document).ready(function(){
     
+    /* Modal de eliminación de preguntas */
     $('#myModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
       var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -33,6 +34,52 @@
       })
 
     });
+
+    /* Modal de visualización de preguntas */
+    $('#myModalView').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var recipient = button.data('whatever'); // Extract info from data-* attributes
+      var titulo = button.data('titulo');
+      var fecha = button.data('fecha');
+
+      var modal = $(this);
+
+      var holita = $(this).find(".modal-title");
+
+      $(this).find(".modal-title").text(titulo);
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub, 'tituloPreguntaModal']);
+      //%h4#myModalLabel.modal-title
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+
+      $.ajax({
+        url: "/dameRespuesta",
+        method: "post",
+        data: { ids: recipient}
+        //data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
+      }).done(function(datosdevueltos) {
+        
+        //modal.find('.modal-body p.tituloPregunta').text(titulo);
+
+        var resp = $.parseJSON(datosdevueltos);
+        var respuesta = '';
+        switch(resp['tipo']) {
+          case 'vf':
+              respuesta = resp['correcto']? 'Verdadero' : 'Falso';
+              break;
+          case 'corta':
+              respuesta = resp['texto'];
+              break;
+          default:            
+        }
+        
+        modal.find('.modal-body p.respuestaPregunta').text('Respuesta: ' + respuesta);
+        modal.find('.modal-body p.fechaPregunta').text('Creado en ' + fecha);
+      })
+
+
+    })
 
 
   });
@@ -81,7 +128,7 @@
                   %td.opciones
                     .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
                       
-                      %a.btn.btn-success{:href => "", :id => "ver"}
+                      %a.btn.btn-success{:href => "", :id => "botonVisualizar", "data-target" => "#myModalView", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta], "data-titulo" => pregunta[:titulo], "data-fecha" => pregunta[:fecha_creacion]}
                         %span.glyphicon.glyphicon-search
             
                       %a.btn.btn-info.btn{:href => "/pregunta/#{pregunta[:idPregunta]}"}
@@ -107,6 +154,26 @@
                             .modal-footer
                               %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
                               %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+                      / Modal
+                      #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                        .modal-dialog
+                          .modal-content
+                            .modal-header
+                              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                %span{"aria-hidden" => "true"} &times;
+                              /%h4#myModalLabel.modal-title Visualizar pregunta
+                              /%h4#myModalLabel.modal-title= pregunta[:titulo]
+                              %h4#myModalLabel.modal-title{:id => 'tituloPreguntaModal'}
+                            .modal-body
+                              /%p{:class => "tituloPregunta"}
+                              %p{:class => "respuestaPregunta"}
+                              %p{:class => "fechaPregunta"}
+                                / ¿Quiere realmente eliminar el examen
+                                / %strong=examen[:titulo]
+                                / ?
+                            .modal-footer
+                              %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+                              //%button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
 
                   
                     %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}

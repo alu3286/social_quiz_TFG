@@ -12,7 +12,7 @@ configure do
   #DB = Sequel.connect("sqlite://#{Dir.pwd}/database.db")
   #DB = Sequel.connect(ENV['LOCAL_DATABASE_URL'] || 'sqlite://database.db')
   #DB = Sequel.sqlite('database.sqlite')
-  DB = Sequel.connect('sqlite://quiz.sqlite')
+  DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://quiz.sqlite')
 
   DB.create_table? :usuarios do
     primary_key   :idUsuario

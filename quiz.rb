@@ -134,7 +134,8 @@ get '/preguntas' do
   @actual =  "preguntas"
   if (session[:username])
     @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
-    #@preguntas = DB[:preguntas].join_table(:inner, DB[:usuarios], :idUsuario => session[:id])
+    
+
 
     haml :quizzes
   else
@@ -409,6 +410,26 @@ post '/eliminaPregunta' do
   end
   redirect '/preguntas'
 end
+
+post '/dameRespuesta' do
+  #puts "Estamos en dameRespuesta"
+  #puts params
+
+    @respuesta = DB["SELECT * FROM respuestas 
+                    where idPregunta = #{params[:ids]}"]
+    
+    #my_hash = {:hello => "goodbye"}
+    #puts JSON.generate(my_hash) => "{\"hello\":\"goodbye\"}"
+    #grades["Dorothy Doe"] = 9
+    @resp = Hash.new
+    @resp['tipo'] = @respuesta[:idRespuesta][:tipo]
+    @resp['texto'] = @respuesta[:idRespuesta][:texto]
+    @resp['correcto'] = @respuesta[:idRespuesta][:correcto]
+    @resp = JSON.generate(@resp)
+    @resp
+end
+
+
 
 get '/grupos' do
   @actual = "grupos"
