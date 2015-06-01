@@ -40,6 +40,8 @@ DataMapper.auto_upgrade!
 
 require_relative 'model'
 
+set :environment, :production
+
 
 enable :sessions
 set :session_secret, '*&(^#234a)'
