@@ -2,7 +2,7 @@ task :default => :spec
 
 desc "Run the SocialQuiz server"
 task :server do
-  sh "bundle exec ruby quiz.rb"
+  sh "bundle exec ruby quiz.rb -e production"
 end
 
 desc "Run spec examples"
