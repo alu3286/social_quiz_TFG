@@ -122,7 +122,7 @@
                 %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
                   %td= pregunta[:idPregunta]
                   %td= pregunta[:titulo]
-                  %td= pregunta[:fecha_creacion].strftime("%c")
+                  %td= pregunta[:fecha_creacion].strftime("%A, %d de %B de %Y, %H:%M")
                   /%td= pregunta[:username]
                   %td= session[:username]
                   %td.opciones
