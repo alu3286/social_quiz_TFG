@@ -8,3 +8,12 @@
 .cuadro-respuesta {
 	background-color: #EEEEEE;
 }
+
+.preguntaModal {
+
+}
+
+.respuestaModal {
+	background-color: #EEEEEE;
+	font-weight: bold;
+}

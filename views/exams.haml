@@ -34,6 +34,56 @@
 
     });
 
+    $('#myModalView').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('id') // Extract info from data-* attributes
+      var titulo = button.data('titulo');
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+
+      //modal.find('.modal-body p').text('Visualización del examen ' + recipient + '?')
+      modal.find(".modal-title").text(titulo);
+      modal.find(".modal-body *").empty();
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub, 'cuerpoExamenModal']);
+
+
+      $.ajax({
+        url: "/damePreguntasExamen",
+        method: "post",
+        data: { ids: recipient }
+        //data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
+      }).done(function(datosdevueltos) {
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub, 'preguntaModal']);
+
+        var json = jQuery.parseJSON(datosdevueltos)
+        //console.log(json);
+        var preguntas = '';
+        var contador = 1;
+        $.each(json, function(arrayID,group) {
+          //console.log(group.idRespuesta);
+          preguntas = preguntas + '<p class="preguntaModal"> ' + contador + '. ' + group.titulo + '</p>';
+          switch(group.tipo) {
+            case 'corta':
+                preguntas = preguntas + '<p class="respuestaModal">' + group.texto + '</p>';
+                break;
+            case 'vf':
+                preguntas = preguntas + '<p class="respuestaModal">' + (group.correcto ? "Verdadero" : "Falso") + '</p>';
+                break;
+            default:
+                
+          }
+          preguntas = preguntas + '<hr>';
+          contador++;
+          
+        });
+        //modal.find(".contenidoExamen").text(preguntas);
+        modal.find(".contenidoExamen").append(preguntas);
+
+      })
+
+    })
+
 
   });
 
@@ -77,18 +127,18 @@
                 %form.form-horizontal{:action => "/examenes", :method => "POST", :name => "form-delete-exam", :role => "form"}
                   %td= examen[:idExamen]
                   %td= examen[:titulo]
-                  %td= examen[:fecha_creacion].strftime("%c")
-                  %td= examen[:fecha_apertura].strftime("%c")
-                  %td= examen[:fecha_cierre].strftime("%c")
+                  %td= examen[:fecha_creacion].strftime("%A, %d de %B de %Y, %H:%M")
+                  %td= examen[:fecha_apertura].strftime("%A, %d de %B de %Y, %H:%M")
+                  %td= examen[:fecha_cierre].strftime("%A, %d de %B de %Y, %H:%M")
                   %td= session[:username]
                   %td.opciones
                     .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
-                      %a.btn.btn-success{:href => "/examen/#{examen[:idExamen]}", :id => "ver"}
+                      
+                      %a.btn.btn-success{:href => "", :id => "ver#{examen[:idExamen]}", "data-target" => "#myModalView", "data-toggle" => "modal", "data-id" => examen[:idExamen], "data-titulo" => examen[:titulo]}
                         %span.glyphicon.glyphicon-search
             
-                      %a.btn.btn-info.btn{:href => ""}
-                        %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "editar"}
-                          %span.glyphicon.glyphicon-pencil
+                      %a.btn.btn-info.btn{:href => "/examen/#{examen[:idExamen]}", :id => "editar"}
+                        %span.glyphicon.glyphicon-pencil
            
                       %a.btn.btn-danger{:href => "", :id => "eliminar#{examen[:idExamen]}", :data => examen[:idExamen], "data-target" => "#myModal", "data-toggle" => "modal", "data-whatever" => examen[:idExamen]}
                         %span.glyphicon.glyphicon-trash
@@ -109,6 +159,29 @@
                             .modal-footer
                               %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
                               %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+
+                      / Modal
+                      #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                        .modal-dialog
+                          .modal-content
+                            .modal-header
+                              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                %span{"aria-hidden" => "true"} &times;
+                              /%h4#myModalLabel.modal-title Visualizar pregunta
+                              /%h4#myModalLabel.modal-title= examen[:titulo]
+                              %h4#myModalLabel.modal-title{:id => 'tituloExamenModal'}
+                              %label= examen[:fecha_apertura]
+                            .modal-body
+                              /%p{:class => "tituloPregunta"}
+                              .contenidoExamen{:id => 'cuerpoExamenModal'}
+                                /%p{:class => "preguntaModal"} Pregunta 1
+                                /%p{:class => "respuestaModal"} Respuesta 1
+                                /%p{:class => "fechaPregunta"}
+                                / ¿Quiere realmente eliminar el examen
+                                / %strong=examen[:titulo]
+                                / ?
+                            .modal-footer
+                              %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
 
 
 

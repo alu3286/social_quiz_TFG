@@ -431,6 +431,28 @@ post '/dameRespuesta' do
     @resp
 end
 
+# Devuelve las preguntas de un examen dado y sus respuestas.
+post '/damePreguntasExamen' do
+  #puts "Estamos en dameRespuesta"
+  #puts params
+  class Sequel::Dataset
+    def to_json
+      naked.all.to_json
+    end
+  end
+
+  @preguntasExamen = DB["SELECT e.idExamen, e.titulo, e.fecha_creacion, e.fecha_apertura, 
+                        e.fecha_cierre, p.idPregunta, p.titulo, p.fecha_creacion, p.tags, 
+                        r.idRespuesta, r.tipo, r.texto, r.correcto, r.idPregunta 
+                        FROM examenes e 
+                        INNER JOIN examen_pregunta ep ON e.idExamen = ep.idExamen 
+                        INNER JOIN preguntas p ON p.idPregunta = ep.idPregunta 
+                        INNER JOIN respuestas r ON p.idPregunta = r.idPregunta 
+                        WHERE e.idExamen = #{params[:ids]}"]
+
+  @preguntasExamen.to_json
+end
+
 
 
 get '/grupos' do

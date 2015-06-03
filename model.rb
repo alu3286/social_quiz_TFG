@@ -2,6 +2,10 @@
 require 'sinatra/sequel'
 require 'bcrypt'
 
+# include MD5 gem, should be part of standard ruby install
+require 'digest/md5'
+
+
 #Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
 #DB = Sequel.sqlite # memory database
@@ -110,10 +114,25 @@ end
 
 
 
+ 
+# get the email from URL-parameters or what have you and make lowercase
+#email_address = params[:email].downcase
+ 
+# create the md5 hash
+#hash = Digest::MD5.hexdigest(email_address)
+hash = Digest::MD5.hexdigest("eaculed@gmail.com")
+puts hash
+ 
+# compile URL which can be used in <img src="RIGHT_HERE"...
+image_src = "http://www.gravatar.com/avatar/#{hash}"
+puts image_src
+
+
+
 user = DB[:usuarios] # Create a dataset
 if DB[:usuarios].count == 0
   user.insert(:idUsuario => 1, :username => 'edu', :nombre => 'Eduardo', :apellidos => 'Acuña', :email => 'eaculed@gmail.com', 
-            :password => BCrypt::Password.create('edu'), :imagen => 'http://i.imgur.com/lEZ3n1E.jpg', :fecha_creacion => Time.now)
+            :password => BCrypt::Password.create('edu'), :imagen => image_src, :fecha_creacion => Time.now)
   user.insert(:idUsuario => 2, :username => 'juan', :nombre => 'Juan', :apellidos => 'Acuña', :email => 'juan@gmail.com', 
             :password => BCrypt::Password.create('juan'), :imagen => 'http://i.imgur.com/lEZ3n1E.jpg', :fecha_creacion => Time.now)
   user.insert(:idUsuario => 3, :username => 'pepe', :nombre => 'Pepe', :apellidos => 'Acuña', :email => 'pepe@gmail.com', 
