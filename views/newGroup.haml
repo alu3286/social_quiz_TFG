@@ -1,12 +1,16 @@
-%form.form-horizontal{:action => "/grupos/new", :method => "POST", :name => "form-new-group", :role => "form"}
-  .form-group
-    %label.col-lg-2.control-label{:for => "titulo"} Nombre*
-    .col-lg-8
-      %input.form-control{:placeholder => "Introduzca el nombre del grupo", :type => "text", :name => "nombre", :id => "nombre", :autofocus => "", :required => ""}
-  .form-group
-    %label.col-lg-2.control-label{:for => "titulo"} Descripción
-    .col-lg-8
-      %textarea.form-control{:id => "desc", :name => "desc", :rows => "5", :style => "margin-top:5px", :placeholder => ""}
+.container
+  .page-header.list-page
+    %h2 Grupo -> Nuevo
+
+  %form.form-horizontal{:action => "/grupos/new", :method => "POST", :name => "form-new-group", :role => "form"}
+    .form-group
+      %label.col-lg-2.control-label{:for => "titulo"} Nombre*
+      .col-lg-8
+        %input.form-control{:placeholder => "Introduzca el nombre del grupo", :type => "text", :name => "nombre", :id => "nombre", :autofocus => "", :required => ""}
+    .form-group
+      %label.col-lg-2.control-label{:for => "titulo"} Descripción
+      .col-lg-8
+        %textarea.form-control{:id => "desc", :name => "desc", :rows => "5", :style => "margin-top:5px", :placeholder => ""}
 
 
-  %button.btn.btn-primary{:type => "submit"} Guardar
+    %button.btn.btn-primary{:type => "submit"} Guardar

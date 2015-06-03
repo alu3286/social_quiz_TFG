@@ -20,7 +20,7 @@ $(document).ready(function(){
         
         var us = $.parseJSON(datosdevueltos);
 
-        var lista = '<ul id="lista-usr">';
+        var lista = '<ul id="lista-usr" class="list-group">';
         $.each( us, function( key, value ) {
           //alert( key + ": " + value );
           lista = lista + '<li id=' + key + '>' + value + '</li>';
@@ -83,13 +83,13 @@ $(document).ready(function(){
     $("#add-usuario").css('visibility', 'hidden');
     forEach.call(li, function(a){
     	if (a === e.target) {
-    		a.className = "active";
+    		a.className = "list-group-item active";
     		$("#add-user-link").css("visibility", 'visible');
         $("#add-usuario").css('visibility', 'visible');
 
     	}
     	else {
-    		a.className = "";
+    		a.className = "list-group-item";
     		
     	}
     });

@@ -5,10 +5,10 @@
     .col-md-6
       Grupos:
       #lista-grupos
-        %ul#lista-gr
+        %ul#lista-gr.list-group
           - @grupos.each do |grupo|
             %span.enlace-fake
-              %li#gr{:id => "#{grupo[:idGrupo]}"}
+              %li#gr{:id => "#{grupo[:idGrupo]}", :class => "list-group-item"}
                 =grupo[:nombre]
             
       .form-group

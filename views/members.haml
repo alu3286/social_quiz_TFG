@@ -49,10 +49,12 @@
 
 
 .container
+  .page-header.list-page
+    %h2
+      Grupo ->
+      =@grupo[:idGrupo][:nombre] 
+      
   .row
-    %h3.col-md-11.text-center
-      Grupo: 
-      =@grupo[:idGrupo][:nombre]
 
     .col-md-12.text-center
       %form#formulario2-grupos{:action => "/grupos/redireccion", :method => "post"}
