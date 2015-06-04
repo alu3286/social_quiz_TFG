@@ -54,9 +54,9 @@ get '/' do
   else
     # Obtenemos los usurios de la tabla usuarios
     @usuarios = DB[:usuarios]
-    @preguntas = DB["SELECT count(idUsuario) FROM preguntas WHERE idUsuario = #{session[:id]}"]
-    @examenes = DB["SELECT count(idUsuario) FROM examenes WHERE idUsuario = #{session[:id]}"]
-    @grupos = DB["SELECT count(idUsuario) FROM grupos WHERE idUsuario = #{session[:id]}"]
+    #@preguntas = DB["SELECT count(idUsuario) FROM preguntas WHERE idUsuario = #{session[:id]}"]
+    #@examenes = DB["SELECT count(idUsuario) FROM examenes WHERE idUsuario = #{session[:id]}"]
+    #@grupos = DB["SELECT count(idUsuario) FROM grupos WHERE idUsuario = #{session[:id]}"]
     #puts @preguntas[:idUsuario][:"count(idUsuario)"]
     
     haml :index

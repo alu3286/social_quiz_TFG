@@ -9,15 +9,18 @@
           %a.list-group-item{:href => "/preguntas"}
             %span.glyphicon.glyphicon-pencil
             Preguntas
-            %span.badge= @preguntas[:idUsuario][:"count(idUsuario)"]
+            %span.badge
+              /= @preguntas[:idUsuario][:"count(idUsuario)"]
           %a.list-group-item{:href => "/examenes"}
             %span.glyphicon.glyphicon-check
             Exámenes
-            %span.badge= @examenes[:idUsuario][:"count(idUsuario)"]
+            %span.badge
+              /= @examenes[:idUsuario][:"count(idUsuario)"]
           %a.list-group-item{:href => "/grupos"}
             %span.glyphicon.glyphicon-user
             Grupos
-            %span.badge= @grupos[:idUsuario][:"count(idUsuario)"]
+            %span.badge
+              /= @grupos[:idUsuario][:"count(idUsuario)"]
 
 
   / .row
