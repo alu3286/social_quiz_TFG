@@ -54,6 +54,12 @@ get '/' do
   else
     # Obtenemos los usurios de la tabla usuarios
     @usuarios = DB[:usuarios]
+    @preguntas = DB["SELECT idUsuario FROM preguntas WHERE idUsuario = #{session[:id]}"].count
+    @examenes = DB["SELECT idUsuario FROM examenes WHERE idUsuario = #{session[:id]}"].count
+    @grupos = DB["SELECT idUsuario FROM grupos WHERE idUsuario = #{session[:id]}"].count
+    #puts "Probando nueva consulta count"
+    #puts @preguntas
+
     #@preguntas = DB["SELECT count(idUsuario) FROM preguntas WHERE idUsuario = #{session[:id]}"]
     #@examenes = DB["SELECT count(idUsuario) FROM examenes WHERE idUsuario = #{session[:id]}"]
     #@grupos = DB["SELECT count(idUsuario) FROM grupos WHERE idUsuario = #{session[:id]}"]

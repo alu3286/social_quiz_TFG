@@ -10,17 +10,17 @@
             %span.glyphicon.glyphicon-pencil
             Preguntas
             %span.badge
-              /= @preguntas[:idUsuario][:"count(idUsuario)"]
+              = @preguntas
           %a.list-group-item{:href => "/examenes"}
             %span.glyphicon.glyphicon-check
             Exámenes
             %span.badge
-              /= @examenes[:idUsuario][:"count(idUsuario)"]
+              = @examenes
           %a.list-group-item{:href => "/grupos"}
             %span.glyphicon.glyphicon-user
             Grupos
             %span.badge
-              /= @grupos[:idUsuario][:"count(idUsuario)"]
+              = @grupos
 
 
   / .row
