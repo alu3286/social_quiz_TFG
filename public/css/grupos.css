@@ -1,28 +1,28 @@
+.lista-grupos {
+    -webkit-box-shadow: 0 15px 10px #777;
+    -moz-box-shadow: 0 15px 10px #777;
+    box-shadow: 0 15px 10px #777;
+
+    overflow-y : scroll;
+    margin-bottom: 1.5em;
+}
+
 #lista-usuarios {
-	border-style: solid;
-	border-width: 1px;
-	height: 200px;
-	border-radius: 5px;
-	margin-bottom: 0.5em;
-	overflow-y : scroll;
+    -webkit-box-shadow: 0 15px 10px #777;
+    -moz-box-shadow: 0 15px 10px #777;
+    box-shadow: 0 15px 10px #777;
+
+    /*border-style: solid;
+    border-width: 1px;*/
+  
+    /*border-radius: 5px;
+    margin-bottom: 0.5em;*/
+    overflow-y : scroll;
+    margin-bottom: 1.5em;
 }
 
-#lista-grupos {
-	border-style: solid;
-	border-width: 1px;
-	height: 200px;
-	border-radius: 5px;
-	margin-bottom: 0.5em;
-	overflow-y : scroll;
-}
 
-#lista-gr {
-	list-style: none;
-}
 
-#lista-usr {
-	list-style: none;
-}
 
 li.active {
 	font-weight: bold;

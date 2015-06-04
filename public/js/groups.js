@@ -23,7 +23,7 @@ $(document).ready(function(){
         var lista = '<ul id="lista-usr" class="list-group">';
         $.each( us, function( key, value ) {
           //alert( key + ": " + value );
-          lista = lista + '<li id=' + key + '>' + value + '</li>';
+          lista = lista + '<li id=' + key + ' class="list-group-item">' + value + '</li>';
         });
         lista = lista + '</ul>';
         $("#lista-usuarios").html(lista);
