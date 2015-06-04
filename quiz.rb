@@ -469,7 +469,7 @@ get '/grupos' do
   @actual = "grupos"
   if (session[:username])
 
-    @grupos = DB["SELECT * FROM grupos WHERE idUsuario = #{session[:id]}"]
+    @grupos = DB[:grupos].where(:idUsuario => session[:id])
     @usuarios_grupos = DB["SELECT * FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
                           inner join usuarios u on ug.idUsuario = u.idUsuario 
                           where g.idUsuario = #{session[:id]}"]
