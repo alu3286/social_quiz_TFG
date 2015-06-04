@@ -54,9 +54,9 @@ get '/' do
   else
     # Obtenemos los usurios de la tabla usuarios
     @usuarios = DB[:usuarios]
-    @preguntas = DB["SELECT idUsuario FROM preguntas WHERE idUsuario = #{session[:id]}"].count
-    @examenes = DB["SELECT idUsuario FROM examenes WHERE idUsuario = #{session[:id]}"].count
-    @grupos = DB["SELECT idUsuario FROM grupos WHERE idUsuario = #{session[:id]}"].count
+    @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).count
+    @examenes = DB[:examenes].where(:idUsuario => session[:id]).count
+    @grupos = DB[:grupos].where(:idUsuario => session[:id]).count
     #puts "Probando nueva consulta count"
     #puts @preguntas
 
