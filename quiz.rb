@@ -53,8 +53,12 @@ get '/' do
     haml :welcome, :layout => false 
   else
     # Obtenemos los usurios de la tabla usuarios
-     @usuarios = DB[:usuarios]
-    #@ultimas_rutas = Rutas.all(:limit => 4, :order => [ :created_at.desc ])
+    @usuarios = DB[:usuarios]
+    @preguntas = DB["SELECT count(idUsuario) FROM preguntas WHERE idUsuario = #{session[:id]}"]
+    @examenes = DB["SELECT count(idUsuario) FROM examenes WHERE idUsuario = #{session[:id]}"]
+    @grupos = DB["SELECT count(idUsuario) FROM grupos WHERE idUsuario = #{session[:id]}"]
+    #puts @preguntas[:idUsuario][:"count(idUsuario)"]
+    
     haml :index
   end
 end

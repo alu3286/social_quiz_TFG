@@ -1,26 +1,32 @@
-.panel.panel-success
-  .panel-heading
-    %h3.panel-title TODOS LOS USUARIOS
-  .panel-body
-    .row
-    /%p= @usuarios.all
-    /%p= @usuarios[:idUsuario => 1]
-    - @usuarios.each do |usuario|
-      .col-xs-3
-        %a.thumbnail{:href => ""}
-          %img.img-responsive{:src => "#{}"}
-          %p= usuario
-          %p Añadida el
-          
-.panel.panel-success
-  .panel-heading
-    %h3.panel-title OTROS
-  .panel-body
-    .row
-    /- @populares_rutas.each do |ruta_pop|
-    /  .col-xs-3
-    /    %a.thumbnail{:href => "ruta/#{ruta_pop.id}"}
-    /      %img.img-responsive{:src => "#{ruta_pop.imagen}"}
-    /      %p= ruta_pop.nombre
-    /      %p Putuación: #{ruta_pop.puntuacion}
-  
+.row
+  .col-md-6
+    .lista-resumen
+      .list-group
+        %a.list-group-item{:href => "#"}
+          %span.glyphicon.glyphicon-pencil
+          Preguntas
+          %span.badge= @preguntas[:idUsuario][:"count(idUsuario)"]
+        %a.list-group-item{:href => "#"}
+          %span.glyphicon.glyphicon-check
+          Exámenes
+          %span.badge= @examenes[:idUsuario][:"count(idUsuario)"]
+        %a.list-group-item{:href => "#"}
+          %span.glyphicon.glyphicon-user
+          Grupos
+          %span.badge= @grupos[:idUsuario][:"count(idUsuario)"]
+
+
+.row
+  .panel.panel-success
+    .panel-heading
+      %h3.panel-title TODOS LOS USUARIOS
+    .panel-body
+      .row
+      /%p= @usuarios.all
+      /%p= @usuarios[:idUsuario => 1]
+      - @usuarios.each do |usuario|
+        .col-xs-3
+          %a.thumbnail{:href => ""}
+            %img.img-responsive{:src => "#{}"}
+            %p= usuario
+            %p Añadida el
