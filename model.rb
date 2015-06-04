@@ -175,10 +175,10 @@ end
 
 respuesta = DB[:respuestas]
 if DB[:respuestas].count == 0
-  respuesta.insert(:texto => '14', :correcto => 1, :tipo => 'corta', :idPregunta => 1)
-  respuesta.insert(:texto => '35', :correcto => 1, :tipo => 'corta', :idPregunta => 2)
-  respuesta.insert(:texto => '155', :correcto => 1, :tipo => 'corta', :idPregunta => 3)
-  respuesta.insert(:texto => '', :correcto => 0, :tipo => 'vf', :idPregunta => 4)
+  respuesta.insert(:texto => '14', :correcto => true, :tipo => 'corta', :idPregunta => 1)
+  respuesta.insert(:texto => '35', :correcto => true, :tipo => 'corta', :idPregunta => 2)
+  respuesta.insert(:texto => '155', :correcto => true, :tipo => 'corta', :idPregunta => 3)
+  respuesta.insert(:texto => '', :correcto => false, :tipo => 'vf', :idPregunta => 4)
 end
 
 ex_pre = DB[:examen_pregunta]
