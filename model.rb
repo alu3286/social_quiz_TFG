@@ -183,14 +183,14 @@ end
 
 ex_pre = DB[:examen_pregunta]
 if DB[:examen_pregunta].count == 0
-  ex_pre.insert(:idExamen => 1, :idPregunta => 1, :peso => '', :obligatoria => 1)
-  ex_pre.insert(:idExamen => 1, :idPregunta => 2, :peso => '', :obligatoria => 1)
-  ex_pre.insert(:idExamen => 2, :idPregunta => 3, :peso => '', :obligatoria => 1)
-  ex_pre.insert(:idExamen => 2, :idPregunta => 4, :peso => '', :obligatoria => 1)
-  ex_pre.insert(:idExamen => 3, :idPregunta => 1, :peso => '', :obligatoria => 1)
-  ex_pre.insert(:idExamen => 3, :idPregunta => 2, :peso => '', :obligatoria => 1)
-  ex_pre.insert(:idExamen => 3, :idPregunta => 3, :peso => '', :obligatoria => 1)
-  ex_pre.insert(:idExamen => 3, :idPregunta => 4, :peso => '', :obligatoria => 1)
+  ex_pre.insert(:idExamen => 1, :idPregunta => 1, :peso => 1.0, :obligatoria => 1)
+  ex_pre.insert(:idExamen => 1, :idPregunta => 2, :peso => 1.0, :obligatoria => 1)
+  ex_pre.insert(:idExamen => 2, :idPregunta => 3, :peso => 1.0, :obligatoria => 1)
+  ex_pre.insert(:idExamen => 2, :idPregunta => 4, :peso => 1.0, :obligatoria => 1)
+  ex_pre.insert(:idExamen => 3, :idPregunta => 1, :peso => 1.0, :obligatoria => 1)
+  ex_pre.insert(:idExamen => 3, :idPregunta => 2, :peso => 1.0, :obligatoria => 1)
+  ex_pre.insert(:idExamen => 3, :idPregunta => 3, :peso => 1.0, :obligatoria => 1)
+  ex_pre.insert(:idExamen => 3, :idPregunta => 4, :peso => 1.0, :obligatoria => 1)
 end
 
 # Print out the number of records
