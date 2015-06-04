@@ -106,113 +106,188 @@
             %span.glyphicon.glyphicon-plus
             Añadir pregunta
       %br/
-      .table-responsive.tabla-preguntas#mytable
-        %table.table.table-hover
-          %thead
-            %tr
-              %th ID
-              %th Pregunta
-              %th Creado
-              %th Usuario
-              %th Opciones
-          %tbody
-            - @preguntas.each do |pregunta|
-              %tr
-                /.filaPregunta{:id => "p#{pregunta[:idPregunta]}"}
-                %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
-                  %td= pregunta[:idPregunta]
-                  %td= pregunta[:titulo]
-                  %td= pregunta[:fecha_creacion].strftime("%A, %d de %B de %Y, %H:%M")
-                  /%td= pregunta[:username]
-                  %td= session[:username]
-                  %td.opciones
-                    .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
+      / .table-responsive.tabla-preguntas#mytable
+      /   %table.table.table-hover
+      /     %thead
+      /       %tr
+      /         %th ID
+      /         %th Pregunta
+      /         %th Creado
+      /         %th Usuario
+      /         %th Opciones
+      /     %tbody
+      /       - @preguntas.each do |pregunta|
+      /         %tr
+      /           /.filaPregunta{:id => "p#{pregunta[:idPregunta]}"}
+      /           %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
+      /             %td= pregunta[:idPregunta]
+      /             %td= pregunta[:titulo]
+      /             %td= pregunta[:fecha_creacion].strftime("%A, %d de %B de %Y, %H:%M")
+      /             /%td= pregunta[:username]
+      /             %td= session[:username]
+      /             %td.opciones
+      /               .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
                       
-                      %a.btn.btn-success{:href => "", :id => "botonVisualizar", "data-target" => "#myModalView", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta], "data-titulo" => pregunta[:titulo], "data-fecha" => pregunta[:fecha_creacion]}
-                        %span.glyphicon.glyphicon-search
+      /                 %a.btn.btn-success{:href => "", :id => "botonVisualizar", "data-target" => "#myModalView", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta], "data-titulo" => pregunta[:titulo], "data-fecha" => pregunta[:fecha_creacion]}
+      /                   %span.glyphicon.glyphicon-search
             
-                      %a.btn.btn-info.btn{:href => "/pregunta/#{pregunta[:idPregunta]}"}
-                        %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "editar"}
-                          %span.glyphicon.glyphicon-pencil
+      /                 %a.btn.btn-info.btn{:href => "/pregunta/#{pregunta[:idPregunta]}"}
+      /                   %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "editar"}
+      /                     %span.glyphicon.glyphicon-pencil
            
-                      %a.btn.btn-danger{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta], "data-target" => "#myModal", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta]}
-                        %span.glyphicon.glyphicon-trash
+      /                 %a.btn.btn-danger{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta], "data-target" => "#myModal", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta]}
+      /                   %span.glyphicon.glyphicon-trash
 
-                      / Modal
-                      #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-                        .modal-dialog
-                          .modal-content
-                            .modal-header
-                              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                %span{"aria-hidden" => "true"} &times;
-                              %h4#myModalLabel.modal-title Eliminar pregunta
-                            .modal-body
-                              %p
-                                / ¿Quiere realmente eliminar el examen
-                                / %strong=examen[:titulo]
-                                / ?
-                            .modal-footer
-                              %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
-                              %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
-                      / Modal
-                      #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-                        .modal-dialog
-                          .modal-content
-                            .modal-header
-                              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                %span{"aria-hidden" => "true"} &times;
-                              /%h4#myModalLabel.modal-title Visualizar pregunta
-                              /%h4#myModalLabel.modal-title= pregunta[:titulo]
-                              %h4#myModalLabel.modal-title{:id => 'tituloPreguntaModal'}
-                            .modal-body
-                              /%p{:class => "tituloPregunta"}
-                              %p{:class => "respuestaPregunta"}
-                              %p{:class => "fechaPregunta"}
-                                / ¿Quiere realmente eliminar el examen
-                                / %strong=examen[:titulo]
-                                / ?
-                            .modal-footer
-                              %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
-                              //%button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+      /                 / Modal
+      /                 #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+      /                   .modal-dialog
+      /                     .modal-content
+      /                       .modal-header
+      /                         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+      /                           %span{"aria-hidden" => "true"} &times;
+      /                         %h4#myModalLabel.modal-title Eliminar pregunta
+      /                       .modal-body
+      /                         %p
+      /                           / ¿Quiere realmente eliminar el examen
+      /                           / %strong=examen[:titulo]
+      /                           / ?
+      /                       .modal-footer
+      /                         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+      /                         %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+      /                 / Modal
+      /                 #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+      /                   .modal-dialog
+      /                     .modal-content
+      /                       .modal-header
+      /                         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+      /                           %span{"aria-hidden" => "true"} &times;
+      /                         /%h4#myModalLabel.modal-title Visualizar pregunta
+      /                         /%h4#myModalLabel.modal-title= pregunta[:titulo]
+      /                         %h4#myModalLabel.modal-title{:id => 'tituloPreguntaModal'}
+      /                       .modal-body
+      /                         /%p{:class => "tituloPregunta"}
+      /                         %p{:class => "respuestaPregunta"}
+      /                         %p{:class => "fechaPregunta"}
+      /                           / ¿Quiere realmente eliminar el examen
+      /                           / %strong=examen[:titulo]
+      /                           / ?
+      /                       .modal-footer
+      /                         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+      /                         //%button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
 
                   
-                    %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
-
-      %ul.pagination
-        %li.disabled
-          %a{:href => "#"} &laquo;
-        %li.active
-          %a{:href => "#"} 1
-        %li
-          %a{:href => "#"} 2
-        %li
-          %a{:href => "#"} 3
-        %li
-          %a{:href => "#"} 4
-        %li
-          %a{:href => "#"} 5
-        %li
-          %a{:href => "#"} &raquo;
+      /               %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
 
 
-        #delete.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "edit", :role => "dialog", :tabindex => "-1"}
-          .modal-dialog
-            .modal-content
-              .modal-header
-                %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
-                  %span.glyphicon.glyphicon-remove{"aria-hidden" => "true"}
-                %h4#Heading.modal-title.custom_align Delete this entry
-              .modal-body
-                .alert.alert-danger
-                  %span.glyphicon.glyphicon-warning-sign
-                  Are you sure you want to delete this Record?
-              .modal-footer
-                %button.btn.btn-success{:type => "button"}
-                  %span.glyphicon.glyphicon-ok-sign>
-                   Yes
-                %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
-                  %span.glyphicon.glyphicon-remove>
-                   No
+
+      #delete.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "edit", :role => "dialog", :tabindex => "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+                %span.glyphicon.glyphicon-remove{"aria-hidden" => "true"}
+              %h4#Heading.modal-title.custom_align Delete this entry
+            .modal-body
+              .alert.alert-danger
+                %span.glyphicon.glyphicon-warning-sign
+                Are you sure you want to delete this Record?
+            .modal-footer
+              %button.btn.btn-success{:type => "button"}
+                %span.glyphicon.glyphicon-ok-sign>
+                 Yes
+              %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+                %span.glyphicon.glyphicon-remove>
+                 No
+
+      :javascript
+        $(document).ready(function() {
+          $('#example').DataTable();
+        });       
+
+      %table#example.display{:cellspacing => "0", :width => "100%"}
+        %thead
+          %tr
+            %th.dt-head-left ID
+            %th.dt-head-left Pregunta
+            %th.dt-head-left Creado
+            %th.dt-head-left Usuario
+            %th.dt-head-left Opciones
+        / %tfoot.dt-head-left
+        /   %tr
+        /     %th.dt-head-left ID
+        /     %th.dt-head-left Pregunta
+        /     %th.dt-head-left Creado
+        /     %th.dt-head-left Usuario
+        /     %th.dt-head-left Opciones
+        %tbody
+          - @preguntas.each do |pregunta|
+            %tr
+              /.filaPregunta{:id => "p#{pregunta[:idPregunta]}"}
+              %form.form-horizontal{:action => "/preguntas", :method => "POST", :name => "form-delete-quiz", :role => "form"}
+                %td.dt-left= pregunta[:idPregunta]
+                %td.dt-left= pregunta[:titulo]
+                %td.dt-left= pregunta[:fecha_creacion].strftime("%A, %d de %B de %Y, %H:%M")
+                /%td= pregunta[:username]
+                %td.dt-left= session[:username]
+                %td.opciones.dt-left
+                  .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
+                    
+                    %a.btn.btn-success{:href => "", :id => "botonVisualizar", "data-target" => "#myModalView", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta], "data-titulo" => pregunta[:titulo], "data-fecha" => pregunta[:fecha_creacion]}
+                      %span.glyphicon.glyphicon-search
+          
+                    %a.btn.btn-info.btn{:href => "/pregunta/#{pregunta[:idPregunta]}"}
+                      %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "editar"}
+                        %span.glyphicon.glyphicon-pencil
+         
+                    %a.btn.btn-danger{:href => "", :id => "eliminar#{pregunta[:idPregunta]}", :data => pregunta[:idPregunta], "data-target" => "#myModal", "data-toggle" => "modal", "data-whatever" => pregunta[:idPregunta]}
+                      %span.glyphicon.glyphicon-trash
+
+                    / Modal
+                    #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                              %span{"aria-hidden" => "true"} &times;
+                            %h4#myModalLabel.modal-title Eliminar pregunta
+                          .modal-body
+                            %p
+                              / ¿Quiere realmente eliminar el examen
+                              / %strong=examen[:titulo]
+                              / ?
+                          .modal-footer
+                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+                            %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+                    / Modal
+                    #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                              %span{"aria-hidden" => "true"} &times;
+                            /%h4#myModalLabel.modal-title Visualizar pregunta
+                            /%h4#myModalLabel.modal-title= pregunta[:titulo]
+                            %h4#myModalLabel.modal-title{:id => 'tituloPreguntaModal'}
+                          .modal-body
+                            /%p{:class => "tituloPregunta"}
+                            %p{:class => "respuestaPregunta"}
+                            %p{:class => "fechaPregunta"}
+                              / ¿Quiere realmente eliminar el examen
+                              / %strong=examen[:titulo]
+                              / ?
+                          .modal-footer
+                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+                            //%button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+
+                
+                  %input.form-control{:name => "pregunta", :type => "text", :style => "display:none;", :value => pregunta[:idPregunta]}
+
+
+
+
+
+
+
 
 
 
