@@ -580,7 +580,6 @@ get '/grupos/miembros/:num' do
     #@grupo = DB["SELECT * FROM grupos WHERE idGrupo = #{params[:num]}"]
     @grupo = DB[:grupos].where(:idGrupo => params[:num].to_i)
 
-
     haml :members
   else
     redirect '/'
