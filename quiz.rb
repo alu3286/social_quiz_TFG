@@ -578,7 +578,7 @@ get '/grupos/miembros/:num' do
     #               usu1.idUsuario = u.idUsuario)"]
     @usuarios = DB[:usuarios].with_sql("Select * from usuarios usu1 where not exists (SELECT u.idUsuario, u.username FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo inner join usuarios u on ug.idUsuario = u.idUsuario where g.idUsuario = #{session[:id]} AND g.idGrupo = #{params[:num]} AND usu1.idUsuario = u.idUsuario)")
     #@grupo = DB["SELECT * FROM grupos WHERE idGrupo = #{params[:num]}"]
-    @grupo = DB[:grupos].with_sql("SELECT * FROM grupos WHERE idGrupo = #{params[:num]}")
+    @grupo = DB[:grupos]
 
     haml :members
   else
