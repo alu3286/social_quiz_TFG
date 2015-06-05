@@ -569,7 +569,7 @@ get '/grupos/miembros/:num' do
     #                     inner join usuarios u on ug.idUsuario = u.idUsuario 
     #                     where g.idUsuario = #{session[:id]} AND
     #                     g.idGrupo = #{params[:num]}"]
-    @usuarios_grupo = DB[:grupos].join(:usuario_grupo, :idGrupo => :idGrupo).join(:usuarios, :idUsuario => :idUsuario).where(:grupos__idUsuario => session[:id]).where(:grupos__idGrupo => params[:num])
+    @usuarios_grupo = DB[:grupos].join(:usuario_grupo, :idGrupo => :idGrupo).join(:usuarios, :idUsuario => :idUsuario).where(:grupos__idUsuario => session[:id]).where(:grupos__idGrupo => params[:num].to_i)
     #@usuarios = DB["Select * from usuarios usu1 where not exists (SELECT u.idUsuario, u.username FROM grupos g 
     #               inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
     #               inner join usuarios u on ug.idUsuario = u.idUsuario 
