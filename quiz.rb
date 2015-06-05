@@ -470,9 +470,10 @@ get '/grupos' do
   if (session[:username])
 
     @grupos = DB[:grupos].where(:idUsuario => session[:id])
-    @usuarios_grupos = DB["SELECT * FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
-                          inner join usuarios u on ug.idUsuario = u.idUsuario 
-                          where g.idUsuario = #{session[:id]}"]
+    #@usuarios_grupos = DB["SELECT * FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
+    #                      inner join usuarios u on ug.idUsuario = u.idUsuario 
+    #                      where g.idUsuario = #{session[:id]}"]
+    @usuarios_grupos = DB[:grupos].join(:usuario_grupos, :idGrupo => :idGrupo).join(:usuarios, :idUsuario => :idUsuario).where(:idUsuario => session[:id])
 
     haml :groups
   else
@@ -534,10 +535,11 @@ post '/dameusuarios' do
   #puts params
   #puts params[:id]
 
-    @usuarios_finales = DB["SELECT ug.idUsuario, u.username FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
-                           inner join usuarios u on ug.idUsuario = u.idUsuario 
-                           where g.idUsuario = #{session[:id]} AND
-                           g.idGrupo = #{params[:id]}"]
+    #@usuarios_finales = DB["SELECT ug.idUsuario, u.username FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
+    #                       inner join usuarios u on ug.idUsuario = u.idUsuario 
+    #                       where g.idUsuario = #{session[:id]} AND
+    #                       g.idGrupo = #{params[:id]}"]
+    @usuarios_finales = DB[:grupos].join(:usuario_grupo, :idGrupo => :idGrupo).join(:usuarios, :idUsuario => :idUsuario).where(:grupos__idUsuario => session[:id]).where(:grupos__idGrupo => params[:id])
 
     #session[:grupo] = params[:id]
     #puts "esta es mi session"
@@ -551,6 +553,7 @@ post '/dameusuarios' do
       @us_fin["#{us[:idUsuario]}"] = "#{us[:username]}"
     end
     @us_fin = JSON.generate(@us_fin)
+    puts @us_fin
     @us_fin
 end
 
