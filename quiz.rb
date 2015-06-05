@@ -569,7 +569,7 @@ get '/grupos/miembros/:num' do
     #                     inner join usuarios u on ug.idUsuario = u.idUsuario 
     #                     where g.idUsuario = #{session[:id]} AND
     #                     g.idGrupo = #{params[:num]}"]
-    @usuarios_grupo = DB[:grupos].join(:usuario_grupo, :idGrupo => :idGrupo).join(:usuarios, :idUsuario => :idUsuario).where(:grupos__idUsuario => session[:id]).where(:grupos__idGrupo => params[:num].to_i)
+    #@usuarios_grupo = DB[:grupos].join(:usuario_grupo, :idGrupo => :idGrupo).join(:usuarios, :idUsuario => :idUsuario).where(:grupos__idUsuario => session[:id]).where(:grupos__idGrupo => params[:num])
     #@usuarios = DB["Select * from usuarios usu1 where not exists (SELECT u.idUsuario, u.username FROM grupos g 
     #               inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
     #               inner join usuarios u on ug.idUsuario = u.idUsuario 
@@ -583,7 +583,7 @@ get '/grupos/miembros/:num' do
     #               g.idGrupo = #{params[:num]} AND
     #               usu1.idUsuario = u.idUsuario)")
     #@grupo = DB["SELECT * FROM grupos WHERE idGrupo = #{params[:num]}"]
-    @grupo = DB[:grupos].where(:idGrupo => params[:num])
+    #@grupo = DB[:grupos].where(:idGrupo => params[:num])
 
 
     haml :members
