@@ -158,10 +158,10 @@ end
 
 grupo = DB[:grupos]
 if DB[:grupos].count == 0
-  grupo.insert(:nombre => 'Calculo', :descripcion => 'Asignatura de Cálculo', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
-  grupo.insert(:nombre => 'Programacion', :descripcion => 'Asignatura de Programación', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
-  grupo.insert(:nombre => 'Computabilidad', :descripcion => 'Asignatura de Computabilidad', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
-  grupo.insert(:nombre => 'Tecnologías', :descripcion => 'Asignatura de Tecnologías', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+  grupo.insert(:idGrupo => 1, :nombre => 'Calculo', :descripcion => 'Asignatura de Cálculo', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+  grupo.insert(:idGrupo => 2, :nombre => 'Programacion', :descripcion => 'Asignatura de Programación', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+  grupo.insert(:idGrupo => 3, :nombre => 'Computabilidad', :descripcion => 'Asignatura de Computabilidad', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
+  grupo.insert(:idGrupo => 4, :nombre => 'Tecnologías', :descripcion => 'Asignatura de Tecnologías', :fecha_creacion => '2015-05-14 12:55:07.194097', :idUsuario => 1)
 end
 
 usuario_grupo = DB[:usuario_grupo]
