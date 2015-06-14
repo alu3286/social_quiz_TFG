@@ -11,7 +11,7 @@ require 'digest/md5'
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
 configure do
   #DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://quiz.sqlite')
-  DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/quiz', :user=>'eduquiz', :password=>'eduquiz')
+  DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/quiz', :user=>'edinho', :password=>'edinho')
 
 
   DB.create_table? :usuarios do
