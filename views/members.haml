@@ -52,7 +52,7 @@
   .page-header.list-page
     %h2
       Grupo ->
-      =@grupo[:idGrupo][:nombre] 
+      =@grupo[:nombre] 
       
   .row
 
@@ -78,9 +78,6 @@
                 %li.list-group-item{:value => user[:idUsuario]}
                   %span.titulo
                     =user[:username]
-                  / %br
-                  / %span.fecha
-                  /   =pregunta[:fecha_creacion].strftime("%c")
 
         / Botones de desplazamiento
         .list-arrows.col-md-1.text-center
@@ -106,7 +103,7 @@
                 %li.list-group-item{:value => user[:idUsuario]}
                   %span.titulo
                     =user[:username]
-        %input{:id => 'oculto', :name => "opcion", :type => "hidden", :value => "#{@grupo[:idGrupo][:idGrupo]}"}
+        %input{:id => 'oculto', :name => "opcion", :type => "hidden", :value => "#{@grupo[:idgrupo]}"}
 
         .form-group
           .col-lg-11

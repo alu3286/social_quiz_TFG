@@ -11,13 +11,10 @@ require 'digest/md5'
 #DB = Sequel.sqlite # memory database
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
 configure do
-  #DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://database.db')
-  #DB = Sequel.connect(:adapter => 'mysql', :database => 'sqlite://database.db')
-  #DB = Sequel.connect("sqlite://#{Dir.pwd}/database.db")
-  #DB = Sequel.connect(ENV['LOCAL_DATABASE_URL'] || 'sqlite://database.db')
-  #DB = Sequel.sqlite('database.sqlite')
-  DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://quiz.sqlite')
-  #DB = Sequel.connect(ENV['RACK_ENV'] || 'sqlite://quiz.sqlite')
+  #DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://quiz.sqlite')
+  #DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://edinho:passedu@localhost/quiz') # Uses the postgres adapter
+  DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/quiz', :user=>'edinho', :password=>'')
+
 
   DB.create_table? :usuarios do
     primary_key   :idUsuario

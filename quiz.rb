@@ -569,16 +569,32 @@ get '/grupos/miembros/:num' do
     #                     inner join usuarios u on ug.idUsuario = u.idUsuario 
     #                     where g.idUsuario = #{session[:id]} AND
     #                     g.idGrupo = #{params[:num]}"]
-    @usuarios_grupo = DB[:grupos].join(:usuario_grupo, :idGrupo => :idGrupo).join(:usuarios, :idUsuario => :idUsuario).where(:grupos__idUsuario => session[:id]).where(:grupos__idGrupo => params[:num])
+    @usuarios_grupo = DB[:grupos].select(:usuarios__idUsuario, :usuarios__username)
+                                 .join(:usuario_grupo, :idGrupo => :idGrupo)
+                                 .join(:usuarios, :idUsuario => :idUsuario)
+                                 .where(:grupos__idUsuario => session[:id])
+                                 .where(:grupos__idGrupo => params[:num])
+    #------------------------------
     #@usuarios = DB["Select * from usuarios usu1 where not exists (SELECT u.idUsuario, u.username FROM grupos g 
     #               inner join usuario_grupo ug on g.idGrupo = ug.idGrupo 
     #               inner join usuarios u on ug.idUsuario = u.idUsuario 
     #               where g.idUsuario = #{session[:id]} AND
     #               g.idGrupo = #{params[:num]} AND
     #               usu1.idUsuario = u.idUsuario)"]
-    @usuarios = DB[:usuarios].with_sql("Select * from usuarios usu1 where not exists (SELECT u.idUsuario, u.username FROM grupos g inner join usuario_grupo ug on g.idGrupo = ug.idGrupo inner join usuarios u on ug.idUsuario = u.idUsuario where g.idUsuario = #{session[:id]} AND g.idGrupo = #{params[:num]} AND usu1.idUsuario = u.idUsuario)")
+
+    #@usuarios = DB[:usuarios]
+    @usuarios_g = DB[:grupos].select(:usuarios__idUsuario,:usuarios__nombre,:usuarios__apellidos,
+                                     :usuarios__username,:usuarios__email,:usuarios__imagen,
+                                     :usuarios__password,:usuarios__fecha_creacion)
+                                    .join(:usuario_grupo, :idGrupo => :idGrupo)
+                                    .join(:usuarios, :idUsuario => :idUsuario)
+                                    .where(:grupos__idUsuario => session[:id])
+                                    .where(:grupos__idGrupo => params[:num])
+    @usuarios = DB[:usuarios].except(@usuarios_g)
+    #------------------------------
+
     #@grupo = DB["SELECT * FROM grupos WHERE idGrupo = #{params[:num]}"]
-    @grupo = DB[:grupos].where(:idGrupo => params[:num])
+    @grupo = DB[:grupos].first(:idGrupo => "#{params[:num]}")
 
     haml :members
   else
