@@ -27,10 +27,8 @@ gem 'erubis'
 gem 'sinatra-flash'
 
 group :development do
-	#gem 'sqlite3'
-	#gem "dm-sqlite-adapter"
-  gem "pg"
-  gem "dm-postgres-adapter"
+	gem 'sqlite3'
+	gem "dm-sqlite-adapter"
 end
 
 group :production do
