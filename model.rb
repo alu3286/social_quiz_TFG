@@ -6,13 +6,11 @@ require 'bcrypt'
 require 'digest/md5'
 
 
-#Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
 #DB = Sequel.sqlite # memory database
 #DB = Sequel.sqlite('myquiz.db') # no memory database (en local)
 configure do
   #DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://quiz.sqlite')
-  #DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://edinho:passedu@localhost/quiz') # Uses the postgres adapter
   DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/quiz', :user=>'edinho', :password=>'')
 
 
@@ -118,11 +116,11 @@ end
 # create the md5 hash
 #hash = Digest::MD5.hexdigest(email_address)
 hash = Digest::MD5.hexdigest("eaculed@gmail.com")
-puts hash
+#puts hash
  
 # compile URL which can be used in <img src="RIGHT_HERE"...
 image_src = "http://www.gravatar.com/avatar/#{hash}"
-puts image_src
+#puts image_src
 
 
 
