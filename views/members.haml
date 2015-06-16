@@ -8,6 +8,7 @@
     });
 
     $("#guardar-usuario-grupo").click(function() {
+
       var datos;
       var i = 0;
       //var titulo = $("#titulo").val();
@@ -103,7 +104,7 @@
                 %li.list-group-item{:value => user[:idUsuario]}
                   %span.titulo
                     =user[:username]
-        %input{:id => 'oculto', :name => "opcion", :type => "hidden", :value => "#{@grupo[:idgrupo]}"}
+        %input{:id => 'oculto', :name => "opcion", :type => "hidden", :value => @grupo[:idGrupo]}
 
         .form-group
           .col-lg-11

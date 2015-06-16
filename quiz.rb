@@ -343,6 +343,7 @@ end
 
 post '/grupos/redireccion' do
   begin
+    puts "Estamos en redireccion"
     flash[:mensaje] =  "Usuarios modificados correctamente."
     redirect '/grupos' 
   end
@@ -604,6 +605,7 @@ end
 
 post '/grupos/miembros/:num' do
   begin
+    puts "Estoy en post grupos miembros"
     puts params
 
     if !params[:ids].nil?
