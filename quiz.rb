@@ -189,7 +189,7 @@ post '/preguntas/new' do
     case params[:tipo]
     when "vf"
       # consulta de verdadero falso a la bbdd
-      correct = (params[:opciones] == "true") ? 1 : 0
+      correct = (params[:opciones] == "true") ? true : false
       #puts correct
       @objeto1 = DB[:respuestas].insert(:texto => "", :correcto => correct, 
                                         :tipo => "vf", :idPregunta => @objeto)
@@ -223,8 +223,8 @@ get '/pregunta/:num' do
   @actual =  "preguntas"
   if (session[:username])
 
-    @pregunta = DB[:preguntas].where(:idUsuario => session[:id], :idPregunta => params[:num])
-    @respuesta = DB[:respuestas].where(:idPregunta => params[:num])
+    @pregunta = DB[:preguntas].first(:idPregunta => params[:num])
+    @respuesta = DB[:respuestas].first(:idPregunta => params[:num])
 
     #puts "este es el tipo"
     #puts @respuesta[:idRespuesta][:tipo]
@@ -425,19 +425,22 @@ post '/eliminaPregunta' do
 end
 
 post '/dameRespuesta' do
-  #puts "Estamos en dameRespuesta"
-  #puts params
+    puts "Estamos en dameRespuesta"
+    puts params
 
-    @respuesta = DB["SELECT * FROM respuestas 
-                    where idPregunta = #{params[:ids]}"]
+    #@respuesta = DB["SELECT * FROM respuestas 
+    #                where idPregunta = #{params[:ids]}"]
+    @respuesta = DB[:respuestas].first(:idPregunta => params[:ids])
+    puts "Dame respuesta"
+    puts @respuesta[:idPregunta]
     
     #my_hash = {:hello => "goodbye"}
     #puts JSON.generate(my_hash) => "{\"hello\":\"goodbye\"}"
     #grades["Dorothy Doe"] = 9
     @resp = Hash.new
-    @resp['tipo'] = @respuesta[:idRespuesta][:tipo]
-    @resp['texto'] = @respuesta[:idRespuesta][:texto]
-    @resp['correcto'] = @respuesta[:idRespuesta][:correcto]
+    @resp['tipo'] = @respuesta[:tipo]
+    @resp['texto'] = @respuesta[:texto]
+    @resp['correcto'] = @respuesta[:correcto]
     @resp = JSON.generate(@resp)
     @resp
 end
