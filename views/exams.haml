@@ -1,7 +1,7 @@
 :javascript
   $(document).ready(function(){
     
-    $('#myModal').on('show.bs.modal', function (event) {
+    $('#myModal.modal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
       var recipient = button.data('whatever') // Extract info from data-* attributes
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -15,7 +15,8 @@
 
     })
 
-    $('#botonEliminar').on('click', function(event) {
+    $('button.btn.btn-danger').on('click', function(event) {
+    // $('#botonEliminar').on('click', function(event) {
       //alert($(this).data('id'));
       datos = $(this).data('id');
 
@@ -34,8 +35,8 @@
 
     });
 
-    $('#myModalView').on('show.bs.modal', function (event) {
-      alert("Modal de examenes");
+    $('#myModalView.modal').on('show.bs.modal', function (event) {
+    
       var button = $(event.relatedTarget) // Button that triggered the modal
       var recipient = button.data('id') // Extract info from data-* attributes
       var titulo = button.data('titulo');

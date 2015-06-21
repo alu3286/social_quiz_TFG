@@ -60,8 +60,11 @@
             method: "post",
             data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
           }).done(function() {
+            // Comprobamos que los valores required contienen datos
+            if ($("#titulo").val() != '' && $("#fecha_apertura").val() != '' && $("#fecha_cierre").val() != '') {
+              $("#formulario2").submit();
+            }
             //redirigir a donde quiera
-            $("#formulario2").submit();
             //window.location.href = "/examenes";
           })
 

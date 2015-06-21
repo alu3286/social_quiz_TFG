@@ -292,10 +292,12 @@ get '/examenes/new' do
     @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
 
     #Obtenemos los usuarios para la lista de usuarios y grupos
-    @usuarios = DB["SELECT * FROM usuarios WHERE idUsuario != #{session[:id]}"]
+    #@usuarios = DB["SELECT * FROM usuarios WHERE idUsuario != #{session[:id]}"]
+    @usuarios = DB[:usuarios].exclude(:idUsuario => session[:id])
 
     #Obtenemos la lista de grupos
-    @grupos = DB["SELECT * FROM grupos WHERE idUsuario = #{session[:id]}"]
+    #@grupos = DB["SELECT * FROM grupos WHERE idUsuario = #{session[:id]}"]
+    @grupos = DB[:grupos].where(:idUsuario => session[:id])
 
     haml :newExam
   else
@@ -306,7 +308,10 @@ end
 post '/examenes/new' do
   begin
     puts params
-    mi_ids = params[:ids].split(',')
+    if !params[:ids].nil?
+      puts "Entra en if"
+      mi_ids = params[:ids].split(',')
+    end
     #puts mi_ids
 
 
@@ -349,27 +354,27 @@ post '/grupos/redireccion' do
   end
 end
 
-get '/examen/:num' do
-  @actual =  "examenes"
-  if (session[:username])
+# get '/examen/:num' do
+#   @actual =  "examenes"
+#   if (session[:username])
 
-    @examen = DB[:examenes].where(:idExamen => params[:num])
-    @preguntas = DB["SELECT * FROM preguntas INNER JOIN examen_pregunta ON preguntas.idPregunta = examen_pregunta.idPregunta AND examen_pregunta.idExamen = ?", params[:num]]
-    #@preguntas = DB[:preguntas].join_table(:inner, :examen_pregunta, :idPregunta => :idPregunta)
-    #@respuestas = @preguntas.join_table(:inner, :respuestas, :idPregunta => :idPregunta).as(:respuestas, :re)
+#     @examen = DB[:examenes].where(:idExamen => params[:num])
+#     @preguntas = DB["SELECT * FROM preguntas INNER JOIN examen_pregunta ON preguntas.idPregunta = examen_pregunta.idPregunta AND examen_pregunta.idExamen = ?", params[:num]]
+#     #@preguntas = DB[:preguntas].join_table(:inner, :examen_pregunta, :idPregunta => :idPregunta)
+#     #@respuestas = @preguntas.join_table(:inner, :respuestas, :idPregunta => :idPregunta).as(:respuestas, :re)
 
-    #Sequel.as(:table, :alias, [:c1, :c2]) # "table" AS "alias"("c1", "c2")
+#     #Sequel.as(:table, :alias, [:c1, :c2]) # "table" AS "alias"("c1", "c2")
 
-    #@preguntas = DB[:examen_pregunta].where(:idPregunta => params[:num])
-    #@respuesta = DB[:respuestas].where(:idPregunta => params[:num])
+#     #@preguntas = DB[:examen_pregunta].where(:idPregunta => params[:num])
+#     #@respuesta = DB[:respuestas].where(:idPregunta => params[:num])
 
     
 
-    haml :examView
-  else
-    redirect '/'
-  end
-end
+#     haml :examView
+#   else
+#     redirect '/'
+#   end
+# end
 
 post '/eliminaExamen' do
   begin
@@ -455,14 +460,18 @@ post '/damePreguntasExamen' do
     end
   end
 
-  @preguntasExamen = DB["SELECT e.idExamen, e.titulo, e.fecha_creacion, e.fecha_apertura, 
-                        e.fecha_cierre, p.idPregunta, p.titulo, p.fecha_creacion, p.tags, 
-                        r.idRespuesta, r.tipo, r.texto, r.correcto, r.idPregunta 
-                        FROM examenes e 
-                        INNER JOIN examen_pregunta ep ON e.idExamen = ep.idExamen 
-                        INNER JOIN preguntas p ON p.idPregunta = ep.idPregunta 
-                        INNER JOIN respuestas r ON p.idPregunta = r.idPregunta 
-                        WHERE e.idExamen = #{params[:ids]}"]
+  # @preguntasExamen = DB["SELECT e.idExamen, e.titulo, e.fecha_creacion, e.fecha_apertura, 
+  #                       e.fecha_cierre, p.idPregunta, p.titulo, p.fecha_creacion, p.tags, 
+  #                       r.idRespuesta, r.tipo, r.texto, r.correcto, r.idPregunta 
+  #                       FROM examenes e 
+  #                       INNER JOIN examen_pregunta ep ON e.idExamen = ep.idExamen 
+  #                       INNER JOIN preguntas p ON p.idPregunta = ep.idPregunta 
+  #                       INNER JOIN respuestas r ON p.idPregunta = r.idPregunta 
+  #                       WHERE e.idExamen = #{params[:ids]}"]
+  @preguntasExamen = DB[:examenes].join(:examen_pregunta, :idExamen => :idExamen)
+                                  .join(:preguntas, :idPregunta => :idPregunta)
+                                  .join(:respuestas, :idPregunta => :idPregunta)
+                                  .where(:examenes__idExamen => params[:ids])
 
   @preguntasExamen.to_json
 end
