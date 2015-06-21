@@ -1,13 +1,14 @@
 .container
   .page-header.list-page
-    %h2 Pregunta > Nueva
+    %h2
+      Preguntas > 
+      =@pregunta[:idPregunta]
 
-
-  %form.form-horizontal{:action => "/preguntas/new", :method => "POST", :name => "form-new-quiz", :role => "form"}
+  %form.form-horizontal{:action => "/pregunta/#{@pregunta[:idPregunta]}", :method => "POST", :name => "form-edit-quiz", :role => "form"}
     .form-group
       %label.col-lg-2.control-label{:for => "titulo"} Texto de la pregunta
       .col-lg-8
-        %textarea.form-control#MathInput{:onkeyup => "Preview.Update()", :autofocus => "", :name => "titulo", :rows => "5", :style => "margin-top:5px", :placeholder => "Introduce un texto para tu pregunta"}
+        %textarea.form-control#MathInput{:onkeyup => "Preview.Update()", :autofocus => "", :name => "titulo", :rows => "5", :style => "margin-top:5px"}= @pregunta[:titulo]
     .form-group
       %label.col-lg-2.control-label{:for => "preview"} Previsualización
       .col-lg-8
@@ -23,15 +24,17 @@
     .form-group
       %label.col-lg-2.control-label{:for => "tags"} Tags
       .col-lg-8
-        %input.form-control{"data-role" => "tagsinput", :placeholder => "Añade tags a tu pregunta", :type => "text", :value => "", :name => "tags"}
+        %input.form-control{"data-role" => "tagsinput", :placeholder => "Añade tags a tu pregunta", :type => "text", :value => "", :name => "tags", :value => @pregunta[:tags]}
     .form-group  
       .btn-group{"data-toggle" => "buttons"}
         %label.btn.btn-primary.active{:id => "resp-vf"}
           %input#option1{:checked => "", :name => "tipo", :type => "radio", :value => "vf"}
             Verdadero - Falso
-        %label.btn.btn-primary{:id => "resp-corta"}
+
+        %label.btn.btn-primary{:id => "resp-corta"}          
           %input#option2{:name => "tipo", :type => "radio", :value => "corta"}
             Respuesta corta
+
         %label.btn.btn-primary{:id => "resp-multiple"}
           %input#option3{:name => "tipo", :type => "radio", :value => "multiple"}
             Respuesta múltiple
@@ -42,18 +45,26 @@
           .col-lg-8
             .radio.radio-inline
               %label
-                %input#optionsRadios1{:checked => "", :name => "opciones", :type => "radio", :value => "true"}
-                  Verdadero
+                - if (@respuesta[:correcto])
+                  %input#optionsRadios1{:checked => "", :name => "opciones", :type => "radio", :value => "true"}
+                    Verdadero
+                - else
+                  %input#optionsRadios1{:name => "opciones", :type => "radio", :value => "true"}
+                    Verdadero
             .radio.radio-inline
               %label
-                %input#optionsRadios2{:name => "opciones", :type => "radio", :value => "false"}
-                  Falso
+                - if (!@respuesta[:correcto])
+                  %input#optionsRadios2{:checked => "",:name => "opciones", :type => "radio", :value => "false"}
+                    Falso
+                - else
+                  %input#optionsRadios2{:name => "opciones", :type => "radio", :value => "false"}
+                    Falso
       .respuesta#respuesta-corta
         Esto muestra el formlario de respuesta corta.
         .form-group
           %label.col-lg-2.control-label{:for => "correcta"} Respuesta corta
           .col-lg-8
-            %input.form-control{:placeholder => "Respuesta corta", :type => "text", :name => "corta", :type => "corta"}
+            %input.form-control{:placeholder => "Respuesta corta", :type => "text", :name => "corta", :type => "corta", :value => @respuesta[:texto]}
       .respuesta#respuesta-multiple
         Esto muestra el formlario de respuesta múltiple.
 

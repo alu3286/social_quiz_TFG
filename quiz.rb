@@ -232,7 +232,7 @@ get '/pregunta/:num' do
     #puts "Este es el titulo"
     #puts @pregunta[:idPregunta][:titulo]
 
-    haml :quizView
+    haml :editQuiz
   else
     redirect '/'
   end
