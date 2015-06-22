@@ -341,7 +341,7 @@ end
 
 post '/examenes/redireccion' do
   begin
-    flash[:mensaje] =  "Examen creado correctamente."
+    flash[:mensaje] =  "Examen modificado correctamente."
     redirect '/examenes' 
   end
 end
@@ -354,27 +354,66 @@ post '/grupos/redireccion' do
   end
 end
 
-# get '/examen/:num' do
-#   @actual =  "examenes"
-#   if (session[:username])
+get '/examen/:num' do
+  @actual =  "examenes"
+  if (session[:username])
 
-#     @examen = DB[:examenes].where(:idExamen => params[:num])
-#     @preguntas = DB["SELECT * FROM preguntas INNER JOIN examen_pregunta ON preguntas.idPregunta = examen_pregunta.idPregunta AND examen_pregunta.idExamen = ?", params[:num]]
-#     #@preguntas = DB[:preguntas].join_table(:inner, :examen_pregunta, :idPregunta => :idPregunta)
-#     #@respuestas = @preguntas.join_table(:inner, :respuestas, :idPregunta => :idPregunta).as(:respuestas, :re)
-
-#     #Sequel.as(:table, :alias, [:c1, :c2]) # "table" AS "alias"("c1", "c2")
-
-#     #@preguntas = DB[:examen_pregunta].where(:idPregunta => params[:num])
-#     #@respuesta = DB[:respuestas].where(:idPregunta => params[:num])
-
+    #SELECT * FROM examenes AS e 
+    #INNER JOIN examen_pregunta AS ep ON ep."idExamen" = e."idExamen" 
+    #INNER JOIN preguntas AS p ON p."idPregunta" = ep."idPregunta" 
+    #WHERE e."idExamen" = 2
+    @examen = DB[:examenes].first(:idExamen => params[:num]) 
+    @preguntas = DB[:examenes].join(:examen_pregunta, :idExamen => :idExamen)
+                              .join(:preguntas, :idPregunta => :idPregunta)
+                              .where(:examenes__idExamen => params[:num])
+    @otras = DB[:preguntas].select(:preguntas__idPregunta,:preguntas__titulo,:preguntas__fecha_creacion,
+                                   :preguntas__tags,:preguntas__idUsuario)
+                           .join(:examen_pregunta, :idPregunta => :idPregunta)
+                           .where(:preguntas__idUsuario => session[:id])
+                           .where(:examen_pregunta__idExamen => params[:num])
     
+    @preguntas_otras = DB[:preguntas].except(@otras)
 
-#     haml :examView
-#   else
-#     redirect '/'
-#   end
-# end
+
+    haml :editExam
+  else
+    redirect '/'
+  end
+end
+
+post '/examen/:num' do
+  begin
+    puts params
+    
+    # Actualizamos el examen
+    @examen = DB[:examenes].where(:idExamen => params[:num])
+                           .update(:titulo => params[:titulo],
+                                   :fecha_creacion => Time.now,
+                                   :fecha_apertura => DateTime.parse(params[:fecha_apertura],"%Y-%m-%d %H:%M"),
+                                   :fecha_cierre => DateTime.parse(params[:fecha_cierre],"%Y-%m-%d %H:%M"))
+    # Actualizamos las preguntas del examen
+    # 1. Eliminamos todas las preguntas de la tabla
+    if !params[:ids].nil?
+      mi_ids = params[:ids].split(',')
+    end
+
+    @preg_exam_detele = DB[:examen_pregunta].filter(:idExamen => params[:num]).delete
+
+    # 2. Añadimos las preguntas seleccinadas
+    mi_ids.each do |pregunta| 
+      @objeto = DB[:examen_pregunta].insert(:peso => 1, :obligatoria => 1, 
+                                            :idExamen => params[:num], 
+                                            :idPregunta => pregunta)
+    end
+  
+    flash[:mensaje] = "Examen modificado correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido modificar el examen. Inténtelo de nuevo más tarde."
+  end
+  redirect '/examenes'
+end
 
 post '/eliminaExamen' do
   begin
