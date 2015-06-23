@@ -72,19 +72,18 @@ DB.create_table? :examen_pregunta do
   foreign_key   :idPregunta, :preguntas
 end
 
-# DB.create_table! :usuario_examen do
-#   primary_key   :idUsuario
-#   primary_key   :idExamen
-#   primary_key   :intento
-#   Time          :tiempo
-#   Float         :nota
-#   Integer       :numero_fallo
-#   Float         :puntuacion
-#   String        :titulo
-#   DateTime      :fecha
-#   foreign_key   :idUsuario, :usuarios
-#   foreign_key   :idExamen, :examenes
-# end
+DB.create_table? :usuario_examen do
+  primary_key   [:intento,:idUsuario,:idExamen]
+  Integer       :intento
+  Time          :tiempo
+  Float         :nota
+  Integer       :numero_fallo
+  Float         :puntuacion
+  String        :titulo
+  DateTime      :fecha
+  foreign_key   :idUsuario, :usuarios
+  foreign_key   :idExamen, :examenes
+end
 
 # DB.create_table! :usuario_examen_respuesta do
 #   primary_key   :idUsuario

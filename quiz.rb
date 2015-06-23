@@ -308,26 +308,31 @@ end
 post '/examenes/new' do
   begin
     puts params
-    if !params[:ids].nil?
-      puts "Entra en if"
-      mi_ids = params[:ids].split(',')
-    end
-    #puts mi_ids
 
-
-    puts params[:fecha_apertura].class
-    puts params[:fecha_cierre]
-
-    # Añadir la pregunta a la base de datos
+    # Añadir el examen a la base de datos
     @objeto = DB[:examenes].insert(:titulo => params[:titulo], :fecha_creacion => Time.now,
-                                   :fecha_apertura => DateTime.parse(params[:fecha_apertura]), 
-                                   :fecha_cierre => DateTime.parse(params[:fecha_cierre]),
+                                   :fecha_apertura => DateTime.parse(params[:fecha_apertura],"%Y-%m-%d %H:%M"),
+                                   :fecha_cierre => DateTime.parse(params[:fecha_cierre],"%Y-%m-%d %H:%M"),
                                    :idUsuario => session[:id])
 
     # Introduzco tantos registros como preguntas tenga
-    mi_ids.each do |id|
-      @objeto2 = DB[:examen_pregunta].insert(:idExamen => @objeto, :idPregunta => id,
-                                             :peso => 1.0, :obligatoria => 1)
+    if !params[:ids].nil?
+      mi_ids = params[:ids].split(',')
+      #puts mi_ids
+      mi_ids.each do |id|
+        @objeto2 = DB[:examen_pregunta].insert(:idExamen => @objeto, :idPregunta => id,
+                                               :peso => 1.0, :obligatoria => 1)
+      end
+    end
+
+    # Enlazar los usuarios con el examen
+    if !params[:usuarios].nil?
+      mi_usuarios = params[:usuarios].split(',')
+      mi_usuarios.each do |id|
+        @objeto3 = DB[:usuario_examen].insert(:idUsuario =>id, :idExamen => @objeto, :intento => 0,
+                                              :tiempo => Time.now, :nota => 0, :numero_fallo => 0, 
+                                              :puntuacion => 0, :titulo => '', :fecha => Time.now)
+      end
     end
   
     flash[:mensaje] = "Examen creado correctamente."
@@ -356,6 +361,7 @@ end
 
 get '/examen/:num' do
   @actual =  "examenes"
+
   if (session[:username])
 
     #SELECT * FROM examenes AS e 
@@ -375,6 +381,19 @@ get '/examen/:num' do
     @preguntas_otras = DB[:preguntas].except(@otras)
 
 
+    #Obtenemos los usuarios que están asociados a ese examen
+    @usuarios = DB[:usuarios].exclude(:idUsuario => session[:id])
+    @usuarios_examen = DB[:usuarios].join(:usuario_examen, :idUsuario => :idUsuario)
+                                    .where(:idExamen => params[:num])
+    @usuarios_examen.each do |usr|
+      @usuarios = @usuarios.exclude(:idUsuario => usr[:idUsuario])
+    end
+
+    @grupos = DB[:grupos].where(:idUsuario => session[:id])
+    
+    #Obtenemos el número de usuarios de un grupo
+    # PENDIENTE --> para mostrar el número de usuarios de ese grupo
+
     haml :editExam
   else
     redirect '/'
@@ -393,17 +412,27 @@ post '/examen/:num' do
                                    :fecha_cierre => DateTime.parse(params[:fecha_cierre],"%Y-%m-%d %H:%M"))
     # Actualizamos las preguntas del examen
     # 1. Eliminamos todas las preguntas de la tabla
-    if !params[:ids].nil?
-      mi_ids = params[:ids].split(',')
-    end
-
     @preg_exam_detele = DB[:examen_pregunta].filter(:idExamen => params[:num]).delete
 
     # 2. Añadimos las preguntas seleccinadas
-    mi_ids.each do |pregunta| 
-      @objeto = DB[:examen_pregunta].insert(:peso => 1, :obligatoria => 1, 
-                                            :idExamen => params[:num], 
-                                            :idPregunta => pregunta)
+    if !params[:ids].nil?
+      mi_ids = params[:ids].split(',')
+      mi_ids.each do |pregunta| 
+        @objeto = DB[:examen_pregunta].insert(:peso => 1, :obligatoria => 1, 
+                                              :idExamen => params[:num], 
+                                              :idPregunta => pregunta)
+      end
+    end
+
+    # Enlazar los usuarios con el examen
+    @examen_usuarios_delete = DB[:usuario_examen].filter(:idExamen => params[:num]).delete
+    if !params[:usuarios].nil?
+      mi_usuarios = params[:usuarios].split(',')
+      mi_usuarios.each do |id|
+        @objeto3 = DB[:usuario_examen].insert(:idUsuario =>id, :idExamen => @objeto, :intento => 0,
+                                              :tiempo => Time.now, :nota => 0, :numero_fallo => 0, 
+                                              :puntuacion => 0, :titulo => '', :fecha => Time.now)
+      end
     end
   
     flash[:mensaje] = "Examen modificado correctamente."
