@@ -98,10 +98,13 @@
     %li.active
       %a{"data-toggle" => "tab", :href => "#daftar", :role => "tab"}
         Mis exámenes
-        %span.badge=@examenes.count
+        %span.badge=@examenes.count 
       
     %li
-      %a{"data-toggle" => "tab", :href => "#tambah", :role => "tab"} Otros exámenes
+      %a{"data-toggle" => "tab", :href => "#tambah", :role => "tab"}
+        Realizar
+        %span.badge=@examen_realizar.count
+  
   / Tab panes
   .tab-content
     #daftar.tab-pane.active
@@ -285,18 +288,86 @@
 
     #tambah.tab-pane
       %br/
-      .alert.alert-success{:role => "alert"}
-        Berhasil
-        %button.close{"data-dismiss" => "alert", :type => "button"}
-          %span{"aria-hidden" => "true"} &times;
-          %span.sr-only Close
-      .alert.alert-warning{:role => "alert"}
-        Ada sedikit masalah
-        %button.close{"data-dismiss" => "alert", :type => "button"}
-          %span{"aria-hidden" => "true"} &times;
-          %span.sr-only Close
-      .alert.alert-danger{:role => "alert"}
-        Error, coba lagi
-        %button.close{"data-dismiss" => "alert", :type => "button"}
-          %span{"aria-hidden" => "true"} &times;
-          %span.sr-only Close
+
+      :javascript
+        $(document).ready(function() {
+          $('#realizar').DataTable();
+        });       
+
+      %table#realizar.display{:cellspacing => "0", :width => "100%"}
+        %thead
+          %tr
+            %th.dt-head-left ID
+            %th.dt-head-left Examen
+            %th.dt-head-left Intento
+            %th.dt-head-left Nota
+            %th.dt-head-left Realización
+            %th.dt-head-left Usuario
+            %th.dt-head-left Opciones
+        %tbody
+          - @examen_realizar.each do |examen|
+            %tr
+              %form.form-horizontal{:action => "/examenes", :method => "POST", :name => "form-realiza-exam", :role => "form"}
+                %td.dt-left= examen[:idExamen]
+                %td.dt-left= examen[:titulo]
+                %td.dt-left= examen[:intento]
+                %td.dt-left= examen[:nota]
+                %td.dt-left 5 
+                %td.dt-left= session[:username]
+                %td.opciones.dt-left
+                  .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
+                    
+                    %a.btn.btn-success{:href => "", :id => "ver#{examen[:idExamen]}", "data-target" => "#myModalView", "data-toggle" => "modal", "data-id" => examen[:idExamen], "data-titulo" => examen[:titulo]}
+                      %span.glyphicon.glyphicon-search
+          
+                    %a.btn.btn-info.btn{:href => "/examen/#{examen[:idExamen]}", :id => "editar"}
+                      %span.glyphicon.glyphicon-pencil
+         
+                    %a.btn.btn-danger{:href => "", :id => "eliminar#{examen[:idExamen]}", :data => examen[:idExamen], "data-target" => "#myModal", "data-toggle" => "modal", "data-whatever" => examen[:idExamen]}
+                      %span.glyphicon.glyphicon-trash
+                    
+                    / Modal
+                    #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                              %span{"aria-hidden" => "true"} &times;
+                            %h4#myModalLabel.modal-title Eliminar examen
+                          .modal-body
+                            %p
+                              / ¿Quiere realmente eliminar el examen
+                              / %strong=examen[:titulo]
+                              / ?
+                          .modal-footer
+                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+                            %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+
+                    / Modal
+                    #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                              %span{"aria-hidden" => "true"} &times;
+                            /%h4#myModalLabel.modal-title Visualizar pregunta
+                            /%h4#myModalLabel.modal-title= examen[:titulo]
+                            %h4#myModalLabel.modal-title{:id => 'tituloExamenModal'}
+                            %label= examen[:fecha_apertura]
+                          .modal-body
+                            /%p{:class => "tituloPregunta"}
+                            .contenidoExamen{:id => 'cuerpoExamenModal'}
+                              /%p{:class => "preguntaModal"} Pregunta 1
+                              /%p{:class => "respuestaModal"} Respuesta 1
+                              /%p{:class => "fechaPregunta"}
+                              / ¿Quiere realmente eliminar el examen
+                              / %strong=examen[:titulo]
+                              / ?
+                          .modal-footer
+                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+
+
+
+
+
+                    %input.form-control{:name => "examen", :type => "text", :style => "display:none;", :value => examen[:idExamen]}

@@ -57,6 +57,8 @@ get '/' do
     @preguntas = DB[:preguntas].where(:idUsuario => session[:id]).count
     @examenes = DB[:examenes].where(:idUsuario => session[:id]).count
     @grupos = DB[:grupos].where(:idUsuario => session[:id]).count
+    @examen_realizar = DB[:usuario_examen].where(:idUsuario => session[:id]).count
+
     #puts "Probando nueva consulta count"
     #puts @preguntas
 
@@ -277,6 +279,9 @@ get '/examenes' do
   @actual =  "examenes"
   if (session[:username])
     @examenes = DB[:examenes].where(:idUsuario => session[:id]).order(:fecha_creacion).reverse
+
+    @examen_realizar = DB[:usuario_examen].join(:examenes, :idExamen => :idExamen)
+                                          .where(:usuario_examen__idUsuario => session[:id])
 
     haml :exams
   else

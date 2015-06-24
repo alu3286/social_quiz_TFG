@@ -196,10 +196,6 @@
           %h3.text-center Grupos
           .well{:style => "max-height: 300px;overflow: auto;"}
             %ul.lista-usuarios-grupos#check-list-box.list-group.checked-list-box
-              / - @usuarios_examen.each do |usr|
-              /   %li.list-group-item.active{:value => usr[:idUsuario], "data-itemtype" => 1}
-              /     = usr[:nombre]
-              /     = usr[:apellidos]
               - @grupos.each do |grp|
                 %li.list-group-item{:value => grp[:idGrupo], "data-itemtype" => 1}
                   = grp[:nombre]
