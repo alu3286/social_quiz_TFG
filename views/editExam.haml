@@ -31,6 +31,11 @@
 
     :javascript
       $(document).ready(function(){
+
+
+        // tooltips
+        $('[data-toggle="tooltip"]').tooltip({delay: {show: 500, hide: 50}});
+
         
         var enviar = false;
 
@@ -56,10 +61,10 @@
             i++;
           });
 
-          // Usuarios y grupos
+          // Usuarios
           var usuarios;
           i = 0;
-          $("ul.lista-usuarios-grupos > li").each(function(index) {
+          $("ul.lista-usuarios > li").each(function(index) {
             if($(this).hasClass('active')) {
               // alert($(this).val());
               // console.log($(this));
@@ -73,12 +78,30 @@
             }
           });
 
+          // Grupos
+          var grupos;
+          i = 0;
+          $("ul.lista-grupos > li").each(function(index) {
+            if($(this).hasClass('active')) {
+              // alert($(this).val());
+              // console.log($(this));
+              if (i == 0) {
+                grupos = $(this).val();
+              }
+              else {
+                grupos = grupos + "," + $(this).val();
+              }
+              i++;
+            }
+          });
+
+
           //var datos = { id: '1','2','3' };
 
           $.ajax({
             url: "/examen/" + $("#oculto").val(),
             method: "post",
-            data: { ids: datos, titulo, fecha_apertura, fecha_cierre, usuarios}
+            data: { ids: datos, titulo, fecha_apertura, fecha_cierre, usuarios, grupos}
           }).done(function() {
             // Comprobamos que los valores required contienen datos
             if ($("#titulo").val() != '' && $("#fecha_apertura").val() != '' && $("#fecha_cierre").val() != '') {
@@ -95,24 +118,30 @@
     %form#formulario2{:action => "/examenes/redireccion", :method => "post"}
 
     %form#formulario{:action => "/examen/#{@examen[:idExamen]}", :method => "post", :name => "form-new-exam", :role => "form"}
-      .form-horizontal
+        
+      .col-md-10  
         .form-group
-          %label.col-lg-2.control-label{:for => "titulo"} Texto del examen
-          .col-lg-8
-            %input.form-control{:placeholder => "Introduzca un texto", :type => "text", :id => "titulo", :autofocus => "", :required => "", :value => @examen[:titulo]}
-        .form-group
-          /%label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
-          .col-lg-5
-            #datetimepicker1.input-group.date
-              %input.form-control{:type => "text", :id => "fecha_apertura", :placeholder => "Fecha de apertura", :required => "", :value => @examen[:fecha_apertura].strftime("%d-%m-%Y %H:%M")}
-              %span.input-group-addon
-                %span.glyphicon.glyphicon-calendar
-          /%label.col-lg-2.control-label{:for => "cierre"} Fecha de cierre
-          .col-lg-5
-            #datetimepicker2.input-group.date
-              %input.form-control{:type => "text", :id => "fecha_cierre", :placeholder => "Fecha de cierre", :required => "", :value => @examen[:fecha_cierre].strftime("%d-%m-%Y %H:%M")}
-              %span.input-group-addon
-                %span.glyphicon.glyphicon-calendar
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title Datos del examen
+            .panel-body
+              .form-group
+                %label.col-lg-2.control-label{:for => "titulo"} Texto del examen
+                .col-lg-8
+                  %input.form-control{:placeholder => "Introduzca un texto", :type => "text", :id => "titulo", :autofocus => "", :required => "", :value => @examen[:titulo]}
+              .form-group
+                /%label.col-lg-2.control-label{:for => "apertura"} Fecha de apertura
+                .col-lg-5
+                  #datetimepicker1.input-group.date
+                    %input.form-control{:type => "text", :id => "fecha_apertura", :placeholder => "Fecha de apertura", :required => "", :value => @examen[:fecha_apertura].strftime("%d-%m-%Y %H:%M")}
+                    %span.input-group-addon
+                      %span.glyphicon.glyphicon-calendar
+                /%label.col-lg-2.control-label{:for => "cierre"} Fecha de cierre
+                .col-lg-5
+                  #datetimepicker2.input-group.date
+                    %input.form-control{:type => "text", :id => "fecha_cierre", :placeholder => "Fecha de cierre", :required => "", :value => @examen[:fecha_cierre].strftime("%d-%m-%Y %H:%M")}
+                    %span.input-group-addon
+                      %span.glyphicon.glyphicon-calendar
         :javascript
           $(function () {
               $('#datetimepicker1').datetimepicker({
@@ -124,82 +153,92 @@
           });
 
 
+      .col-md-10  
+        .form-group
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title Selecciona preguntas y añádelas al examen
+            .panel-body
+              / Lista de la izquierda
+              .dual-list.list-left.col-md-5
+                .well.text-right
+                  .row
+                    .col-md-10
+                      .input-group
+                        %span.input-group-addon.glyphicon.glyphicon-search
+                        %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}/
+                    .col-md-2
+                      .btn-group
+                        %a.btn.btn-default.selector{:title => "Seleccionar todo"}
+                          %i.glyphicon.glyphicon-unchecked
 
-      / Lista de la izquierda
-      .dual-list.list-left.col-md-5
-        .well.text-right
-          .row
-            .col-md-10
-              .input-group
-                %span.input-group-addon.glyphicon.glyphicon-search
-                %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}/
-            .col-md-2
-              .btn-group
-                %a.btn.btn-default.selector{:title => "Seleccionar todo"}
-                  %i.glyphicon.glyphicon-unchecked
+                  %ul.list-group
+                    - @preguntas_otras.each do |pregunta|
+                      %li.list-group-item{:value => pregunta[:idPregunta]}
+                        %span.titulo
+                          =pregunta[:titulo]
+                        %br
+                        %span.fecha
+                          =pregunta[:fecha_creacion].strftime("%c")
 
-          %ul.list-group
-            - @preguntas_otras.each do |pregunta|
-              %li.list-group-item{:value => pregunta[:idPregunta]}
-                %span.titulo
-                  =pregunta[:titulo]
-                %br
-                %span.fecha
-                  =pregunta[:fecha_creacion].strftime("%c")
+              / Botones de desplazamiento
+              .list-arrows.col-md-1.text-center
+                %button.btn.btn-default.btn-sm.move-left{:id => "boton1"} 
+                  %span.glyphicon.glyphicon-chevron-left
+                %button.btn.btn-default.btn-sm.move-right{:id => "boton2"}
+                  %span.glyphicon.glyphicon-chevron-right
 
-      / Botones de desplazamiento
-      .list-arrows.col-md-1.text-center
-        %button.btn.btn-default.btn-sm.move-left{:id => "boton1"} 
-          %span.glyphicon.glyphicon-chevron-left
-        %button.btn.btn-default.btn-sm.move-right{:id => "boton2"}
-          %span.glyphicon.glyphicon-chevron-right
-
-      / Lista de la derecha
-      .dual-list.list-right.col-md-5
-        .well
-          .row
-            .col-md-2
-              .btn-group
-                %a.btn.btn-default.selector{:title => "Seleccionar todo"}
-                  %i.glyphicon.glyphicon-unchecked
-            .col-md-10
-              .input-group
-                %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}/
-                %span.input-group-addon.glyphicon.glyphicon-search
-          %ul.list-group{:class => "lista-derecha"}
-            - @preguntas.each do |pregunta|
-              %li.list-group-item{:value => pregunta[:idPregunta]}
-                %span.titulo
-                  =pregunta[:titulo]
-                %br
-                %span.fecha
-                  =pregunta[:fecha_creacion].strftime("%c")
+              / Lista de la derecha
+              .dual-list.list-right.col-md-5
+                .well
+                  .row
+                    .col-md-2
+                      .btn-group
+                        %a.btn.btn-default.selector{:title => "Seleccionar todo"}
+                          %i.glyphicon.glyphicon-unchecked
+                    .col-md-10
+                      .input-group
+                        %input.form-control{:name => "SearchDualList", :placeholder => "Buscar", :type => "text"}/
+                        %span.input-group-addon.glyphicon.glyphicon-search
+                  %ul.list-group{:class => "lista-derecha"}
+                    - @preguntas.each do |pregunta|
+                      %li.list-group-item{:value => pregunta[:idPregunta]}
+                        %span.titulo
+                          =pregunta[:titulo]
+                        %br
+                        %span.fecha
+                          =pregunta[:fecha_creacion].strftime("%c")
       
       
-        
-      
-      .form-group
-        .col-md-6
-          %h3.text-center Usuarios
-          .well{:style => "max-height: 300px;overflow: auto;"}
-            %ul.lista-usuarios-grupos#check-list-box.list-group.checked-list-box
-              - @usuarios_examen.each do |usr|
-                %li.list-group-item.active{:value => usr[:idUsuario], "data-itemtype" => 1}
-                  = usr[:nombre]
-                  = usr[:apellidos]
-              - @usuarios.each do |usr|
-                %li.list-group-item{:value => usr[:idUsuario], "data-itemtype" => 1}
-                  = usr[:nombre]
-                  = usr[:apellidos]
+      .col-md-10  
+        .form-group
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title Asigna usuarios y/o grupos al examen
+            .panel-body
+              .form-group
+                .col-md-6
+                  %h3.text-center Usuarios
+                  .well{:style => "max-height: 300px;overflow: auto;"}
+                    %ul.lista-usuarios#check-list-box.list-group.checked-list-box
+                      - @usuarios_examen.each do |usr|
+                        %li.list-group-item.enlace-fake.active{:value => usr[:idUsuario], "data-itemtype" => 1}
+                          = usr[:nombre]
+                          = usr[:apellidos]
+                      - @usuarios.each do |usr|
+                        %li.list-group-item.enlace-fake{:value => usr[:idUsuario], "data-itemtype" => 1}
+                          = usr[:nombre]
+                          = usr[:apellidos]
 
-        .col-md-6
-          %h3.text-center Grupos
-          .well{:style => "max-height: 300px;overflow: auto;"}
-            %ul.lista-usuarios-grupos#check-list-box.list-group.checked-list-box
-              - @grupos.each do |grp|
-                %li.list-group-item{:value => grp[:idGrupo], "data-itemtype" => 1}
-                  = grp[:nombre]
-                  %span.badge 14
+                .col-md-6
+                  %h3.text-center Grupos
+                  .well{:style => "max-height: 300px;overflow: auto;"}
+                    %ul.lista-grupos#check-list-box.list-group.checked-list-box
+                      - @grupos.each do |grp|
+                        %li.list-group-item.enlace-fake{:value => grp[:idGrupo], "data-itemtype" => 1, "data-placement" => "top", "data-toggle" => "tooltip", :title => grp[:descripcion]}
+                          = grp[:nombre]
+                          %span.badge 14
+      
 
 
 
@@ -208,3 +247,4 @@
       .form-group
         .col-lg-11
           %button.btn.btn-primary{:type => "submit", :id => "guardar"} Guardar
+          %a.btn.btn-default{:href => "/examenes", :role => "button"} Cancelar

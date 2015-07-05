@@ -429,16 +429,39 @@ post '/examen/:num' do
       end
     end
 
-    # Enlazar los usuarios con el examen
+    # Gestión de usuarios y grupos para los exámenes -------
     @examen_usuarios_delete = DB[:usuario_examen].filter(:idExamen => params[:num]).delete
+
+    # Enlazar los usuarios de un grupo con el examen
+    if !params[:grupos].nil?
+      mi_grps = params[:grupos].split(',')
+      mi_grps.each do |grp| 
+        # Obtener todos los usuarios de ese grupo
+        @usrs = DB[:usuario_grupo].filter(:idGrupo => grp)
+        @usrs.each do |us|
+          @objeto2 = DB[:usuario_examen].insert(:idUsuario => us[:idUsuario], :idExamen => @objeto, :intento => 0,
+                                                :tiempo => Time.now, :nota => 0, :numero_fallo => 0, 
+                                                :puntuacion => 0, :titulo => '', :fecha => Time.now)
+        end
+      end
+    end
+
+    # Enlazar los usuarios con el examen
     if !params[:usuarios].nil?
       mi_usuarios = params[:usuarios].split(',')
+
+      # Hay que comprobar que estos usuarios no estan ya introducidos por los grupos
+      # comprobamos la variable params[:grupos] y luego más comprobaciones...
+
+
       mi_usuarios.each do |id|
         @objeto3 = DB[:usuario_examen].insert(:idUsuario =>id, :idExamen => @objeto, :intento => 0,
                                               :tiempo => Time.now, :nota => 0, :numero_fallo => 0, 
                                               :puntuacion => 0, :titulo => '', :fecha => Time.now)
       end
     end
+
+    # ------------------------------------------------------
   
     flash[:mensaje] = "Examen modificado correctamente."
 
