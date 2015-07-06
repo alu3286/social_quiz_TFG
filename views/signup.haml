@@ -19,11 +19,11 @@
             #mensaje-pass.alert.alert-danger.col-sm-12
             %form#form-signup.form-horizontal{:action => "/signup", :method => "POST", :name => "form-signup", :role => "form"}
               %h2.form-signin-heading Registro
-              #registro-fuente-externa
-                %a{:href => "/auth/google_oauth2"}
-                  %img{:src => "http://i.imgur.com/cYZGfB0.png", :alt => "Google", :class => "img-circle", :id => "icono-autenticacion"}
-                %a{:href => "/auth/facebook"}
-                  %img{:src => "http://i.imgur.com/X0dq98g.png", :alt => "Facebook", :class => "img-circle", :id => "icono-autenticacion"}
+              //#registro-fuente-externa
+              //  %a{:href => "/auth/google_oauth2"}
+              //    %img{:src => "http://i.imgur.com/cYZGfB0.png", :alt => "Google", :class => "img-circle", :id => "icono-autenticacion"}
+              //  %a{:href => "/auth/facebook"}
+              //    %img{:src => "http://i.imgur.com/X0dq98g.png", :alt => "Facebook", :class => "img-circle", :id => "icono-autenticacion"}
               .form-group
                 %label.col-sm-2.control-label{:for => "nombre"} Nombre*
                 .col-sm-10
@@ -56,7 +56,13 @@
               .form-group
                 .col-sm-offset-2.col-sm-10
                   %button.btn.btn-info.btn-lg.btn-block{:onclick => "enviar()", :type => "submit"} Registro
-              #signup-msg
-                ¿Ya tiene una cuenta?
-                / <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">Regístrate aquí</a>
-                %a{:href => "./login"} Loguéate aquí
+              .col-sm-offset-2.col-sm-10
+                #signup-msg
+                  ¿Ya tiene una cuenta?
+                  / <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">Regístrate aquí</a>
+                  %a{:href => "./login"} Loguéate aquí
+              .form-group
+                .col-sm-offset-2.col-sm-10
+                  %a.btn.btn-lg.btn-block.boton-google{:href => "/auth/google_oauth2"} 
+                    %img{:src => "http://i.imgur.com/fQSlwEs.png", :alt => "Google", :class => "img-circle", :id => "icono-autenticacion"}
+                      Log in usando Google

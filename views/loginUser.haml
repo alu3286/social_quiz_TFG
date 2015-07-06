@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", :rel => "stylesheet"}
+      %link{:href => "./css/authentication.css", :rel => "stylesheet", :type => "text/css"}
+        %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+        %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"}
+        %title Social Quiz - Log in
+  %body
+    / <h1>Logueo</h1>
+    .container
+      #loginbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
+        .panel.panel-info
+          .panel-heading
+            .panel-title
+              %a{:href => "./"} Social Quiz
+          .panel-body
+            - if (flash[:mensaje])
+              #login-alert.alert.alert-danger.col-sm-12
+                %p= flash[:mensaje]
+            %form.form-loginUser{:action => "/getUser", :method => "POST", :name => "form-login", :role => "form"}
+              %h2.form-loginUser Registro
+              %label.sr-only{:for => "inputEmail"} Usuario
+              %input#usuario.form-control{:autofocus => "", :name => "username", :placeholder => "Nombre de usuario", :required => "", :type => "text"}
+              %br
+                %button.btn.btn-lg.btn-info.btn-block{:type => "submit"} Registro

@@ -15,6 +15,7 @@ body {
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
   margin-bottom: 10px;
+  color: #31B0D5;
 }
 .form-signin .checkbox {
   font-weight: normal;
@@ -73,7 +74,32 @@ body {
 }
 
 #icono-autenticacion {
-  width: 50px;
+  width: 20px;
   height: auto;
-  margin-bottom: 5px;
+}
+
+.boton-google {
+  background-color: #d64532;
+  color: white;
+}
+
+a.boton-google:hover {
+  color: white;
+  background-color: #bc3d2f;
+}
+
+/*.glyphicon {
+  top: 0;
+}*/
+
+/*.glyphicon.glyphicon-user {
+  color: #31B0D5;
+}
+
+.glyphicon.glyphicon-lock {
+  color: #31B0D5;
+}*/
+
+.btn-google {
+  /*background-color: #D6492F;*/
 }

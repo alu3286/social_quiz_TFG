@@ -15,6 +15,8 @@ require 'haml'
 
 require 'json'
 
+#require './auth.rb'
+
 =begin
 # Configuracion en local
 configure :development, :test do
@@ -37,6 +39,8 @@ DataMapper.finalize
 #DataMapper.auto_migrate!
 DataMapper.auto_upgrade!
 =end
+
+require_relative 'auth'
 
 require_relative 'model'
 
@@ -143,6 +147,61 @@ post '/signup' do
   end
   redirect '/'
 end
+
+# Usados para autenticación mediante OAuth -------------------
+get '/getUser' do
+  begin
+    # Comprobamos si existe ese email en la base de datos
+    @usuario = DB[:usuarios].first(:email => session[:email])
+    
+    if (!@usuario)
+      puts "en el if"
+      haml :loginUser, :layout => false
+    else
+      puts "en el else"
+
+      session[:username] = @usuario[:username]
+      session[:nombre] = @usuario[:nombre]
+      session[:apellidos] = @usuario[:apellidos]      
+      session[:email] = @usuario[:email]
+      session[:imagen] = @usuario[:imagen]
+      session[:id] = @usuario[:id]
+      
+      redirect '/'
+    end 
+  rescue Exception => e
+    flash[:mensaje] = "El nombre de usuario y/o contraseña no son correctos."
+    puts e.message  
+  end
+end
+
+post '/getUser' do
+  begin
+    @usuario = DB[:usuarios].first(:username => params[:usuario])
+    if (!@usuario)
+      @objeto = DB[:usuarios].insert(:username => params[:username], :nombre => session[:nombre], 
+                                     :apellidos => session[:apellidos], :imagen => session[:imagen], 
+                                     :email => session[:email], :fecha_creacion => Time.now)
+      #session[:nombre] = session[:nombre]
+      #session[:apellidos] = session[:apellidos]
+      #session[:imagen] = session[:imagen]
+      session[:username] = params[:username]
+      session[:id] = DB[:usuarios].first(:username => params[:username])[:idUsuario]
+      puts "Esta es mi session id"
+      puts session[:id]
+
+      flash[:mensaje] = "¡Enhorabuena! Se ha registrado correctamente."
+    else
+      puts "Muestra mensaje rojo"
+      flash[:mensajeRojo] = "El nombre de usuario ya existe. Por favor, elija otro."
+      redirect '/getUser'
+    end
+  rescue Exception => e
+    puts e.message
+  end
+  redirect '/'
+end
+# Fin OAuth -----------------------------------------------
 
 get '/preguntas' do
   @actual =  "preguntas"
