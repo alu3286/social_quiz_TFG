@@ -807,6 +807,22 @@ post '/grupos/miembros/:num' do
 
 end
 
+# Realización de un examen --------------------------------------
+get '/examen/realizar/:num' do
+  @actual = "examenes"
+  if (session[:username])
+    # Obtenemos preguntas de un examen
+    @preguntasExamen = DB[:examenes].join(:examen_pregunta, :idExamen => :idExamen)
+                                    .join(:preguntas, :idPregunta => :idPregunta)
+                                    .join(:respuestas, :idPregunta => :idPregunta)
+                                    .where(:examenes__idExamen => params[:num])
+    haml :examination
+  else
+    redirect '/'
+  end
+end
+# ---------------------------------------------------------------
+
 get '/calificaciones' do
   if (session[:username])
 

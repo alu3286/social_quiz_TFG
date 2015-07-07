@@ -1,0 +1,18 @@
+.container
+  .page-header.list-page
+    %h2 Realizar examen
+  .row
+
+    %form#formulario-examen{:action => "/examen/calificacion", :method => "post", :name => "form-realizar-exam", :role => "form"}
+      .form-horizontal
+        - @preguntasExamen.each do |pregunta|
+          .form-group
+            %label.col-lg-8.control-label.left{:for => "titulo"}= pregunta[:titulo]
+            - case pregunta[:tipo]
+            - when "corta"
+              %input.form-control{:placeholder => "Respuesta", :type => "text", :id => "preg-#{pregunta[:idPregunta]}", :required => ""}
+            - when "vf"
+              = "Verdadero falso"
+        .form-group
+          .col-lg-11
+            %button.btn.btn-primary{:type => "submit", :id => "guardar"} Enviar

@@ -92,4 +92,6 @@ nav.navbar.navbar-default {
   border-top: 5px solid green;
 }
 
-
+.left {
+  text-align: left !important;
+}
