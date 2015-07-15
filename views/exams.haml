@@ -302,7 +302,7 @@
             %th.dt-head-left Examen
             %th.dt-head-left Intento
             %th.dt-head-left Nota
-            %th.dt-head-left Realización
+            %th.dt-head-left Realizado
             %th.dt-head-left Usuario
             %th.dt-head-left Opciones
         %tbody
@@ -313,7 +313,7 @@
                 %td.dt-left= examen[:titulo]
                 %td.dt-left= examen[:intento]
                 %td.dt-left= examen[:nota]
-                %td.dt-left 5 
+                %td.dt-left= examen[:fecha] 
                 %td.dt-left= session[:username]
                 %td.opciones.dt-left
                   .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}

@@ -852,6 +852,9 @@ get '/examen/realizar/:num' do
                                     .join(:respuestas, :idPregunta => :idPregunta)
                                     .where(:examenes__idExamen => params[:num])
     @examen = DB[:examenes].first(:idExamen => params[:num])
+
+    # Eliminamos registros guardados anteriormente en la tabla de ese usuario
+    @usu_exa_resp = DB[:usuario_examen_respuesta].filter(:idExamen => params[:num]).filter(:idUsuario => session[:id]).delete
     
     haml :examination
   else
@@ -871,6 +874,7 @@ post '/examen/realizar/:num' do
     
     # Para obtener el intento del usuario
     @usu_exa = DB[:usuario_examen].where(:idExamen => params[:num]).where(:idUsuario => session[:id])
+    @usu_exa.update(:fecha => Time.now)
     
     # Almacenamos los valores en usuario_examen_respuesta
     @preguntasExamen.each do |pregunta|
