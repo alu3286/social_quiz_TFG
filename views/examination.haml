@@ -12,7 +12,14 @@
             - when "corta"
               %input.form-control{:placeholder => "Respuesta", :type => "text", :id => "#{pregunta[:idPregunta]}", :name => "idPregunta#{pregunta[:idPregunta]}", :required => ""}
             - when "vf"
-              = "Verdadero falso"
+              .radio.radio-inline
+                %label
+                  %input#optionsRadios1{:name => "opciones#{pregunta[:idPregunta]}", :type => "radio", :value => "true", :required => ""}
+                    Verdadero
+              .radio.radio-inline
+                %label
+                  %input#optionsRadios2{:name => "opciones#{pregunta[:idPregunta]}", :type => "radio", :value => "false", :required => ""}
+                    Falso
            
             %input{:id => 'oculto', :name => "idRespuesta" + "#{pregunta[:idRespuesta]}", :type => "hidden", :value => "#{pregunta[:idRespuesta]}"}
         .form-group

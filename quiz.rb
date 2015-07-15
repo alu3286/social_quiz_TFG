@@ -648,7 +648,8 @@ post '/damePreguntasExamenCalificacion' do
   #                        WHERE e."idExamen" = 1
   @preguntasExamen = DB[:examenes].select(:preguntas__titulo, :respuestas__tipo, :respuestas__texto___textoRespuesta, 
                                           :respuestas__correcto,
-                                          :usuario_examen_respuesta__texto___textoUsuario)
+                                          :usuario_examen_respuesta__texto___textoUsuario,
+                                          :usuario_examen_respuesta__correcto___correctoUsuario)
                                   .join(:examen_pregunta, :idExamen => :idExamen)
                                   .join(:usuario_examen_respuesta, :idExamen => :idExamen, :idPregunta => :idPregunta)
                                   .join(:preguntas, :idPregunta => :idPregunta)
@@ -877,28 +878,36 @@ post '/examen/realizar/:num' do
     @usu_exa.update(:fecha => Time.now)
     
     # Almacenamos los valores en usuario_examen_respuesta
+    preguntas = @preguntasExamen.count
+    nota = 0
     @preguntasExamen.each do |pregunta|
-      @respuestas = DB[:usuario_examen_respuesta].insert(:idUsuario => session[:id], 
+      case pregunta[:tipo]
+      when "corta"
+        @respuestas = DB[:usuario_examen_respuesta].insert(:idUsuario => session[:id], 
                                                          :idExamen => params[:num],
                                                          :idPregunta => pregunta[:idPregunta], 
                                                          :idRespuesta => pregunta[:idRespuesta], 
                                                          :intento => @usu_exa.first[:intento],
                                                          :texto => params["idPregunta#{pregunta[:idPregunta]}"])
-    end
-
-    # Añadir la nota en la tabla usuario_examen
-    preguntas = @preguntasExamen.count
-    nota = 0
-    @preguntasExamen.each do |pregunta|
-      puts "La pregunta correcta es: "
-      puts pregunta[:texto]
-      puts "Mi pregunta es :"
-      puts params["idPregunta#{pregunta[:idPregunta]}"]
-      if (pregunta[:texto] == params["idPregunta#{pregunta[:idPregunta]}"])
-        # pregunta correcta
-        nota = nota + 1
+        if (pregunta[:texto] == params["idPregunta#{pregunta[:idPregunta]}"])
+          # pregunta correcta
+          nota = nota + 1
+        end
+      when "vf"
+        @respuestas = DB[:usuario_examen_respuesta].insert(:idUsuario => session[:id], 
+                                                         :idExamen => params[:num],
+                                                         :idPregunta => pregunta[:idPregunta], 
+                                                         :idRespuesta => pregunta[:idRespuesta], 
+                                                         :intento => @usu_exa.first[:intento],
+                                                         :texto => "",
+                                                         :correcto => params["opciones#{pregunta[:idPregunta]}"])
+        if (pregunta[:correcto].to_s == params["opciones#{pregunta[:idPregunta]}"])
+          # pregunta correcta
+          nota = nota + 1
+        end
       end
     end
+
     nota_final = (nota * 10) / preguntas
     @nota = @usu_exa.update(:nota => nota_final)
     

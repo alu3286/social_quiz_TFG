@@ -93,7 +93,8 @@ configure do
     foreign_key   :idPregunta, :respuestas
     foreign_key   :idRespuesta, :respuestas
 
-    String         :texto
+    String        :texto
+    Boolean       :correcto
 
     #primary_key   [:intento,:idUsuario,:idExamen,:idPregunta,:idRespuesta]
     #foreign_key   :intento, :usuario_examen

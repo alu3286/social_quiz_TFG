@@ -153,7 +153,14 @@
                 }
                 break;
             case 'vf':
-                preguntas = preguntas + '<p class="respuestaModal">' + (group.correcto ? "Verdadero" : "Falso") + '</p>';
+                if (group.correcto == group.correctoUsuario) {
+
+                  preguntas = preguntas + '<p class="respuestaModalCorrecta">' + (group.correcto ? "Verdadero" : "Falso") + '</p>';
+                }
+                else {
+                  preguntas = preguntas + '<p class="respuestaModalIncorrecta">' + group.correctoUsuario + '</p>';
+                  preguntas = preguntas + '<p class="respuestaModalCorrecta">La respuesta correcta es: ' + group.correcto + '</p>';
+                }
                 break;
             default:
                 
