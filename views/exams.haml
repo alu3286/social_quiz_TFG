@@ -111,6 +111,64 @@
 
     });
 
+    /* Modal utilizado para mostrar la vista previa del examen realizado */
+    $('#myModalViewCalification.modal').on('show.bs.modal', function (event) {
+    
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('id') // Extract info from data-* attributes
+      var titulo = button.data('titulo');
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+
+      //modal.find('.modal-body p').text('Visualización del examen ' + recipient + '?')
+      modal.find(".modal-title").text(titulo);
+      modal.find(".modal-body *").empty();
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub, 'cuerpoExamenModal']);
+
+
+      $.ajax({
+        url: "/damePreguntasExamenCalificacion",
+        method: "post",
+        data: { ids: recipient }
+        //data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
+      }).done(function(datosdevueltos) {
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub, 'preguntaModal']);
+
+        var json = jQuery.parseJSON(datosdevueltos)
+        //console.log(json);
+        var preguntas = '';
+        var contador = 1;
+        $.each(json, function(arrayID,group) {
+          //console.log(group.idRespuesta);
+          preguntas = preguntas + '<p class="preguntaModal"> ' + contador + '. ' + group.titulo + '</p>';
+          switch(group.tipo) {
+            case 'corta':
+                if (group.textoRespuesta == group.textoUsuario) {
+                  preguntas = preguntas + '<p class="respuestaModalCorrecta">' + group.textoUsuario + '</p>';
+                }
+                else {
+                  preguntas = preguntas + '<p class="respuestaModalIncorrecta">' + group.textoUsuario + '</p>';
+                  preguntas = preguntas + '<p class="respuestaModalCorrecta">La respuesta correcta es: ' + group.textoRespuesta + '</p>';
+                }
+                break;
+            case 'vf':
+                preguntas = preguntas + '<p class="respuestaModal">' + (group.correcto ? "Verdadero" : "Falso") + '</p>';
+                break;
+            default:
+                
+          }
+          preguntas = preguntas + '<hr>';
+          contador++;
+          
+        });
+        //modal.find(".contenidoExamen").text(preguntas);
+        modal.find(".contenidoExamen").append(preguntas);
+
+      })
+
+    })
+
 
   });
 
@@ -260,7 +318,7 @@
                 %td.opciones.dt-left
                   .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
                     - if (examen[:intento] != 0)
-                      %a.btn.btn-success{:href => "", :id => "ver#{examen[:idExamen]}", "data-target" => "#myModalView", "data-toggle" => "modal", "data-id" => examen[:idExamen], "data-titulo" => examen[:titulo]}
+                      %a.btn.btn-success{:href => "", :id => "ver#{examen[:idExamen]}", "data-target" => "#myModalViewCalification", "data-toggle" => "modal", "data-id" => examen[:idExamen], "data-titulo" => examen[:titulo]}
                         %span.glyphicon.glyphicon-search
           
                     / %a.btn.btn-info.btn{:href => "/examen/realizar/#{examen[:idExamen]}", :id => "editar", "data-target" => "#myModalRealizar", "data-toggle" => "modal", "data-whatever" => examen[:idExamen]}
@@ -285,7 +343,7 @@
                             %button.btn.btn-info{:type => "button", :id => "botonRealizar", :data => "UNO"} Realizar
 
                     / Modal
-                    #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                    #myModalViewCalification.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
                       .modal-dialog
                         .modal-content
                           .modal-header

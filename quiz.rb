@@ -631,6 +631,34 @@ post '/damePreguntasExamen' do
   @preguntasExamen.to_json
 end
 
+# Devuelve las preguntas de un examen dado y sus respuestas.
+post '/damePreguntasExamenCalificacion' do
+  #puts "Estamos en dameRespuesta"
+  #puts params
+  class Sequel::Dataset
+    def to_json
+      naked.all.to_json
+    end
+  end
+
+  # SELECT * FROM examenes e INNER JOIN examen_pregunta ep ON ep."idExamen" = e."idExamen"
+  #                        INNER JOIN preguntas p ON p."idPregunta" = ep."idPregunta"
+  #                        INNER JOIN respuestas r ON r."idPregunta" = p."idPregunta"
+  #                        INNER JOIN usuario_examen_respuesta uer ON e."idExamen" = uer."idExamen" AND uer."idPregunta" = p."idPregunta"
+  #                        WHERE e."idExamen" = 1
+  @preguntasExamen = DB[:examenes].select(:preguntas__titulo, :respuestas__tipo, :respuestas__texto___textoRespuesta, 
+                                          :respuestas__correcto,
+                                          :usuario_examen_respuesta__texto___textoUsuario)
+                                  .join(:examen_pregunta, :idExamen => :idExamen)
+                                  .join(:usuario_examen_respuesta, :idExamen => :idExamen, :idPregunta => :idPregunta)
+                                  .join(:preguntas, :idPregunta => :idPregunta)
+                                  .join(:respuestas, :idPregunta => :idPregunta)
+                                  .where(:examenes__idExamen => params[:ids])
+  puts "Estas son las columnas finales"
+  puts @preguntasExamen.to_json
+  @preguntasExamen.to_json
+end
+
 
 
 get '/grupos' do

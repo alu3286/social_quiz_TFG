@@ -17,3 +17,11 @@
 	background-color: #EEEEEE;
 	font-weight: bold;
 }
+
+.respuestaModalCorrecta {
+	background-color: #78AE74;
+}
+
+.respuestaModalIncorrecta {
+	background-color: #FF1A3B;
+}
