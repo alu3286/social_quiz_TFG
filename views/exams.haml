@@ -86,6 +86,31 @@
 
     })
 
+    /* Realización del examen */
+    $('#myModalRealizar.modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      var titulo = button.data('titulo')
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      //modal.find('.modal-title').text('New message to ' + recipient)
+      modal.find('.modal-body p').text('¿Quiere realmente realizar el examen ' + titulo + ' ?')
+      
+      modal.find(botonRealizar).data('id', recipient);
+      //alert(modal.find(botonEliminar).data( 'id' ) );
+
+    })
+
+    $('button.btn.btn-info').on('click', function(event) {
+    // $('#botonEliminar').on('click', function(event) {
+      //alert($(this).data('id'));
+      //window.location.href = "/examenes";
+      datos = $(this).data('id');
+      window.location.href = "/examen/realizar/" + datos;
+
+    });
+
 
   });
 
@@ -234,13 +259,30 @@
                 %td.dt-left= session[:username]
                 %td.opciones.dt-left
                   .btn-group.btn-group{"aria-label" => "Opciones", :role => "group"}
-                    
-                    %a.btn.btn-success{:href => "", :id => "ver#{examen[:idExamen]}", "data-target" => "#myModalView", "data-toggle" => "modal", "data-id" => examen[:idExamen], "data-titulo" => examen[:titulo]}
-                      %span.glyphicon.glyphicon-search
+                    - if (examen[:intento] != 0)
+                      %a.btn.btn-success{:href => "", :id => "ver#{examen[:idExamen]}", "data-target" => "#myModalView", "data-toggle" => "modal", "data-id" => examen[:idExamen], "data-titulo" => examen[:titulo]}
+                        %span.glyphicon.glyphicon-search
           
-                    %a.btn.btn-info.btn{:href => "/examen/realizar/#{examen[:idExamen]}", :id => "editar"}
+                    / %a.btn.btn-info.btn{:href => "/examen/realizar/#{examen[:idExamen]}", :id => "editar", "data-target" => "#myModalRealizar", "data-toggle" => "modal", "data-whatever" => examen[:idExamen]}
+                    %a.btn.btn-info.btn{:href => "", :id => "realizar#{examen[:idExamen]}", "data-target" => "#myModalRealizar", "data-toggle" => "modal", "data-whatever" => examen[:idExamen], "data-titulo" => examen[:titulo]}
                       %span.glyphicon.glyphicon-pencil
          
+                    / Modal
+                    #myModalRealizar.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                              %span{"aria-hidden" => "true"} &times;
+                            %h4#myModalLabel.modal-title Realizar examen
+                          .modal-body
+                            %p
+                              /¿Quiere realmente realizar el examen
+                              /%strong=examen[:titulo]
+                              /?
+                          .modal-footer
+                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+                            %button.btn.btn-info{:type => "button", :id => "botonRealizar", :data => "UNO"} Realizar
 
                     / Modal
                     #myModalView.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}

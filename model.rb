@@ -73,8 +73,8 @@ configure do
   end
 
   DB.create_table? :usuario_examen do
-    primary_key   [:intento,:idUsuario,:idExamen]
     Integer       :intento
+    primary_key   [:intento, :idUsuario, :idExamen]
     Time          :tiempo
     Float         :nota
     Integer       :numero_fallo
@@ -85,24 +85,26 @@ configure do
     foreign_key   :idExamen, :examenes
   end
 
-  # DB.create_table! :usuario_examen_respuesta do
-  #   primary_key   :idUsuario
-  #   primary_key   :idExamen
-  #   primary_key   :idRespuesta
-  #   primary_key   :idPregunta
-  #   primary_key   :intento
-  #   String        :texto
+  DB.create_table? :usuario_examen_respuesta do
+    Integer       :intento
+    Integer       :idUsuario
+    Integer       :idExamen
 
-  #   foreign_key   :idUsuario, :usuario_examen
-  #   foreign_key   :idExamen, :usuario_examen
-  #   foreign_key   :intento, :usuario_examen
+    foreign_key   :idPregunta, :respuestas
+    foreign_key   :idRespuesta, :respuestas
 
-  #   #foreign_key   :idExamen, :examen_pregunta
-  #   #foreign_key   :idPregunta, :examen_pregunta
+    String         :texto
 
-  #   foreign_key   :idRespuesta, :respuestas
-  #   foreign_key   :idPregunta, :respuestas
-  # end
+    #primary_key   [:intento,:idUsuario,:idExamen,:idPregunta,:idRespuesta]
+    #foreign_key   :intento, :usuario_examen
+    #foreign_key   :idUsuario, :usuario_examen
+    #foreign_key   :idExamen, :usuario_examen
+    #foreign_key   [:intento,:idUsuario,:idExamen], :usuario_examen
+    #foreign_key   :idPregunta, :repuestas
+    #foreign_key   :idRespuesta, :repuestas
+    #foreign_key   :idExamen, :examen_pregunta
+    #foreign_key   :idPregunta, :examen_pregunta
+  end
 
 
 
@@ -186,12 +188,6 @@ if DB[:examen_pregunta].count == 0
   ex_pre.insert(:idExamen => 3, :idPregunta => 3, :peso => 1.0, :obligatoria => 1)
   ex_pre.insert(:idExamen => 3, :idPregunta => 4, :peso => 1.0, :obligatoria => 1)
 end
-
-# Print out the number of records
-#puts "Usuarios: #{user.count}"
-
-# Print out the average price
-#puts "The average price is: #{items.avg(:price)}"
 
 end
 

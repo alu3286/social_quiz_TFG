@@ -811,15 +811,72 @@ end
 get '/examen/realizar/:num' do
   @actual = "examenes"
   if (session[:username])
+    #puts params
+
+    # Añadimos +1 de intento al usuario en el examen :num
+    @update_usu_exa = DB[:usuario_examen].where(:idExamen => params[:num]).where(:idUsuario => session[:id])
+    @update_usu_exa.update(:intento => "#{@update_usu_exa.first[:intento]}".to_i + 1)
+
+
     # Obtenemos preguntas de un examen
     @preguntasExamen = DB[:examenes].join(:examen_pregunta, :idExamen => :idExamen)
                                     .join(:preguntas, :idPregunta => :idPregunta)
                                     .join(:respuestas, :idPregunta => :idPregunta)
                                     .where(:examenes__idExamen => params[:num])
+    @examen = DB[:examenes].first(:idExamen => params[:num])
+    
     haml :examination
   else
     redirect '/'
   end
+end
+
+post '/examen/realizar/:num' do
+  begin
+    puts params
+
+    # Obtenemos los valores que nos interesan para añadirlos a la tabla
+    @preguntasExamen = DB[:examenes].join(:examen_pregunta, :idExamen => :idExamen)
+                                    .join(:preguntas, :idPregunta => :idPregunta)
+                                    .join(:respuestas, :idPregunta => :idPregunta)
+                                    .where(:examenes__idExamen => params[:num])
+    
+    # Para obtener el intento del usuario
+    @usu_exa = DB[:usuario_examen].where(:idExamen => params[:num]).where(:idUsuario => session[:id])
+    
+    # Almacenamos los valores en usuario_examen_respuesta
+    @preguntasExamen.each do |pregunta|
+      @respuestas = DB[:usuario_examen_respuesta].insert(:idUsuario => session[:id], 
+                                                         :idExamen => params[:num],
+                                                         :idPregunta => pregunta[:idPregunta], 
+                                                         :idRespuesta => pregunta[:idRespuesta], 
+                                                         :intento => @usu_exa.first[:intento],
+                                                         :texto => params["idPregunta#{pregunta[:idPregunta]}"])
+    end
+
+    # Añadir la nota en la tabla usuario_examen
+    preguntas = @preguntasExamen.count
+    nota = 0
+    @preguntasExamen.each do |pregunta|
+      puts "La pregunta correcta es: "
+      puts pregunta[:texto]
+      puts "Mi pregunta es :"
+      puts params["idPregunta#{pregunta[:idPregunta]}"]
+      if (pregunta[:texto] == params["idPregunta#{pregunta[:idPregunta]}"])
+        # pregunta correcta
+        nota = nota + 1
+      end
+    end
+    nota_final = (nota * 10) / preguntas
+    @nota = @usu_exa.update(:nota => nota_final)
+    
+    flash[:mensaje] = "Examen enviado correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido guardar el examen. Inténtelo de nuevo más tarde."
+  end
+  redirect '/examenes'
 end
 # ---------------------------------------------------------------
 
