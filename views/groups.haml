@@ -20,10 +20,28 @@
         %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Editar grupo"}
           %span.glyphicon.glyphicon-pencil
           Editar grupo
-      %a{:href => "/grupos/new", :id => "delete-group-link"}
+      %a{:href => "", :id => "delete-group-link", :data => "", "data-target" => "#myModalTrash", "data-toggle" => "modal", "data-whatever" => ""}
         %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Eliminar grupo"}
           %span.glyphicon.glyphicon-trash
           Eliminar grupo
+
+      / Modal de eliminación
+      #myModalTrash.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                %span{"aria-hidden" => "true"} &times;
+              %h4#myModalLabel.modal-title Eliminar grupo
+            .modal-body
+              %p
+                / ¿Quiere realmente eliminar el examen
+                / %strong=examen[:titulo]
+                / ?
+            .modal-footer
+              %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancelar
+              %button.btn.btn-danger{:type => "button", :id => "botonEliminar", :data => "UNO"} Eliminar
+
     
     .col-md-6
       Usuarios:

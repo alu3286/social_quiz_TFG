@@ -763,6 +763,27 @@ post '/grupo/:num' do
   redirect '/grupos'
 end
 
+post '/eliminaGrupo' do
+  begin
+    puts "Estamos en la eliminacion de grupos"
+    puts params
+    #mi_ids = params[:ids].split(',')
+    #puts mi_ids
+
+    # Eliminar todos los usuarios de ese grupo
+    @usu_grupo_detele = DB[:usuario_grupo].filter(:idGrupo => params[:ids]).delete
+    # Eliminar el grupo
+    @grupo_delete = DB[:grupos].filter(:idGrupo => params[:ids]).delete
+  
+    flash[:mensaje] = "Grupo eliminado correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido eliminar el grupo. Inténtelo de nuevo más tarde."
+  end
+  redirect '/grupos'
+end
+
 post '/dameusuarios' do
   #puts params
   #puts params[:id]

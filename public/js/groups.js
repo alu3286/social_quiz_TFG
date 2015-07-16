@@ -1,4 +1,40 @@
 $(document).ready(function(){
+    
+  /* Modal de eliminación de preguntas */
+  $('#myModalTrash.modal').on('show.bs.modal', function (event) {
+    
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var recipient = button.data('whatever') // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    var modal = $(this)
+    //modal.find('.modal-title').text('New message to ' + recipient)
+    modal.find('.modal-body p').text('¿Quiere realmente eliminar el grupo ' + recipient + '?')
+
+    modal.find(botonEliminar).data('id', recipient);
+    //alert(modal.find(botonEliminar).data( 'id' ) );
+
+  })
+
+  $('button.btn.btn-danger').on('click', function(event) {
+  //$('#botonEliminar').on('click', function(event) {
+    datos = $(this).data('id');
+
+    // Llamar a AJAX para que lance un POST y borre el registro
+    $.ajax({
+      url: "/eliminaGrupo",
+      method: "post",
+      data: { ids: datos}
+      //data: { ids: datos, titulo, fecha_apertura, fecha_cierre}
+    }).done(function() {
+      $('#myModalTrash').modal('hide');
+      //redirigir a donde quiera
+      //$("#formulario2-grupos").submit();
+      window.location.href = "/grupos";
+    })
+
+  });
+
 
   $("#add-user-link").css("visibility", 'hidden');
   $("#add-usuario").css('visibility', 'hidden');
@@ -17,8 +53,11 @@ $(document).ready(function(){
       $("#add-user-link").attr('href', "/grupos/miembros/" + datos);
       
       //Actualizo enlace para editar el grupo
-      console.log(datos);
       $("#edit-group-link").attr('href', "/grupo/" + datos);
+
+      //Actualizo atributos botón eliminar
+      $("#delete-group-link").attr('data', datos);
+      $("#delete-group-link").attr('data-whatever', datos);
 
       //var datos = { id: '1','2','3' };
       $.ajax({
@@ -91,12 +130,14 @@ $(document).ready(function(){
     $("#add-user-link").css("visibility", 'hidden');
     $("#add-usuario").css('visibility', 'hidden');
     $("#edit-group-link").css('visibility', 'hidden');
+    $("#delete-group-link").css('visibility', 'hidden');
     forEach.call(li, function(a){
     	if (a === e.target) {
     		a.className = "list-group-item active";
     		$("#add-user-link").css("visibility", 'visible');
         $("#add-usuario").css('visibility', 'visible');
         $("#edit-group-link").css('visibility', 'visible');
+        $("#delete-group-link").css('visibility', 'visible');
 
     	}
     	else {
