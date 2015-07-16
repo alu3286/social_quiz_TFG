@@ -728,6 +728,41 @@ post '/grupos/new' do
   redirect '/grupos'
 end
 
+get '/grupo/:num' do
+  @actual = "grupos"
+  if (session[:username])
+    @grupo = DB[:grupos].first(:idGrupo => params[:num], :idUsuario => session[:id])
+
+    #if @grupo.nil?
+    #  redirect '/grupos'
+    #else
+    #  haml :editGroup
+    #end
+    haml :editGroup
+
+  else
+    redirect '/'
+  end
+end
+
+post '/grupo/:num' do
+  begin
+    puts params
+
+    # Actualizamos el examen
+    @examen = DB[:grupos].where(:idGrupo => params[:num])
+                         .update(:nombre => params[:nombre],
+                                 :descripcion => params[:descripcion])
+
+    flash[:mensaje] = "Grupo actualizado correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se ha podido actualizar el grupo. Inténtelo de nuevo más tarde."
+  end
+  redirect '/grupos'
+end
+
 post '/dameusuarios' do
   #puts params
   #puts params[:id]
@@ -940,4 +975,8 @@ end
 get '/logout' do
   session.clear
   redirect '/'
+end
+
+error do
+  haml :error, :layout => false
 end

@@ -1,0 +1,18 @@
+.container
+  .page-header.list-page
+    %h2
+      Grupo ->
+      =@grupo[:idGrupo]
+
+  %form.form-horizontal{:action => "/grupo/#{@grupo[:idGrupo]}", :method => "POST", :name => "form-edit-group", :role => "form"}
+    .form-group
+      %label.col-lg-2.control-label{:for => "titulo"} Nombre*
+      .col-lg-8
+        %input.form-control{:placeholder => "Nombre del grupo", :type => "text", :name => "nombre", :id => "nombre", :autofocus => "", :required => "", :value => @grupo[:nombre]}
+    .form-group
+      %label.col-lg-2.control-label{:for => "titulo"} Descripción
+      .col-lg-8
+        %textarea.form-control{:id => "desc", :name => "descripcion", :rows => "5", :style => "margin-top:5px", :placeholder => ""}= @grupo[:descripcion]
+
+
+    %button.btn.btn-primary{:type => "submit"} Guardar

@@ -4,13 +4,22 @@ $(document).ready(function(){
   $("#add-usuario").css('visibility', 'hidden');
 
 
+  $("#edit-group-link").css('visibility', 'hidden');
+  $("#delete-group-link").css('visibility', 'hidden');
+
 
   $("#lista-gr li").each(function() {
     $(this).click(function() {
       var datos = $(this).attr('id').substr(3);
       $("#oculto").val(datos);
+      
       //Actualizo el enlace de añadir/eliminar usuarios
       $("#add-user-link").attr('href', "/grupos/miembros/" + datos);
+      
+      //Actualizo enlace para editar el grupo
+      console.log(datos);
+      $("#edit-group-link").attr('href', "/grupo/" + datos);
+
       //var datos = { id: '1','2','3' };
       $.ajax({
         url: "/dameusuarios",
@@ -81,11 +90,13 @@ $(document).ready(function(){
 
     $("#add-user-link").css("visibility", 'hidden');
     $("#add-usuario").css('visibility', 'hidden');
+    $("#edit-group-link").css('visibility', 'hidden');
     forEach.call(li, function(a){
     	if (a === e.target) {
     		a.className = "list-group-item active";
     		$("#add-user-link").css("visibility", 'visible');
         $("#add-usuario").css('visibility', 'visible');
+        $("#edit-group-link").css('visibility', 'visible');
 
     	}
     	else {

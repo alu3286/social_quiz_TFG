@@ -16,7 +16,14 @@
         %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Crear grupo"}
           %span.glyphicon.glyphicon-plus
           Crear grupo
-      /%button.btn.btn-primary{:type => "submit", :id => "crear-grupo"} Crear grupo
+      %a{:href => "/grupo/XX", :id => "edit-group-link"}
+        %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Editar grupo"}
+          %span.glyphicon.glyphicon-pencil
+          Editar grupo
+      %a{:href => "/grupos/new", :id => "delete-group-link"}
+        %p{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Eliminar grupo"}
+          %span.glyphicon.glyphicon-trash
+          Eliminar grupo
     
     .col-md-6
       Usuarios:

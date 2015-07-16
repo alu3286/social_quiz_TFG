@@ -34,9 +34,9 @@
             Respuesta corta
         %label.btn.btn-primary{:id => "resp-multiple"}
           %input#option3{:name => "tipo", :type => "radio", :value => "multiple"}
-            Respuesta múltiple
+            Expresión regular
       #respuesta-vf
-        %p Esto muestra el formlario de Verdadero y Falso.
+        %br
         .form-group
           %label.col-lg-2.control-label{:for => "correcta"} Respuesta correcta
           .col-lg-8
@@ -49,21 +49,17 @@
                 %input#optionsRadios2{:name => "opciones", :type => "radio", :value => "false"}
                   Falso
       .respuesta#respuesta-corta
-        Esto muestra el formlario de respuesta corta.
+        %br
         .form-group
           %label.col-lg-2.control-label{:for => "correcta"} Respuesta corta
           .col-lg-8
             %input.form-control{:placeholder => "Respuesta corta", :type => "text", :name => "corta", :type => "corta"}
       .respuesta#respuesta-multiple
-        Esto muestra el formlario de respuesta múltiple.
-
-      /%a.btn.btn-primary{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseExample"}
-      /  Link with href
-      /%button.btn.btn-primary{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-target" => "#collapseExample", "data-toggle" => "collapse", :type => "button"}
-      /  Button with data-target
-      /#collapseExample.collapse
-      /  .well
-      /    asdgdfgsdgh sfdgghgd
+        %br
+        .form-group
+          %label.col-lg-2.control-label{:for => "correcta"} Expresión regular
+          .col-lg-8
+            %input.form-control{:placeholder => "Expresión regular", :type => "text", :name => "expReg", :type => "corta"}
 
 
     %button.btn.btn-primary{:type => "submit"} Guardar
