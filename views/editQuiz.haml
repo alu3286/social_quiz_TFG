@@ -36,10 +36,10 @@
             Respuesta corta
 
         %label.btn.btn-primary{:id => "resp-multiple"}
-          %input#option3{:name => "tipo", :type => "radio", :value => "multiple"}
-            Respuesta múltiple
+          %input#option3{:name => "tipo", :type => "radio", :value => "expReg"}
+            Expresión regular
       #respuesta-vf
-        %p Esto muestra el formlario de Verdadero y Falso.
+        %br
         .form-group
           %label.col-lg-2.control-label{:for => "correcta"} Respuesta correcta
           .col-lg-8
@@ -59,14 +59,22 @@
                 - else
                   %input#optionsRadios2{:name => "opciones", :type => "radio", :value => "false"}
                     Falso
+      - tipoResp = ''
+      - if @respuesta[:tipo] == 'corta' then tipoResp = @respuesta[:texto] end
       .respuesta#respuesta-corta
-        Esto muestra el formlario de respuesta corta.
+        %br
         .form-group
           %label.col-lg-2.control-label{:for => "correcta"} Respuesta corta
           .col-lg-8
-            %input.form-control{:placeholder => "Respuesta corta", :type => "text", :name => "corta", :type => "corta", :value => @respuesta[:texto]}
+            %input.form-control{:placeholder => "Respuesta corta", :type => "text", :name => "corta", :type => "corta", :value => tipoResp }
+            
+      - if @respuesta[:tipo] == 'expReg' then tipoResp = @respuesta[:texto] end
       .respuesta#respuesta-multiple
-        Esto muestra el formlario de respuesta múltiple.
+        %br
+        .form-group
+          %label.col-lg-2.control-label{:for => "correcta"} Expresión regular
+          .col-lg-8
+            %input.form-control{:placeholder => "Escribir la expresión regular entre barras /expresión/", :type => "text", :name => "expReg", :type => "corta", :value => tipoResp }
 
       /%a.btn.btn-primary{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseExample"}
       /  Link with href

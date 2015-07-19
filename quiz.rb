@@ -258,8 +258,10 @@ post '/preguntas/new' do
       # consulta de respuesta corta a la bbdd
       @objeto1 = DB[:respuestas].insert(:texto => params[:corta], :correcto => true, 
                                         :tipo => "corta", :idPregunta => @objeto)
-    when "multiple"
-      #consulta de respuesta multiple a la bbdd
+    when "expReg"
+      #consulta de respuesta regExp a la bbdd
+       @objeto1 = DB[:respuestas].insert(:texto => params[:expReg], :correcto => true, 
+                                        :tipo => "expReg", :idPregunta => @objeto)
     end
   
     flash[:mensaje] = "Pregunta creada correctamente."
@@ -304,25 +306,30 @@ post '/pregunta/:num' do
     puts params
     
     # Actualizamos la pregunta
-    update_pregunta = DB["UPDATE preguntas set titulo = ?, fecha_creacion = ?, tags = ? 
-                         WHERE idPregunta = ?", params[:titulo], Time.now, params[:tags], params[:num]]
-    update_pregunta.update
-    
+    update_pregunta = DB[:preguntas].where(:idPregunta => params[:num])
+                                    .update(:titulo => params[:titulo],
+                                            :fecha_creacion => Time.now,
+                                            :tags => params[:tags])
     # Actualizamos la respuesta
     case params[:tipo]
     when "vf"
       # consulta de verdadero falso a la bbdd
       correct = (params[:opciones] == "true") ? 1 : 0
-      update_respuesta = DB["UPDATE respuestas set correcto = ?, tipo = ? WHERE idPregunta = ?", 
-                            correct, 'vf', params[:num]]
-      update_respuesta.update
+      update_respuesta = DB[:respuestas].where(:idPregunta => params[:num])
+                                        .update(:correcto => correct,
+                                                :tipo => 'vf')
     when "corta"
       # consulta de respuesta corta a la bbdd
-      update_respuesta = DB["UPDATE respuestas set texto = ?, correcto = ?, tipo = ? WHERE idPregunta = ?", 
-                            params[:corta], true, 'corta', params[:num]]
-      update_respuesta.update
-    when "multiple"
-      #consulta de respuesta multiple a la bbdd
+      update_respuesta = DB[:respuestas].where(:idPregunta => params[:num])
+                                        .update(:texto => params[:corta],
+                                                :correcto => true,
+                                                :tipo => 'corta')
+    when "expReg"
+      #consulta de expresión regular a la bbdd
+      update_respuesta = DB[:respuestas].where(:idPregunta => params[:num])
+                                        .update(:texto => params[:expReg],
+                                                :correcto => true,
+                                                :tipo => 'expReg')
     end
   
     flash[:mensaje] = "Pregunta actualizada correctamente."
@@ -988,6 +995,7 @@ end
 get '/configuracion' do
   if (session[:username])
 
+    haml :configuration
   else
     redirect '/'
   end

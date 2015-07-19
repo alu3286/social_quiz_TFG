@@ -1,0 +1,38 @@
+.container
+  .page-header.list-page
+    %h2
+      Configuración ->
+      =session[:nombre]
+
+  %form.form-horizontal{:action => "/configuracion/#{session[:id]}", :method => "POST", :name => "form-edit-group", :role => "form"}
+    .form-group
+      %label.col-sm-2.control-label{:for => "nombre"} Nombre*
+      .col-sm-10
+        %input#nombre.form-control{:autofocus => "", :name => "nombre", :placeholder => "Nombre", :required => "", :type => "text", :value => session[:nombre]}
+    .form-group
+      %label.col-sm-2.control-label{:for => "apellidos"} Apellidos*
+      .col-sm-10
+        %input#apellidos.form-control{:name => "apellidos", :placeholder => "Apellidos", :required => "", :type => "text", :value => session[:apellidos]}
+    .form-group
+      %label.col-sm-2.control-label{:for => "apellidos"} Usuario*
+      .col-sm-10
+        %input#usuario.form-control{:name => "usuario", :placeholder => "Nombre de usuario", :required => "", :type => "text", :value => session[:username]}
+    .form-group
+      %label.col-sm-2.control-label{:for => "email"} Email*
+      .col-sm-10
+        %input#email.form-control{:name => "email", :placeholder => "Email", :required => "", :type => "email", :value => session[:email]}
+    .form-group
+      %label.col-sm-2.control-label{:for => "pass1"} Contraseña*
+      .col-sm-10
+        %input#pass1.form-control{:name => "pass1", :placeholder => "Contraseña", :required => "", :type => "password"}
+    .form-group
+      / COMPROBAR QUE LA SEGUNDA CONTRASEÑA ES LA MISMA CON JS
+      %label.col-sm-2.control-label{:for => "pass2"} Repetir contraseña*
+      .col-sm-10
+        %input#pass2.form-control{:name => "pass2", :placeholder => "Repetir contraseña", :required => "", :type => "password"}
+    .form-group
+      %label.col-sm-2.control-label{:for => "imagen"} Imagen
+      .col-sm-10
+        %input#imagen.form-control{:name => "imagen", :placeholder => "Debe pegar el enlace de la imagen aquí", :type => "text", :value => session[:imagen]}
+
+    %button.btn.btn-primary{:type => "submit"} Guardar

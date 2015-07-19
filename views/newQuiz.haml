@@ -33,7 +33,7 @@
           %input#option2{:name => "tipo", :type => "radio", :value => "corta"}
             Respuesta corta
         %label.btn.btn-primary{:id => "resp-multiple"}
-          %input#option3{:name => "tipo", :type => "radio", :value => "multiple"}
+          %input#option3{:name => "tipo", :type => "radio", :value => "expReg"}
             Expresión regular
       #respuesta-vf
         %br
@@ -59,7 +59,7 @@
         .form-group
           %label.col-lg-2.control-label{:for => "correcta"} Expresión regular
           .col-lg-8
-            %input.form-control{:placeholder => "Expresión regular", :type => "text", :name => "expReg", :type => "corta"}
+            %input.form-control{:placeholder => "Escribir la expresión regular entre barras /expresión/", :type => "text", :name => "expReg", :type => "corta"}
 
 
     %button.btn.btn-primary{:type => "submit"} Guardar
