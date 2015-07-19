@@ -968,6 +968,17 @@ post '/examen/realizar/:num' do
           # pregunta correcta
           nota = nota + 1
         end
+      when "expReg"
+        @respuestas = DB[:usuario_examen_respuesta].insert(:idUsuario => session[:id], 
+                                                         :idExamen => params[:num],
+                                                         :idPregunta => pregunta[:idPregunta], 
+                                                         :idRespuesta => pregunta[:idRespuesta], 
+                                                         :intento => @usu_exa.first[:intento],
+                                                         :texto => params["idPregunta#{pregunta[:idPregunta]}"])
+        if !pregunta[:texto].match(params["idPregunta#{pregunta[:idPregunta]}"]).nil? then 
+          # pregunta correcta
+          nota = nota + 1
+        end
       end
     end
 

@@ -162,6 +162,15 @@
                   preguntas = preguntas + '<p class="respuestaModalCorrecta">La respuesta correcta es: ' + group.correcto + '</p>';
                 }
                 break;
+            case 'expReg':
+                if (group.textoUsuario.match(group.textoRespuesta)) {
+                    preguntas = preguntas + '<p class="respuestaModalCorrecta">' + group.textoUsuario + '</p>';
+                  }
+                  else {
+                    preguntas = preguntas + '<p class="respuestaModalIncorrecta">' + group.textoUsuario + '</p>';
+                    preguntas = preguntas + '<p class="respuestaModalCorrecta">La respuesta correcta es: ' + group.textoRespuesta + '</p>';
+                  }
+                  break;
             default:
                 
           }

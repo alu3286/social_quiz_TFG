@@ -20,6 +20,8 @@
                 %label
                   %input#optionsRadios2{:name => "opciones#{pregunta[:idPregunta]}", :type => "radio", :value => "false", :required => ""}
                     Falso
+            - when "expReg"
+              %input.form-control{:placeholder => "Respuesta", :type => "text", :id => "#{pregunta[:idPregunta]}", :name => "idPregunta#{pregunta[:idPregunta]}", :required => ""}
            
             %input{:id => 'oculto', :name => "idRespuesta" + "#{pregunta[:idRespuesta]}", :type => "hidden", :value => "#{pregunta[:idRespuesta]}"}
         .form-group
