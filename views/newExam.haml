@@ -53,10 +53,10 @@
             i++;
           });
 
-          // Usuarios y grupos
+          // Usuarios
           var usuarios;
           i = 0;
-          $("ul.lista-usuarios-grupos > li").each(function(index) {
+          $("ul.lista-usuarios > li").each(function(index) {
             if($(this).hasClass('active')) {
               // alert($(this).val());
               // console.log($(this));
@@ -70,7 +70,22 @@
             }
           });
 
-
+          // Grupos
+          var grupos;
+          i = 0;
+          $("ul.lista-grupos > li").each(function(index) {
+            if($(this).hasClass('active')) {
+              // alert($(this).val());
+              // console.log($(this));
+              if (i == 0) {
+                grupos = $(this).val();
+              }
+              else {
+                grupos = grupos + "," + $(this).val();
+              }
+              i++;
+            }
+          });
 
 
           //var datos = { id: '1','2','3' };
