@@ -995,10 +995,39 @@ end
 get '/configuracion' do
   if (session[:username])
 
+    @usuario_passwd = DB[:usuarios].select(:password).first(:idUsuario => session[:id])
+
     haml :configuration
   else
     redirect '/'
   end
+end
+
+post '/configuracion/:num' do
+  begin
+  
+    puts params
+
+    @objeto = DB[:usuarios].where(:idUsuario => params[:num])
+                           .update(:username => params[:usuario], :nombre => params[:nombre], 
+                                  :apellidos => params[:apellidos], :email => params[:email], 
+                                  :password => BCrypt::Password.create(params[:pass1]), 
+                                  :imagen => params[:imagen])
+    session[:username] = params[:usuario]
+    session[:nombre] = params[:nombre]
+    session[:apellidos] = params[:apellidos]
+    session[:email] = params[:email]
+    session[:imagen] = params[:imagen]
+    # Obtenemos el id del usuario para la sesion
+    session[:id] = DB[:usuarios].first(:username => params[:usuario])[:idUsuario]
+
+    flash[:mensaje] = "Datos actualizados correctamente."
+
+  rescue Exception => e
+    puts e.message
+    flash[:mensajeRojo] = "No se han podido actualizar los datos. Inténtelo de nuevo más tarde."
+  end
+  redirect '/'
 end
 
 get '/logout' do

@@ -3,8 +3,9 @@
     %h2
       Configuración ->
       =session[:nombre]
-
-  %form.form-horizontal{:action => "/configuracion/#{session[:id]}", :method => "POST", :name => "form-edit-group", :role => "form"}
+      
+  #mensaje-pass.alert.alert-danger.col-sm-12
+  %form.form-horizontal{:action => "/configuracion/#{session[:id]}", :method => "POST", :name => "form-signup", :role => "form"}
     .form-group
       %label.col-sm-2.control-label{:for => "nombre"} Nombre*
       .col-sm-10
