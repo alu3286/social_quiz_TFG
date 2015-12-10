@@ -10,12 +10,16 @@ This project is based on the management, creation and realization of exams creat
 
 ###Back-end
 > Ruby with Sinatra to manage and build the webpages.
+
 > Sequel as ORM to store the database.
 
 ###Front-end
 > HTML5
+
 > CSS3 with Haml
+
 > Bootstrap
+
 > JavaScript
 
 ###Autentication
