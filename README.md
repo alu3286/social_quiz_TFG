@@ -1,14 +1,31 @@
 SocialQuiz
 =========
-## Trabajo Fin de Grado - ESIT 2015
+## Final Degree Project - ESIT - La Laguna University - 2015
 **Eduardo Javier Acuña Ledesma**
 **Tutor: Casiano Rodríguez León**
 
 ---
+###Description
+This project is based on the management, creation and realization of exams created by system's users.
 
-###Visualización en Heroku
-También puede ver la aplicación en Heroku pinchando [aquí](http://socialquiz.herokuapp.com).
+###Back-end
+> Ruby with Sinatra to manage and build the webpages.
+> Sequel as ORM to store the database.
 
-# Referencias
+###Front-end
+> HTML5
+> CSS3 with Haml
+> Bootstrap
+> JavaScript
 
-*Trabajo Fin de Grado - Eduardo Javier Acuña Ledesma*
+###Autentication
+> OAuth
+
+###Math
+> MathJax as a JavaScript display engine for mathematics.
+
+
+###Running in Heroku (PENDING)
+Test the web application [here](http://socialquiz.herokuapp.com).
+
+*Final Degree Project - Eduardo Javier Acuña Ledesma*
