@@ -2,6 +2,7 @@ SocialQuiz
 =========
 ## Final Degree Project - ESIT - La Laguna University - 2015
 **Developer: Eduardo Javier Acuña Ledesma**
+
 **Mentor: Casiano Rodríguez León**
 
 ---
